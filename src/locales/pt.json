@@ -16,11 +16,12 @@
       "send": "Send"
     },
     "buttons": {
-      "requestConsultation": "Request Consultation",
-      "watchOverview": "Watch Overview",
-      "requestProposal": "Request Proposal",
-      "scheduleCall": "Schedule Call"
-    },
+  "requestConsultation": "Solicitar Consultoria",
+  "watchOverview": "Assistir Visão Geral",
+  "requestProposal": "Solicitar Proposta",
+  "scheduleCall": "Agendar Chamada"
+},
+
     "forms": {
       "emailPlaceholder": "you@company.com",
       "invalidEmail": "Please enter a valid email address.",
@@ -34,25 +35,26 @@
 
   },
 
-  "nav": {
-    "about": "About",
-    "corporate": {
-      "_": "Corporate",
-      "training": "Training",
-      "academy": "Further Academy",
-      "firstClass": "First Class Learning",
-      "furthermore": "Furthermore",
-      "tefl": "TEFL"
-    },
-    "school": "School",
-    "furtherMedia": {
-      "_": "Further Media",
-      "records": "Further Records",
-      "youtube": "YouTube",
-      "tiktok": "TikTok"
-    },
-    "news": "News"
+ "nav": {
+  "about": "Sobre Nós",
+  "corporate": {
+    "_": "Corporativo",
+    "training": "Treinamentos",
+    "academy": "Further Academy",
+    "firstClass": "First Class Learning",
+    "furthermore": "Furthermore",
+    "tefl": "TEFL"
   },
+  "school": "Escola",
+  "furtherMedia": {
+    "_": "Further Media",
+    "records": "Further Records",
+    "youtube": "YouTube",
+    "tiktok": "TikTok"
+  },
+  "news": "Notícias"
+},
+
 
    "footer": {
   "newsletterTitle": "Newsletter",

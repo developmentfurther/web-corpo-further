@@ -32,24 +32,25 @@
     }
   },
   "nav": {
-    "about": "Nosotros",
-    "corporate": {
-      "_": "Corporate",
-      "training": "Capacitación",
-      "academy": "Academia Further",
-      "firstClass": "First Class Learning",
-      "furthermore": "Furthermore",
-      "tefl": "TEFL"
-    },
-    "school": "Escuela",
-    "furtherMedia": {
-      "_": "Further Media",
-      "records": "Further Records",
-      "youtube": "YouTube",
-      "tiktok": "TikTok"
-    },
-    "news": "Noticias"
+  "about": "Nosotros",
+  "corporate": {
+    "_": "Corporativo",
+    "training": "Capacitaciones",
+    "academy": "Further Academy",
+    "firstClass": "First Class Learning",
+    "furthermore": "Furthermore",
+    "tefl": "TEFL"
   },
+  "school": "Instituto",
+  "furtherMedia": {
+    "_": "Further Media",
+    "records": "Further Records",
+    "youtube": "YouTube",
+    "tiktok": "TikTok"
+  },
+  "news": "Noticias"
+},
+
   "footer": {
     "newsletterTitle": "Boletín de novedades",
     "newsletterCopy": "Suscribite para recibir noticias sobre programas, recursos, talleres y casos de éxito corporativo.",
