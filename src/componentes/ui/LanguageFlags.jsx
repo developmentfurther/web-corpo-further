@@ -14,98 +14,58 @@ function FlagAR({ className = "h-10 w-10" }) {
   );
 }
 
-// We can rename it to be more specific
-function FlagHalfEN({ className = "h-10 w-10" }) {
-  // --- US Flag Proportions (on a 40-unit height) ---
-  const stripeHeight = 40 / 13;
-  const cantonHeight = (7 / 13) * 40; // Covers 7 stripes
-  const cantonWidth = 12; // 0.4 * 30 (width of US half)
-  const starRadius = 0.6; // Slightly larger stars
-  const starRows = [...Array(9)]; // 9 rows for stars
-
+function FlagUS({ className = "h-10 w-10" }) {
   return (
-    <svg
-      viewBox="0 0 60 40"
-      className={className}
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        {/* This clip path is the key to the UK flag's counter-changed red saltire.
-          It defines two areas (top-right and bottom-left) where the red
-          saltire will be visible.
-        */}
-        <clipPath id="uk-red-saltire-clip">
-          <path d="M15,0 30,0 30,20 0,20 0,40 15,40z" />
-        </clipPath>
-      </defs>
-
-      {/* === MITAD IZQUIERDA — UK (Corrected) === */}
-      <g>
-        {/* 1. Blue background */}
-        <rect width="30" height="40" fill="#012169" />
-        
-        {/* 2. White Saltire (St. Andrew) - Corner-to-corner */}
-        <path d="M0 0 L30 40 M0 40 L30 0" stroke="#FFF" strokeWidth="6" />
-        
-        {/* 3. Red Saltire (St. Patrick) - Clipped */}
-        <g clipPath="url(#uk-red-saltire-clip)">
-          <path d="M0 0 L30 40 M0 40 L30 0" stroke="#C8102E" strokeWidth="2" />
-        </g>
-        
-        {/* 4. Central Cross (St. George) - (Your original was correct) */}
-        <rect x="12" width="6" height="40" fill="#FFF" />
-        <rect y="17" width="30" height="6" fill="#FFF" />
-        <rect x="13" width="4" height="40" fill="#C8102E" />
-        <rect y="18" width="30" height="4" fill="#C8102E" />
-      </g>
-
-      {/* === MITAD DERECHA — USA (Corrected) === */}
-      <g>
-        {/* 1. Red background (for the 7 red stripes) */}
-        <rect x="30" width="30" height="40" fill="#B22234" />
-        
-        {/* 2. Six white stripes (at odd indices: 1, 3, 5, 7, 9, 11) */}
-        {[...Array(6)].map((_, i) => (
-          <rect
-            key={`us-stripe-${i}`}
-            x="30"
-            y={stripeHeight * (i * 2 + 1)} // y = 1*h, 3*h, 5*h...
-            width="30"
-            height={stripeHeight}
-            fill="#FFF"
+    <svg viewBox="0 0 60 40" className={className} aria-hidden>
+      {/* Fondo blanco */}
+      <rect width="60" height="40" fill="#fff" />
+      {/* Franjas rojas */}
+      {[...Array(7)].map((_, i) => (
+        <rect key={i} y={i * 5.714} width="60" height="2.857" fill="#B22234" />
+      ))}
+      {/* Cuadro azul (campo de estrellas) */}
+      <rect width="24" height="20" fill="#3C3B6E" />
+      {/* Estrellas (simplificadas por puntos blancos) */}
+      {[...Array(9)].map((_, row) =>
+        [...Array(row % 2 === 0 ? 6 : 5)].map((_, col) => (
+          <circle
+            key={`${row}-${col}`}
+            cx={2.4 + col * 4.0 + (row % 2 === 1 ? 2 : 0)}
+            cy={2.2 + row * 2.2}
+            r="0.4"
+            fill="#fff"
           />
-        ))}
-        
-        {/* 3. Blue Canton (Union) */}
-        <rect
-          x="30"
-          y="0"
-          width={cantonWidth}
-          height={cantonHeight}
-          fill="#3C3B6E"
-        />
-        
-        {/* 4. 50 Stars (9 rows: 6-5-6-5-6-5-6-5-6) */}
-        <g fill="#FFF">
-          {starRows.map((_, r) => {
-            const isSixStarRow = r % 2 === 0;
-            const numStars = isSixStarRow ? 6 : 5;
-            const starCols = [...Array(numStars)];
-            const y = (cantonHeight / 10) * (r + 1);
-            
-            return starCols.map((_, c) => {
-              // Spacing logic for 6-star vs 5-star rows
-              const x_spacing_factor = isSixStarRow ? 12 : 10;
-              const x = 30 + (cantonWidth / x_spacing_factor) * (c * 2 + 1);
-              return <circle key={`${r}-${c}`} cx={x} cy={y} r={starRadius} />;
-            });
-          })}
-        </g>
-      </g>
+        ))
+      )}
     </svg>
   );
 }
+
+function FlagUK({ className = "h-10 w-10" }) {
+  return (
+    <svg viewBox="0 0 60 40" className={className} aria-hidden>
+      {/* Fondo azul */}
+      <rect width="60" height="40" fill="#012169" />
+      {/* Cruces diagonales blancas */}
+      <path
+        fill="#FFF"
+        d="M0,0 24,16 0,16 0,24 24,24 0,40 8,40 30,26 52,40 60,40 60,32 36,16 60,16 60,8 36,8 60,0 52,0 30,14 8,0z"
+      />
+      {/* Cruces diagonales rojas */}
+      <path
+        fill="#C8102E"
+        d="M0,0 25,17 20,17 0,4 0,0z M60,0 35,17 40,17 60,4 60,0z M0,40 25,23 20,23 0,36 0,40z M60,40 35,23 40,23 60,36 60,40z"
+      />
+      {/* Cruz central blanca */}
+      <rect x="24" width="12" height="40" fill="#FFF" />
+      <rect y="14" width="60" height="12" fill="#FFF" />
+      {/* Cruz central roja */}
+      <rect x="26" width="8" height="40" fill="#C8102E" />
+      <rect y="16" width="60" height="8" fill="#C8102E" />
+    </svg>
+  );
+}
+
 
 
 
@@ -156,12 +116,13 @@ export default function LanguageFlags() {
 
 
   const flags = [
-    { id: "es", name: "Argentina — Español", Component: FlagAR },
-    { id: "en", name: "UK / USA — English", Component: FlagHalfEN },
-    { id: "de", name: "Alemania — Deutsch", Component: FlagDE },
-    { id: "fr", name: "Francia — Français", Component: FlagFR },
-    { id: "pt", name: "Brasil — Português", Component: FlagBR },
-    { id: "it", name: "Italia — Italiano", Component: FlagIT },
+    { id: "en", name: "English US", Component: FlagUS },
+    { id: "en", name: "English UK", Component: FlagUK},
+    { id: "pt", name: "Português", Component: FlagBR },
+    { id: "fr", name: "Français", Component: FlagFR },
+    { id: "de", name: "Deutsch", Component: FlagDE },
+    { id: "it", name: "Italiano", Component: FlagIT },
+    { id: "es", name: "Spanish for Foreigners", Component: FlagAR },
   ];
 
   return (

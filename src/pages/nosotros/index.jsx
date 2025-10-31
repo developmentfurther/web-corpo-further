@@ -100,7 +100,7 @@ export default function AboutIndex({ messages }) {
         {/* HERO (+25 años / video fondo) */}
         {/* ============================= */}
         <section
-          className="relative z-10 overflow-hidden min-h-[90vh] flex items-center justify-center"
+          className="relative z-10 overflow-hidden min-h-[100vh] flex items-center justify-center"
           aria-labelledby="about-hero-title"
         >
           {/* Video de fondo */}
