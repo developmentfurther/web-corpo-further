@@ -26,7 +26,10 @@
       "thanks": "Thanks! Please check your inbox to confirm.",
       "error": "Something went wrong. Please try again.",
       "sending": "Sending..."
-    }
+    },
+   "flags": {
+  "title": "Languages We Offer"
+}
   },
   "nav": {
     "about": "About",
@@ -122,7 +125,17 @@
           "title": "Furthermore",
           "subtitle": "English Through Play"
         }
-      }
+      },
+      "ecosystem": {
+  "title": "All in one learning ecosystem",
+  "excellence": "Academic Excellence",
+  "ai": "Artificial Intelligence",
+  "human": "Human Value",
+  "excellenceDesc": "Programs designed with international standards and measurable outcomes.",
+  "aiDesc": "Constant innovation applying AI to enhance the learning experience.",
+  "humanDesc": "Teachers and teams committed to the personal and professional growth of every student."
+}
+
     },
   "services": {
     "title": "Language Services",
@@ -304,6 +317,8 @@
     "title": "Further Corporate: Business Language Training (B2B)",
     "description": "Tailor-made B2B solutions: In-Company programs (online or in-person), Professional Development Workshops, and Competency Assessments. Over 50 companies already trust Further."
   },
+  "followTitle": "Follow Us on LinkedIn",
+  "followText": "Stay up to date with insights, success stories, and corporate language strategies.",
   "hero": {
     "badge": "Corporate Language Solutions",
     "title": { "prefix": "B2B", "highlight": "Language Training" },

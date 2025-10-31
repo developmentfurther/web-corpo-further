@@ -12,7 +12,7 @@ export default function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black text-white">
+    <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black text-white">
       {/* 🎥 Video de fondo */}
       <video
         autoPlay

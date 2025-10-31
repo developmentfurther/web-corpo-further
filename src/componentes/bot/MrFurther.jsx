@@ -709,10 +709,15 @@ export default function MrFurther({ openDefault = false }) {
   };
 
   /* ===== FAB & PANEL ===== */
+  const isMobile =
+  typeof window !== "undefined" && window.innerWidth < 768;
+
   const fabPos = {
-    right: "calc(env(safe-area-inset-right, 0px) + 1rem)",
-    bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
-  };
+  right: "calc(env(safe-area-inset-right, 0px) + 1rem)",
+  bottom: isMobile
+    ? "calc(env(safe-area-inset-bottom, 0px) + 7rem)" // 🔹 lo sube sobre el navbar mobile
+    : "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
+};
 
   /* Panel resizable (arriba-izquierda) */
   const [panelSize, setPanelSize] = useState({ w: 448, h: 608 });
@@ -794,6 +799,29 @@ export default function MrFurther({ openDefault = false }) {
       window.removeEventListener("scroll", update, true);
     };
   }, [showFAQ]);
+  /* Ajusta tamaño automáticamente según viewport */
+useEffect(() => {
+  if (typeof window === "undefined") return;
+
+  const handleResize = () => {
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      // 🔹 Ocupa casi toda la pantalla en mobile
+      setPanelSize({
+        w: window.innerWidth - 24, // 12px margen lateral
+        h: window.innerHeight * 0.85, // 85% del alto visible
+      });
+    } else {
+      // 🔹 Vuelve al tamaño fijo original en desktop
+      setPanelSize({ w: 448, h: 608 });
+    }
+  };
+
+  handleResize();
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
 
   return (
     <>
@@ -892,57 +920,69 @@ export default function MrFurther({ openDefault = false }) {
           <AnimatePresence initial={false}>
             {introDone && (
               <motion.button
-                key="corner-fab"
-                layoutId="mr-fab"
-                layout
-                type="button"
-                onClick={() => setOpen((v) => !v)}
-                aria-label={open ? ui.a11yClose : ui.a11yOpen}
-                title={open ? ui.a11yClose : ui.a11yOpen}
-                style={{ position: "fixed", ...fabPos, zIndex: 130 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.94 }}
-                transition={{ type: "spring", stiffness: 420, damping: 30 }}
-                className="relative h-16 w-16 rounded-full shadow-xl shadow-black/30 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/30"
-              >
-                <span
-                  className={`${GRAD} absolute inset-0 rounded-full`}
-                  aria-hidden="true"
-                />
-                {!open && (
-                  <span
-                    className="absolute inset-[4px] rounded-full overflow-hidden bg-black/10"
-                    aria-hidden="true"
-                  >
-                    <img
-                      src={BOT_IMG}
-                      alt="Mr. Further"
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                    />
-                  </span>
-                )}
-                {open && (
-                  <span className="absolute inset-0 grid place-items-center">
-                    <svg
-                      className="w-7 h-7 text-white drop-shadow"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </span>
-                )}
-              </motion.button>
+  key="corner-fab"
+  layoutId="mr-fab"
+  layout
+  type="button"
+  onClick={() => setOpen((v) => !v)}
+  aria-label={open ? ui.a11yClose : ui.a11yOpen}
+  title={open ? ui.a11yClose : ui.a11yOpen}
+  style={{ position: "fixed", ...fabPos, zIndex: 130 }}
+  animate={{
+    // 🔹 cuando el chat está abierto, baja un poco (evita tapar el input)
+    y: open ? 60 : 0,
+    // 🔹 efecto sutil de “flotar”
+    scale: open ? 0.95 : 1,
+    opacity: open ? 0.95 : 1,
+  }}
+  transition={{
+    type: "spring",
+    stiffness: 280,
+    damping: 25,
+  }}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.94 }}
+  className="relative h-16 w-16 rounded-full shadow-xl shadow-black/30 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/30"
+>
+  <span
+    className={`${GRAD} absolute inset-0 rounded-full`}
+    aria-hidden="true"
+  />
+  {!open && (
+    <span
+      className="absolute inset-[4px] rounded-full overflow-hidden bg-black/10"
+      aria-hidden="true"
+    >
+      <img
+        src={BOT_IMG}
+        alt="Mr. Further"
+        className="h-full w-full object-cover"
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+      />
+    </span>
+  )}
+  {open && (
+    <span className="absolute inset-0 grid place-items-center">
+      <svg
+        className="w-7 h-7 text-white drop-shadow"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2.5}
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </span>
+  )}
+</motion.button>
+
             )}
           </AnimatePresence>
 

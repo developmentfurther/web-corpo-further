@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import Ecosistema from "./Ecosistema";
 
 export default function Services() {
   const t = useTranslations("home.services360");
@@ -74,7 +75,7 @@ export default function Services() {
     if (paused) return;
     const t = setInterval(() => {
       setCenterIndex((i) => (i + 1) % n);
-    }, 3000);
+    }, 3200);
     return () => clearInterval(t);
   }, [paused, n]);
 
@@ -88,44 +89,43 @@ export default function Services() {
 
   const trans = {
     type: "spring",
-    stiffness: 100,
-    damping: 30,
-    mass: 1.2,
-    ease: "easeInOut",
+    stiffness: 120,
+    damping: 26,
   };
 
   const styleByPos = (pos) => {
     const isCenter = pos === 0;
     return {
       scale: isCenter ? 1.15 : 0.9,
-      opacity: isCenter ? 1 : 0.55,
-      filter: isCenter ? "blur(0px)" : "blur(3px) brightness(0.8)",
+      opacity: isCenter ? 1 : 0.45,
+      filter: isCenter ? "none" : "blur(3px) brightness(0.7)",
       zIndex: isCenter ? 10 : 1,
     };
   };
 
   return (
-    <section className="relative py-32 text-white overflow-hidden">
-      {/* ==== Fondo ==== */}
+    <>
+    <section className="relative py-32 overflow-hidden bg-gradient-to-b from-[#0A1628] via-[#0C212D] to-[#0C212D] text-white">
+      {/* === Fondo decorativo === */}
       <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: "url('/images/bg-corporate.jpeg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(20px) brightness(0.4)",
-          transform: "scale(1.1)",
-        }}
-      />
-      <div className="absolute inset-0 bg-black/40 z-0" />
-
-      {/* ==== Header ==== */}
+  className="absolute inset-0 z-0"
+  style={{
+    backgroundImage: "url('/images/bg-corporate.jpeg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    filter: "blur(22px) brightness(0.45)",
+    transform: "scale(1.1)",
+  }}
+/>
+{/* Overlay sutil con degradado naranja para coherencia de marca */}
+<div className="absolute inset-0 bg-gradient-to-b from-[#EE7203]/15 via-transparent to-[#0C212D]/80 z-0" />
+      {/* === Header === */}
       <div className="relative z-10 text-center mb-20">
         <h2
-          className="text-5xl font-semibold tracking-tight mb-4 
-             bg-gradient-to-r from-white via-[#A8CFFF] to-[#80B3FF] 
-             bg-clip-text text-transparent 
-             drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+          className="text-5xl font-extrabold tracking-tight mb-4 
+          bg-gradient-to-r from-[#EE7203] via-[#FF3816] to-[#FF8145] 
+          bg-clip-text text-transparent 
+          drop-shadow-[0_0_25px_rgba(255,120,40,0.25)]"
         >
           {t("title")}
         </h2>
@@ -134,17 +134,18 @@ export default function Services() {
         </p>
       </div>
 
-      {/* ==== Carrusel ==== */}
+      {/* === Carrusel === */}
       <div className="relative max-w-6xl mx-auto px-8">
+        {/* Botones */}
         <button
           onClick={goPrev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 transition backdrop-blur-md"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-md transition"
         >
           <FiChevronLeft className="text-2xl text-white" />
         </button>
         <button
           onClick={goNext}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 transition backdrop-blur-md"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-md transition"
         >
           <FiChevronRight className="text-2xl text-white" />
         </button>
@@ -164,10 +165,17 @@ export default function Services() {
                 className="absolute -translate-x-1/2 -translate-y-1/2"
                 style={{ width: CARD_W }}
               >
-                <div className="relative w-64 h-88 rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_50px_rgba(0,0,0,0.3)] overflow-hidden group cursor-pointer transition-all duration-700">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.15] via-white/[0.05] to-transparent rounded-[2rem]" />
+                <div className="relative w-64 h-88 rounded-[2rem] 
+                  bg-gradient-to-b from-[#112C3E]/70 to-[#0A1628]/70 
+                  border border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.35)] 
+                  backdrop-blur-xl overflow-hidden group transition-all duration-700">
+                  
+                  {/* Glow dinámico */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 bg-gradient-to-br from-[#EE7203]/15 via-[#FF3816]/25 to-transparent rounded-[2rem]" />
+
+                  {/* Contenido */}
                   <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-                    <div className="w-28 h-28 mb-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden transition-transform duration-500 group-hover:scale-110">
+                    <div className="w-28 h-28 mb-5 rounded-full bg-white/10 flex items-center justify-center overflow-hidden transition-transform duration-500 group-hover:scale-110">
                       <Image
                         src={card.logo}
                         alt={`${card.title} logo`}
@@ -176,8 +184,10 @@ export default function Services() {
                         className="object-contain opacity-90 group-hover:opacity-100 transition-opacity"
                       />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{card.title}</h3>
-                    <p className="text-white/80 text-sm leading-relaxed mb-6">
+                    <h3 className="text-xl font-semibold mb-2 text-white">
+                      {card.title}
+                    </h3>
+                    <p className="text-white/70 text-sm leading-relaxed mb-6">
                       {card.subtitle}
                     </p>
                     <Link
@@ -198,7 +208,14 @@ export default function Services() {
       </div>
 
       {/* Glow inferior */}
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[900px] h-[250px] bg-gradient-radial from-white/20 to-transparent blur-3xl opacity-50 pointer-events-none" />
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[900px] h-[250px] 
+        bg-gradient-radial from-[#EE7203]/25 to-transparent blur-3xl opacity-50 pointer-events-none" />  
+
     </section>
+            
+      <Ecosistema />
+    </>
+    
+    
   );
 }

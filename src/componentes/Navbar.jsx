@@ -115,16 +115,25 @@ function SmartLink({ href, children, className, onClick, ...rest }) {
 }
 
 /* ========= hooks ========= */
-function usePinned(threshold = 12) {
-  const [pinned, setPinned] = useState(false);
+function useScrollColor(threshold = 200) {
+  const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
-    const onScroll = () => setPinned(window.scrollY > threshold);
-    onScroll();
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > threshold);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // estado inicial
+
     return () => window.removeEventListener("scroll", onScroll);
   }, [threshold]);
-  return pinned;
+
+  return scrolled;
 }
+
+
 function useEscape(fn) {
   useEffect(() => {
     const onKey = (e) => e.key === "Escape" && fn && fn();
@@ -269,29 +278,36 @@ function useNavByLocale(messages) {
   };
 
   const NAV = [
-    { label: labels.about, href: p.about },
-    {
-      label: labels.corporate,
-      items: [
-        { label: labels.training, href: p.corporate.training },
-        { label: labels.academy, href: p.corporate.academy },
-        { label: labels.furthermore, href: p.corporate.furthermore },
-        { label: labels.tefl, href: p.corporate.tefl },
-      ],
-    },
-    { label: labels.school, href: p.school },
-    {
-      label: labels.media,
-      href: p.media.records,
-      items: [
-        { label: labels.records, href: `${p.media.records}#spotify` },
-        { label: labels.youtube, href: `${p.media.records}#youtube` },
-        { label: labels.tiktok, href: `${p.media.records}#tiktok` },
-      ],
-    },
-    { label: labels.faq, href: p.faq },
-    { label: "News", href: p.news },
-  ];
+  {
+    label: labels.about,
+    href: p.about,
+    items: [
+      { label: labels.about, href: p.about },
+      { label: labels.faq, href: p.faq },
+    ],
+  },
+  {
+    label: labels.corporate,
+    items: [
+      { label: labels.training, href: p.corporate.training },
+      { label: labels.academy, href: p.corporate.academy },
+      { label: labels.furthermore, href: p.corporate.furthermore },
+      { label: labels.tefl, href: p.corporate.tefl },
+    ],
+  },
+  { label: labels.school, href: p.school },
+  {
+    label: labels.media,
+    href: p.media.records,
+    items: [
+      { label: labels.records, href: `${p.media.records}#spotify` },
+      { label: labels.youtube, href: `${p.media.records}#youtube` },
+      { label: labels.tiktok, href: `${p.media.records}#tiktok` },
+    ],
+  },
+  { label: "News", href: p.news },
+];
+
 
   return { NAV, labels, paths: p, locale: loc };
 }
@@ -299,11 +315,13 @@ function useNavByLocale(messages) {
 /* ========= Navbar ========= */
 export default function Navbar({ messages }) {
   const router = useRouter();
-  const pinned = usePinned(12);
+  const scrolled = useScrollColor(200);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState({});
   const [activePath, setActivePath] = useState("/");
   const { NAV, labels, paths: p } = useNavByLocale(messages);
+  const [atHero, setAtHero] = useState(true);
+
 
   useEscape(() => {
     setOpen({});
@@ -322,6 +340,21 @@ export default function Navbar({ messages }) {
       } catch {}
     };
   }, []);
+
+  useEffect(() => {
+  const hero = document.querySelector("#hero"); // el id del video-section
+  if (!hero) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      setAtHero(entry.isIntersecting);
+    },
+    { rootMargin: "-80px 0px 0px 0px" } // dispara un poco antes del final
+  );
+
+  observer.observe(hero);
+  return () => observer.disconnect();
+}, []);
 
   useEffect(() => {
     const setFromAsPath = () =>
@@ -354,15 +387,20 @@ export default function Navbar({ messages }) {
   }, [router]);
 
   // ⤵️ Desktop: degradé arriba cuando NO está pinned; sólido cuando pinned
-  const desktopWrap = useMemo(
-    () =>
-      `hidden md:block md:sticky md:top-0 md:z-50 transition-all duration-500 ${
-        pinned
-          ? "md:bg-[#0C212D]/90 md:backdrop-blur-2xl md:ring-1 md:ring-white/10 md:shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)]"
-          : "md:bg-gradient-to-b md:from-[#0A1628]/85 md:to-transparent md:backdrop-blur-0 md:ring-0 md:shadow-none"
-      }`,
-    [pinned]
-  );
+    const desktopWrap = useMemo(() => {
+  const base =
+    "hidden md:block md:fixed md:top-0 md:w-full md:z-50 transition-all duration-700 ease-out will-change-transform";
+
+  const whenTop =
+    "bg-transparent text-white shadow-none border-b border-transparent";
+
+  const whenScrolled =
+    "bg-[#0C212D]/95 backdrop-blur-xl border-b border-white/10 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.7)]";
+
+  return `${base} ${scrolled ? whenScrolled : whenTop}`;
+}, [scrolled]);
+
+
 
   // Mobile bottom fixed (sin cambios)
   const mobileWrap =

@@ -15,7 +15,7 @@ import { loadMessages } from "@/lib/i18n";
 import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
 import { useTranslations } from "next-intl";
 import { FiAward, FiUsers, FiTarget, FiBookOpen  } from "react-icons/fi";
-
+import Ecosistema from "@/componentes/home/Ecosistema";
 
 /* ==============================
    Design Tokens (dark + light)
@@ -667,7 +667,9 @@ const onSubmit = async (e) => {
                 ))}
               </motion.div>
             </div>
+            
           </section>
+          <Ecosistema />
 
           {/* LANGUAGES + CEFR */}
           <section
@@ -963,33 +965,45 @@ const onSubmit = async (e) => {
                 whileInView="show"
                 viewport={{ once: true }}
               >
-                <div className="absolute inset-0 opacity-20" aria-hidden>
-                  <div className="absolute top-0 left-1/4 w-64 h-64 bg-white rounded-full blur-3xl" />
-                  <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-white rounded-full blur-3xl" />
-                </div>
+                
                 <div className="relative z-10">
-                  <h2 className={`${TITLE} text-3xl sm:text-4xl mb-4`}>
-                    Ready to Transform Your Team?
-                  </h2>
-                  <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-                    Join leading organizations worldwide that trust our
-                    corporate language solutions.
-                  </p>
-                  <motion.a
-                    href="#contacto"
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-[#0C212D] font-bold text-lg hover:bg-white/90 transition-all shadow-xl"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Start Your Journey
-                    <motion.span
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      →
-                    </motion.span>
-                  </motion.a>
-                </div>
+                    <h2 className={`${TITLE} text-3xl sm:text-4xl mb-4`}>
+  {t("corporate.followTitle", "Follow Us on LinkedIn")}
+</h2>
+<p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+  {t(
+    "corporate.followText",
+    "Stay up to date with insights, success stories, and corporate language strategies."
+  )}
+</p>
+
+
+  <motion.a
+    href="https://www.linkedin.com/company/furthercorporate/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-[#0C212D] font-bold text-lg hover:bg-white/90 transition-all shadow-xl"
+    whileHover={{ scale: 1.05, y: -2 }}
+    whileTap={{ scale: 0.98 }}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-6 h-6 text-[#0A66C2]"
+    >
+      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.762 2.239 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-9h3v9zm-1.5-10.286c-.966 0-1.75-.784-1.75-1.75S5.534 5.214 6.5 5.214 8.25 6 8.25 6.964s-.784 1.75-1.75 1.75zM20 19h-3v-4.604c0-1.097-.021-2.507-1.528-2.507-1.531 0-1.767 1.195-1.767 2.427V19h-3v-9h2.885v1.23h.041c.403-.763 1.387-1.567 2.853-1.567 3.05 0 3.616 2.007 3.616 4.617V19z" />
+    </svg>
+    Follow on LinkedIn
+    <motion.span
+      animate={{ x: [0, 4, 0] }}
+      transition={{ duration: 1.5, repeat: Infinity }}
+    >
+      →
+    </motion.span>
+  </motion.a>
+</div>
+
               </motion.div>
             </div>
           </section>

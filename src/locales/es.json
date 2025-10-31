@@ -26,6 +26,9 @@
       "thanks": "¡Gracias! Revisá tu bandeja de entrada para confirmar.",
       "error": "Ocurrió un error. Intentalo nuevamente.",
       "sending": "Enviando..."
+    },
+    "flags": {
+      "title": "Idiomas que ofrecemos"
     }
   },
   "nav": {
@@ -90,8 +93,8 @@
   "stats": {
     "yearsInBusiness": { "value": 25, "label": "Años en el Mercado" },
     "corporatePartners": { "value": 50, "label": "Empresas confían en nosotros" },
-    "corporateStudents": { "value": 3000, "label": "Han experimentado la #ExperienciaFurther" },
-    "privateStudents": { "value": 500, "label": "Diferentes opciones de programas académicos" }
+    "corporateStudents": { "value": 50000, "label": "Han experimentado la #ExperienciaFurther" },
+    "privateStudents": { "value": 10, "label": "Diferentes opciones de programas académicos" }
   },
 
   "services360": {
@@ -123,7 +126,17 @@
           "title": "Furthermore",
           "subtitle": "Inglés a través del juego"
         }
-      }
+      },
+      "ecosystem": {
+  "title": "Todo en un solo ecosistema de aprendizaje",
+  "excellence": "Excelencia Académica",
+  "ai": "Inteligencia Artificial",
+  "human": "Valor Humano",
+  "excellenceDesc": "Programas diseñados con estándares internacionales y resultados medibles.",
+  "aiDesc": "Innovación constante aplicando IA para potenciar la experiencia de aprendizaje.",
+  "humanDesc": "Profesores y equipos comprometidos con la evolución personal y profesional de cada alumno.",
+  "closing": "En Further incorporamos tecnología de vanguardia para potenciar tu experiencia: chatbots, customer service, reporting automatizado, y herramientas de práctica asistida."
+}
     },
   "services": {
     "title": "Servicios de idiomas",
@@ -216,6 +229,7 @@
     "title": "Abrí las puertas del Universo FURTHER",
     "subtitle": "Comunicá con el mundo y sumate a la #ExperienciaFurther."
   }
+
 },
 
   "about": {
@@ -289,6 +303,9 @@
     "title": "Further Corporate: Capacitación de Idiomas para empresas (B2B)",
     "description": "Soluciones B2B a medida: Programas In-Company (online o presencial), Workshops de Desarrollo Profesional y Análisis de Competencias. Más de 50 empresas ya confían en Further."
   },
+  "followTitle": "Síguenos en LinkedIn",
+  "followText": "Mantente al día con novedades, casos de éxito y estrategias lingüísticas corporativas.",
+
   "hero": {
     "badge": "Soluciones lingüísticas corporativas",
     "title": { "prefix": "Capacitaciones", "highlight": "B2B" },
@@ -651,97 +668,96 @@
   }
 },
 
-
-  "tefl": {
+"tefl": {
   "meta": {
-    "title": "TEFL by Further: Enseñá inglés en Sudamérica",
-    "description": "Viví y trabajá en la ciudad más hermosa de Sudamérica. Nuestra compañía brinda formación docente para que puedas enseñar mientras vivís en Buenos Aires."
+    "title": "TEFL by Further: Teach English Abroad in South America",
+    "description": "Live and work in the most beautiful city in South America. Our company provides teacher training so you can teach while living in Buenos Aires!"
   },
   "hero": {
-    "badge": "Programa TEFL",
+    "badge": "TEFL Program",
     "title": "TEFL:",
-    "subtitle": "Enseñanza del Inglés como Lengua Extranjera",
-    "description": "¿Listo para viajar por el mundo enseñando inglés? Further ofrece el programa completo de certificación TEFL que necesitás. Viví, trabajá y ganá experiencia invaluable en Buenos Aires, una de las ciudades más vibrantes de Sudamérica.",
+    "subtitle": "Teaching English as a Foreign Language",
+    "description": "Ready to travel the world while teaching English? Further offers the complete TEFL Certification program you need. Live, work, and gain invaluable experience in Buenos Aires, consistently ranked among the most vibrant cities in South America.",
     "imageSrc": "/images/bg-tefl.jpeg",
-    "imageAlt": "Aula de formación docente TEFL"
+    "imageAlt": "TEFL teacher training classroom"
   },
   "tracks": {
-    "title": "Áreas del Programa",
+    "title": "Program Areas",
     "items": [
       {
-        "title": "Viví y trabajá en Buenos Aires",
-        "body": "Tené la oportunidad única de vivir y trabajar en la ciudad más hermosa de Sudamérica.",
-        "pill": "Experiencia"
+        "title": "Live and Work in Buenos Aires",
+        "body": "Get the unique opportunity to live and work in the most beautiful city in South America.",
+        "pill": "Experience"
       },
       {
-        "title": "Certificación TEFL con nosotros",
-        "body": "Aprendé a enseñar inglés dominando la metodología, las mejores prácticas en el aula y el uso de material audiovisual de última generación.",
-        "pill": "Certificación"
+        "title": "Certified with Our TEFL Course",
+        "body": "Learn how to teach English, mastering methodology, class best practices, and how to incorporate cutting-edge audiovisual material into your class.",
+        "pill": "Certification"
       },
       {
-        "title": "Oportunidad laboral exclusiva",
-        "body": "Al finalizar el curso, serás considerado para trabajar en nuestra empresa y comenzar a dictar clases en Buenos Aires con TEFL by Further.",
-        "pill": "Empleo"
+        "title": "Exclusive Job Consideration",
+        "body": "After completing our course, you’ll immediately be considered to work for our company and start teaching English in Buenos Aires with TEFL by Further.",
+        "pill": "Employment"
       }
     ]
   },
   "video": {
-    "heading": "Desarrollá tus habilidades docentes",
-    "subheading": "y llevá tu carrera al mundo",
-    "lead": "Comenzá hoy tu carrera como profesor de inglés.",
-    "description": "Nuestro curso TEFL te brinda las herramientas necesarias para enseñar inglés de forma efectiva en cualquier lugar del mundo. Incluye prácticas reales, metodología comunicativa y oportunidades laborales en Buenos Aires.",
+    "heading": "Develop your teaching skills",
+    "subheading": "and take your career global",
+    "lead": "Start your global teaching journey today.",
+    "description": "Our TEFL course gives you the tools to teach English effectively worldwide. Includes real teaching practice, communicative methodology, and job placement opportunities in Buenos Aires.",
     "videoUrl": "https://www.youtube.com/embed/lS8_TU-yAr4"
   },
   "blocks": {
     "workAbroad": {
-      "lead": "Un enfoque práctico para planificar, dictar y evaluar clases con impacto real."
+      "lead": "A hands-on approach to planning, delivering, and evaluating impactful lessons."
     },
     "cert": {
-      "title": "Certificación y Metodología",
-      "body1": "Aprendé a dominar enfoques como Communicative Approach, TBL, PPP y técnicas de evaluación efectivas aplicadas a contextos internacionales.",
-      "body2": "Formate para planificar clases dinámicas, gestionar grupos con confianza y medir resultados concretos a través de la práctica docente.",
+      "title": "Certification and Methodology",
+      "body1": "Master approaches like Communicative Approach, TBL, PPP, and effective assessment techniques used in international classrooms.",
+      "body2": "Train to plan dynamic lessons, manage groups confidently, and measure progress through guided teaching practice.",
       "logos": []
     }
   },
   "steps": {
-    "title": "Cómo funciona",
+    "title": "How It Works",
     "items": [
       {
-        "title": "Diagnóstico y objetivos",
-        "body": "Analizamos tu nivel inicial y tus metas para personalizar tu plan de formación."
+        "title": "Diagnosis and Goals",
+        "body": "We assess your starting level and objectives to personalize your learning plan."
       },
       {
-        "title": "Entrenamiento y micro-teaching",
-        "body": "Participá en talleres prácticos con feedback guiado y simulaciones reales de clases."
+        "title": "Training and Micro-Teaching",
+        "body": "Participate in practical workshops with guided feedback and real classroom simulations."
       },
       {
-        "title": "Evaluación y próximos pasos",
-        "body": "Portafolio final y revisión de desempeño con resultados concretos y certificación."
+        "title": "Evaluation and Next Steps",
+        "body": "Final portfolio and performance review with concrete results and certification."
       }
     ]
   },
   "faqs": {
-    "title": "Preguntas frecuentes",
+    "title": "Frequently Asked Questions",
     "items": [
       {
-        "q": "¿Necesito experiencia previa?",
-        "a": "No. Comenzamos desde los fundamentos metodológicos, con práctica guiada y acompañamiento docente constante."
+        "q": "Do I need previous experience?",
+        "a": "No. We start from the methodological foundations, with guided practice and constant teacher support."
       },
       {
-        "q": "¿Es una certificación internacional?",
-        "a": "Sí. Nuestro programa sigue los estándares CEFR y te prepara para enseñar inglés en cualquier parte del mundo."
+        "q": "Is it an international certification?",
+        "a": "Yes. Our program follows CEFR standards and prepares you to teach English anywhere in the world."
       },
       {
-        "q": "¿Puedo trabajar al terminar?",
-        "a": "Sí. Nuestros egresados acceden a oportunidades laborales dentro de Further Corporate y en instituciones asociadas."
+        "q": "Can I work after finishing?",
+        "a": "Yes. Graduates are considered for job opportunities within Further Corporate and partner institutions."
       }
     ]
   },
   "cta": {
-    "title": "¿Listo para comenzar tu camino TEFL?",
-    "subtitle": "Unite a nuestra próxima certificación y empezá tu carrera docente internacional.",
-    "button": "Postularme",
-    "href": "/contacto"
+    "title": "Ready to begin your TEFL journey?",
+    "subtitle": "Join our next certification and start your international teaching career.",
+    "button": "Apply Now",
+    "href": "/contact"
   }
 },
 

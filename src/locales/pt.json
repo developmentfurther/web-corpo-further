@@ -27,7 +27,11 @@
       "thanks": "Thanks! Please check your inbox to confirm.",
       "error": "Something went wrong. Please try again.",
       "sending": "Sending..."
-    }
+    },
+    "flags": {
+  "title": "Idiomas que oferecemos"
+  }
+
   },
 
   "nav": {
@@ -51,25 +55,26 @@
   },
 
    "footer": {
-    "newsletterTitle": "Newsletter",
-    "newsletterCopy": "Subscribe for updates on programs, resources, and case studies.",
-    "brandCopy": "Language consultancy for companies and individuals — onsite, online, or blended. CEFR-ready placement and measurable outcomes.",
-    "legal": {
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Service",
-      "cookies": "Cookies"
-    },
-    "copyright": "All rights reserved.",
-    "columns": {
-      "services": "Services",
-      "company": "Company",
-      "resources": "Resources"
-    },
-    "a11y": {
-      "newsletterDesc": "Enter your email to subscribe to the newsletter.",
-      "emailLabel": "Email"
-    }
+  "newsletterTitle": "Newsletter",
+  "newsletterCopy": "Inscreva-se para receber atualizações sobre programas, recursos e estudos de caso.",
+  "brandCopy": "Consultoria de idiomas para empresas e pessoas físicas — presencial, online ou híbrida. Testes alinhados ao CEFR e resultados mensuráveis.",
+  "legal": {
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço",
+    "cookies": "Cookies"
   },
+  "copyright": "Todos os direitos reservados.",
+  "columns": {
+    "services": "Serviços",
+    "company": "Empresa",
+    "resources": "Recursos"
+  },
+  "a11y": {
+    "newsletterDesc": "Digite seu e-mail para assinar a newsletter.",
+    "emailLabel": "E-mail"
+  }
+},
+
 "home": {
   "meta": {
     "title": "Further Corporate: Consultoria de idiomas e capacitação profissional",
@@ -93,7 +98,7 @@
     }
   },
   "stats": {
-    "yearsInBusiness": { "value": 25, "label": "Anos em atividade" },
+    "yearsInBusiness": { "value": 25, "label": "Anos em mercado" },
     "corporatePartners": { "value": 50, "label": "Empresas confiam em nós" },
     "corporateStudents": { "value": 50000, "label": "Já vivenciei a #ExperiênciaAdicional" },
     "privateStudents": { "value": 10, "label": "Diferentes opções de programas acadêmicos" }
@@ -128,6 +133,15 @@
         "subtitle": "Recursos digitais para alunos e professores."
       }
     },
+  "ecosystem": {
+  "title": "Tudo em um único ecossistema de aprendizado",
+  "excellence": "Excelência Acadêmica",
+  "ai": "Inteligência Artificial",
+  "human": "Valor Humano",
+  "excellenceDesc": "Programas desenvolvidos com padrões internacionais e resultados mensuráveis.",
+  "aiDesc": "Inovação constante aplicando IA para potencializar a experiência de aprendizado.",
+  "humanDesc": "Professores e equipes comprometidos com o crescimento pessoal e profissional de cada aluno."
+},
     "footerNote": "Excelência acadêmica, inteligência artificial e valor humano no acompanhamento pedagógico — tudo em um único ecossistema de aprendizagem."
   },
   "highlight": {
@@ -222,6 +236,7 @@
     "title": "Abra as portas do Universo FURTHER",
     "subtitle": "Comunique-se com o mundo e viva a #ExperiênciaFurther."
   }
+
 },
 
 
@@ -311,6 +326,9 @@
     "title": "Further Corporate: Treinamento de Idiomas para Empresas (B2B)",
     "description": "Soluções B2B sob medida: Programas In-Company (online ou presenciais), Workshops de Desenvolvimento Profissional e Análise de Competências. Mais de 50 empresas já confiam na Further."
   },
+  "followTitle": "Siga-nos no LinkedIn",
+  "followText": "Fique por dentro das novidades, cases de sucesso e estratégias de comunicação corporativa.",
+
   "hero": {
     "badge": "Soluções linguísticas corporativas",
     "title": { "prefix": "Treinamento de idiomas", "highlight": "B2B" },
@@ -609,96 +627,97 @@
     "subtitle": "Entre em contato e descubra como levar FURTHERMORE para sua casa ou empresa."
   }
 },
+
 "tefl": {
   "meta": {
-    "title": "TEFL by Further: Ensine Inglês no Exterior na América do Sul",
-    "description": "Viva e trabalhe na cidade mais bonita da América do Sul. Nossa empresa oferece formação docente para que você possa ensinar enquanto vive em Buenos Aires."
+    "title": "TEFL by Further: Teach English Abroad in South America",
+    "description": "Live and work in the most beautiful city in South America. Our company provides teacher training so you can teach while living in Buenos Aires!"
   },
   "hero": {
-    "badge": "Programa TEFL",
+    "badge": "TEFL Program",
     "title": "TEFL:",
-    "subtitle": "Ensino de Inglês como Língua Estrangeira",
-    "description": "Pronto para viajar o mundo ensinando inglês? A Further oferece o programa completo de Certificação TEFL que você precisa. Viva, trabalhe e adquira experiência valiosa em Buenos Aires, uma das cidades mais vibrantes da América do Sul.",
+    "subtitle": "Teaching English as a Foreign Language",
+    "description": "Ready to travel the world while teaching English? Further offers the complete TEFL Certification program you need. Live, work, and gain invaluable experience in Buenos Aires, consistently ranked among the most vibrant cities in South America.",
     "imageSrc": "/images/bg-tefl.jpeg",
-    "imageAlt": "Sala de aula de formação de professores TEFL"
+    "imageAlt": "TEFL teacher training classroom"
   },
   "tracks": {
-    "title": "Áreas do Programa",
+    "title": "Program Areas",
     "items": [
       {
-        "title": "Viva e trabalhe em Buenos Aires",
-        "body": "Tenha a oportunidade única de viver e trabalhar na cidade mais bonita da América do Sul.",
-        "pill": "Experiência"
+        "title": "Live and Work in Buenos Aires",
+        "body": "Get the unique opportunity to live and work in the most beautiful city in South America.",
+        "pill": "Experience"
       },
       {
-        "title": "Certificação com nosso curso TEFL",
-        "body": "Aprenda a ensinar inglês dominando metodologia, melhores práticas em sala de aula e o uso de materiais audiovisuais modernos.",
-        "pill": "Certificação"
+        "title": "Certified with Our TEFL Course",
+        "body": "Learn how to teach English, mastering methodology, class best practices, and how to incorporate cutting-edge audiovisual material into your class.",
+        "pill": "Certification"
       },
       {
-        "title": "Oportunidade exclusiva de trabalho",
-        "body": "Após concluir o curso, você será considerado para trabalhar conosco e começar a dar aulas de inglês em Buenos Aires com o TEFL by Further.",
-        "pill": "Emprego"
+        "title": "Exclusive Job Consideration",
+        "body": "After completing our course, you’ll immediately be considered to work for our company and start teaching English in Buenos Aires with TEFL by Further.",
+        "pill": "Employment"
       }
     ]
   },
   "video": {
-    "heading": "Desenvolva suas habilidades como professor",
-    "subheading": "e leve sua carreira para o mundo",
-    "lead": "Comece sua jornada global de ensino hoje.",
-    "description": "Nosso curso TEFL oferece as ferramentas necessárias para ensinar inglês de forma eficaz em qualquer lugar do mundo. Inclui prática real, metodologia comunicativa e oportunidades de trabalho em Buenos Aires.",
+    "heading": "Develop your teaching skills",
+    "subheading": "and take your career global",
+    "lead": "Start your global teaching journey today.",
+    "description": "Our TEFL course gives you the tools to teach English effectively worldwide. Includes real teaching practice, communicative methodology, and job placement opportunities in Buenos Aires.",
     "videoUrl": "https://www.youtube.com/embed/lS8_TU-yAr4"
   },
   "blocks": {
     "workAbroad": {
-      "lead": "Uma abordagem prática para planejar, ministrar e avaliar aulas com impacto real."
+      "lead": "A hands-on approach to planning, delivering, and evaluating impactful lessons."
     },
     "cert": {
-      "title": "Certificação e Metodologia",
-      "body1": "Domine abordagens como Communicative Approach, TBL, PPP e técnicas de avaliação eficazes aplicadas a contextos internacionais.",
-      "body2": "Prepare-se para planejar aulas dinâmicas, gerenciar grupos com confiança e medir resultados concretos por meio da prática docente.",
+      "title": "Certification and Methodology",
+      "body1": "Master approaches like Communicative Approach, TBL, PPP, and effective assessment techniques used in international classrooms.",
+      "body2": "Train to plan dynamic lessons, manage groups confidently, and measure progress through guided teaching practice.",
       "logos": []
     }
   },
   "steps": {
-    "title": "Como funciona",
+    "title": "How It Works",
     "items": [
       {
-        "title": "Diagnóstico e objetivos",
-        "body": "Analisamos seu nível inicial e metas para personalizar seu plano de formação."
+        "title": "Diagnosis and Goals",
+        "body": "We assess your starting level and objectives to personalize your learning plan."
       },
       {
-        "title": "Treinamento e micro-teaching",
-        "body": "Participe de oficinas práticas com feedback orientado e simulações reais de aulas."
+        "title": "Training and Micro-Teaching",
+        "body": "Participate in practical workshops with guided feedback and real classroom simulations."
       },
       {
-        "title": "Avaliação e próximos passos",
-        "body": "Portfólio final e revisão de desempenho com resultados concretos e certificação."
+        "title": "Evaluation and Next Steps",
+        "body": "Final portfolio and performance review with concrete results and certification."
       }
     ]
   },
   "faqs": {
-    "title": "Perguntas frequentes",
+    "title": "Frequently Asked Questions",
     "items": [
       {
-        "q": "Preciso de experiência prévia?",
-        "a": "Não. Começamos pelos fundamentos metodológicos, com prática guiada e acompanhamento constante de professores."
+        "q": "Do I need previous experience?",
+        "a": "No. We start from the methodological foundations, with guided practice and constant teacher support."
       },
       {
-        "q": "É uma certificação internacional?",
-        "a": "Sim. Nosso programa segue os padrões do CEFR e prepara você para ensinar inglês em qualquer lugar do mundo."
+        "q": "Is it an international certification?",
+        "a": "Yes. Our program follows CEFR standards and prepares you to teach English anywhere in the world."
       },
       {
-        "q": "Posso trabalhar ao terminar?",
-        "a": "Sim. Nossos graduados têm acesso a oportunidades de trabalho na Further Corporate e em instituições parceiras."
+        "q": "Can I work after finishing?",
+        "a": "Yes. Graduates are considered for job opportunities within Further Corporate and partner institutions."
       }
     ]
   },
   "cta": {
-    "title": "Pronto para começar sua jornada TEFL?",
-    "subtitle": "Junte-se à nossa próxima certificação e inicie sua carreira internacional de ensino.",
-    "button": "Inscreva-se agora",
-    "href": "/contato"
+    "title": "Ready to begin your TEFL journey?",
+    "subtitle": "Join our next certification and start your international teaching career.",
+    "button": "Apply Now",
+    "href": "/contact"
   }
 },
 "school": {

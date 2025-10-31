@@ -23,6 +23,7 @@ import {
   FiPhone,
 } from "react-icons/fi";
 import { useTranslations, useLocale } from "next-intl";
+import LanguageFlags from "@/componentes/ui/LanguageFlags";
 
 // Above-the-fold: import directo (no tocar diseño ni TTI del Hero)
 import Hero from "../componentes/home/Hero";
@@ -172,7 +173,6 @@ function Stats() {
     </section>
   );
 }
-
 /* ==============================
    Methodology (localizado)
    ============================== */
@@ -234,7 +234,9 @@ function Methodology() {
             </motion.div>
           ))}
         </div>
+        
       </motion.div>
+      
 
       {/* === Columna con video YouTube === */}
 <motion.div
@@ -259,6 +261,12 @@ function Methodology() {
 
     </div>
   </div>
+  
+  {/* === Separador + Sección de banderas === */}
+      <div className="mt-38">
+        <LanguageFlags />
+      </div>
+    
 </section>
 
   );
