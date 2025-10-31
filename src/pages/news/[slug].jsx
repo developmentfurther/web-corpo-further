@@ -146,6 +146,17 @@ export default function BlogDetail({ post, related, messages }) {
   );
 }
 
+// Formateador de titulo. Les quita los "-"
+function formatTitle(title = "") {
+  if (!title) return "";
+  return title
+    .replace(/-/g, " ")
+    .replace(/\w\S*/g, (txt) => 
+      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    );
+}
+
+
 // === STATIC GENERATION ===
 export async function getStaticPaths() {
   const locales = ["es", "en", "pt"];
@@ -173,15 +184,23 @@ export async function getStaticProps({ params, locale }) {
   const post = { ...meta, html };
 
   const all = await listBlogs({ status: "public" });
-  const related = all
+
+// 🔹 Traer la metadata traducida por idioma
+const related = await Promise.all(
+  all
     .filter((b) => b.slug !== slug)
     .slice(0, 3)
-    .map((b) => ({
-      slug: b.slug,
-      coverUrl: b.coverUrl || "",
-      title: b.title || b.slug,
-      summary: b.summary || "",
-    }));
+    .map(async (b) => {
+      const meta = await getBlog(b.slug, locale).catch(() => null);
+      return {
+        slug: b.slug,
+        coverUrl: meta?.coverUrl || b.coverUrl || "",
+        title: formatTitle(meta?.title || b.title || b.slug),
+        summary: meta?.summary || b.summary || "",
+      };
+    })
+);
+
 
   return {
     props: { post, related, messages },
