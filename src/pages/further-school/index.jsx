@@ -24,7 +24,7 @@ import {
 import { loadMessages } from "@/lib/i18n";
 import TestimonialsCarousel from "@/componentes/ui/TestimonialsCarousel";
 import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
-
+import InstagramWidget from "@/componentes/ui/InstagramWidget";
 /* ===== Azul unificado (más oscuro) ===== */
 const HEADER_BLUE_HEX = "#0A1628";
 const BG_DARK = "bg-[#0A1628]"; // fondo dark principal
@@ -117,6 +117,7 @@ function useAnims() {
   };
 }
 
+
 /* ===== Mini-carousel para testimonios (auto + pausa on hover) ===== */
 
 
@@ -196,6 +197,8 @@ export default function FurtherSchoolPage({ messages }) {
     t?.testimonials?.items ??
     messages?.home?.testimonials?.items ??
     [];
+
+    
 
   return (
     <>
@@ -552,83 +555,9 @@ export default function FurtherSchoolPage({ messages }) {
 <WaveDivider from="dark" height={80} flip />
 
           {/* === INSTAGRAM (blanco + CTA) === */}
-          <section
-            id="instagram"
-            className="bg-white text-gray-900"
-            aria-labelledby="instagram-title"
-          >
-            <div className={`${SHELL} py-16`}>
-              <div className={`${CARD_LIGHT} p-6`}>
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="h-10 w-10 rounded-full flex items-center justify-center"
-                      style={{
-                        background:
-                          "linear-gradient(45deg,#F58529,#DD2A7B,#8134AF,#515BD4)",
-                      }}
-                      aria-hidden
-                    >
-                      <FiInstagram className="text-white" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">
-                        {ig.title}
-                      </div>
-                      <div className="text-gray-600 text-sm">{ig.handle}</div>
-                    </div>
-                  </div>
-                  <a
-                    href={ig.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 hover:bg-gray-50 transition"
-                  >
-                    {ig.followLabel}
-                  </a>
-                </div>
-
-                {/* placeholder feed */}
-                <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {Array.from({ length: 8 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="aspect-square rounded-xl bg-gray-100 animate-pulse"
-                      aria-hidden
-                    />
-                  ))}
-                </div>
-                <div className="mt-4 flex items-center justify-center">
-                  <button className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
-                    {ig.loadMore}
-                  </button>
-                </div>
-                <p className="mt-6 text-center text-gray-500 text-sm">
-                  {ig.credit}
-                </p>
-              </div>
-
-              <p
-                id="instagram-title"
-                className="mt-10 text-center text-gray-700 max-w-3xl mx-auto"
-              >
-                {ig.body}
-              </p>
-              <div className="mt-6 text-center">
-                <a
-                  href={ig.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition"
-                >
-                  <span aria-hidden>📸</span> {ig.cta}
-                </a>
-              </div>
-            </div>
-
-            <WaveDivider from="light" height={74} flip />
-          </section>
-
+            
+        <InstagramWidget ig={ig} />
+        
           {/* === CTA BAR (dark) === */}
           <section
             id="contact"

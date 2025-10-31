@@ -65,202 +65,224 @@ export default function HomeContactForm() {
 
   return (
     <section
-      id="home-contact"
-      className="bg-[#0A1628] text-white py-20 px-6 overflow-hidden"
-      ref={ref}
+  id="home-contact"
+  className="relative bg-gradient-to-b from-[#0A1628] via-[#0C212D] to-[#0C212D] text-white py-24 px-6 overflow-hidden"
+  ref={ref}
+>
+  {/* ==== Glow y ondas sutiles ==== */}
+  <div
+    aria-hidden
+    className="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_0%,rgba(238,114,3,0.1),transparent),radial-gradient(80%_50%_at_10%_90%,rgba(255,56,22,0.07),transparent)]"
+  />
+
+  {/* ==== Contenedor principal ==== */}
+  <motion.div
+    initial={{ opacity: 0, y: 80 }}
+    animate={
+      isInView
+        ? {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+          }
+        : {}
+    }
+    className="relative max-w-4xl mx-auto space-y-12 z-10"
+  >
+    {/* === Título === */}
+    <div className="text-center" id="h2-anchor">
+      <h2 className="text-4xl md:text-5xl font-extrabold mb-3 tracking-tight">
+        <span className="bg-gradient-to-r from-[#EE7203] to-[#FF3816] bg-clip-text text-transparent drop-shadow-[0_2px_6px_rgba(255,56,22,0.4)]">
+          {t("ctaFinal.title")}
+        </span>
+      </h2>
+      <p className="text-white/80 max-w-2xl mx-auto leading-relaxed">
+        {t("ctaFinal.body")}
+      </p>
+    </div>
+
+    {/* === Formulario === */}
+    <motion.form
+      onSubmit={onSubmit}
+      noValidate
+      className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.5)]"
+      aria-describedby="form-status"
+      initial={{ opacity: 0, y: 40 }}
+      animate={
+        isInView
+          ? {
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0.2, duration: 0.9, ease: 'easeOut' },
+            }
+          : {}
+      }
     >
-      <motion.div
-        initial={{ opacity: 0, y: 80 }}
-        animate={
-          isInView
-            ? { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
-            : {}
-        }
-        className="max-w-4xl mx-auto space-y-10"
+      {/* Halo decorativo */}
+      <div
+        aria-hidden
+        className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-gradient-to-tr from-[#EE7203] to-[#FF3816] blur-3xl opacity-25"
+      />
+
+      <h2
+        id="contact-form-title"
+        className="text-2xl font-bold mb-6 text-white"
       >
-        {/* === Título === */}
-        <div className="text-center" id="h2-anchor">
-          <h2 className="text-4xl font-bold mb-2">
-            <span className="bg-gradient-to-r from-[#EE7203] to-[#FF3816] bg-clip-text text-transparent">
-              {t("ctaFinal.title")}
-            </span>
-          </h2>
-          <p className="text-white/80">{t("ctaFinal.body")}</p>
+        {t("form.title")}
+      </h2>
+
+      {/* Estado accesible */}
+      <div id="form-status" aria-live="polite" className="sr-only">
+        {status.state === "sending"
+          ? common("forms.sending")
+          : status.state === "success"
+          ? common("forms.thanks")
+          : status.error}
+      </div>
+
+      {/* === Campos === */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Nombre */}
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-semibold mb-2 text-white/90"
+          >
+            {t("form.fields.name.label")}
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            value={form.name}
+            onChange={onChange}
+            placeholder={t("form.fields.name.placeholder")}
+            className="w-full rounded-2xl bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#EE7203]/60 focus:border-[#EE7203]/60 transition"
+          />
         </div>
 
-        {/* === Formulario === */}
-        <motion.form
-          onSubmit={onSubmit}
-          noValidate
-          className={`${CARD_LIGHT} p-6 md:p-8 bg-white text-gray-900`}
-          aria-describedby="form-status"
-          initial={{ opacity: 0, y: 40 }}
-          animate={
-            isInView
-              ? { opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.9, ease: "easeOut" } }
-              : {}
-          }
-        >
-          <h2
-            id="contact-form-title"
-            className="text-2xl font-bold mb-6 text-gray-900"
+        {/* Email */}
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-semibold mb-2 text-white/90"
           >
-            {t("form.title")}
-          </h2>
+            {t("form.fields.email.label")}
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            value={form.email}
+            onChange={onChange}
+            placeholder={common("forms.emailPlaceholder")}
+            className="w-full rounded-2xl bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#EE7203]/60 focus:border-[#EE7203]/60 transition"
+          />
+        </div>
 
-          {/* Estado accesible */}
-          <div id="form-status" aria-live="polite" className="sr-only">
-            {status.state === "sending"
-              ? common("forms.sending")
-              : status.state === "success"
-              ? common("forms.thanks")
-              : status.error}
-          </div>
+        {/* Empresa */}
+        <div className="md:col-span-2">
+          <label
+            htmlFor="company"
+            className="block text-sm font-semibold mb-2 text-white/90"
+          >
+            {t("form.fields.company.label")}
+          </label>
+          <input
+            id="company"
+            name="company"
+            type="text"
+            value={form.company}
+            onChange={onChange}
+            placeholder={t("form.fields.company.placeholder")}
+            className="w-full rounded-2xl bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#EE7203]/60 focus:border-[#EE7203]/60 transition"
+          />
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Nombre */}
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-semibold mb-1 text-gray-900"
-              >
-                {t("form.fields.name.label")}
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                value={form.name}
-                onChange={onChange}
-                placeholder={t("form.fields.name.placeholder")}
-                className={INPUT}
-              />
-            </div>
+        {/* Mensaje */}
+        <div className="md:col-span-2">
+          <label
+            htmlFor="message"
+            className="block text-sm font-semibold mb-2 text-white/90"
+          >
+            {t("form.fields.message.label")}
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            rows={6}
+            value={form.message}
+            onChange={onChange}
+            placeholder={t("form.fields.message.placeholder")}
+            className="w-full rounded-2xl bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#EE7203]/60 focus:border-[#EE7203]/60 resize-y transition"
+          />
+        </div>
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold mb-1 text-gray-900"
-              >
-                {t("form.fields.email.label")}
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={form.email}
-                onChange={onChange}
-                placeholder={common("forms.emailPlaceholder")}
-                className={INPUT}
-              />
-            </div>
+        {/* Consentimiento */}
+        <div className="md:col-span-2 flex items-start gap-3 mt-2">
+          <input
+            id="accept"
+            name="accept"
+            type="checkbox"
+            checked={form.accept}
+            onChange={onChange}
+            className="mt-1 h-5 w-5 rounded-md border border-white/30 bg-white/10 text-[#EE7203] focus:ring-[#EE7203]/60"
+          />
+          <label htmlFor="accept" className="text-sm text-white/80">
+            <span
+              dangerouslySetInnerHTML={{
+                __html: t("consent.label"),
+              }}
+            />
+          </label>
+        </div>
+        <p className="md:col-span-2 text-xs text-white/50 mt-1">
+          {t("consent.help")}
+        </p>
+      </div>
 
-            {/* Empresa */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="company"
-                className="block text-sm font-semibold mb-1 text-gray-900"
-              >
-                {t("form.fields.company.label")}
-              </label>
-              <input
-                id="company"
-                name="company"
-                type="text"
-                value={form.company}
-                onChange={onChange}
-                placeholder={t("form.fields.company.placeholder")}
-                className={INPUT}
-              />
-            </div>
+      {/* Mensajes visibles */}
+      {status.state === "error" && (
+        <div
+          role="alert"
+          className="mt-5 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+        >
+          {status.error}
+        </div>
+      )}
+      {status.state === "success" && (
+        <div
+          role="status"
+          className="mt-5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200"
+        >
+          {common("forms.thanks")}
+        </div>
+      )}
 
-            {/* Mensaje */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="message"
-                className="block text-sm font-semibold mb-1 text-gray-900"
-              >
-                {t("form.fields.message.label")}
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={6}
-                value={form.message}
-                onChange={onChange}
-                placeholder={t("form.fields.message.placeholder")}
-                className={INPUT + " resize-y"}
-              />
-            </div>
+      {/* Botones */}
+      <div className="mt-8 flex flex-wrap gap-3">
+        <button
+          type="submit"
+          disabled={status.state === "sending"}
+          className="inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 font-semibold text-white bg-gradient-to-r from-[#EE7203] to-[#FF3816] hover:brightness-110 active:scale-[.98] focus-visible:ring-2 focus-visible:ring-[#FF3816]/60 transition"
+        >
+          {status.state === "sending"
+            ? common("forms.sending")
+            : t("form.cta")}
+        </button>
+        <Link
+          href="/"
+          className="inline-flex items-center justify-center rounded-2xl px-6 py-3 font-semibold text-white/90 border border-white/20 hover:bg-white/10 transition"
+        >
+          {t("form.secondary")}
+        </Link>
+      </div>
+    </motion.form>
+  </motion.div>
+</section>
 
-            {/* Consentimiento */}
-            <div className="md:col-span-2 flex items-start gap-3">
-              <input
-                id="accept"
-                name="accept"
-                type="checkbox"
-                checked={form.accept}
-                onChange={onChange}
-                className="mt-1 h-5 w-5 rounded border border-gray-300 bg-white outline-none focus:ring-2 focus:ring-gray-300"
-              />
-              <label htmlFor="accept" className="text-sm text-gray-700">
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: t("consent.label"),
-                  }}
-                />
-              </label>
-            </div>
-            <p
-              id="consent-desc"
-              className="md:col-span-2 text-xs text-gray-600"
-            >
-              {t("consent.help")}
-            </p>
-          </div>
-
-          {/* Mensajes visibles */}
-          {status.state === "error" && (
-            <div
-              role="alert"
-              className="mt-4 rounded-lg border border-red-500/30 bg-red-50 px-4 py-3 text-sm text-red-700"
-            >
-              {status.error}
-            </div>
-          )}
-          {status.state === "success" && (
-            <div
-              role="status"
-              className="mt-4 rounded-lg border border-emerald-500/30 bg-emerald-50 px-4 py-3 text-sm text-emerald-700"
-            >
-              {common("forms.thanks")}
-            </div>
-          )}
-
-          {/* Botones */}
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              type="submit"
-              disabled={status.state === "sending"}
-              className="relative inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold text-white bg-[#EE7203] hover:bg-[#FF3816] transition outline-none focus-visible:ring-2 focus-visible:ring-gray-300 disabled:opacity-70"
-            >
-              {status.state === "sending"
-                ? common("forms.sending")
-                : t("form.cta")}
-            </button>
-            <Link
-              href="/"
-              className="inline-flex items-center rounded-xl px-5 py-3 font-semibold text-gray-900 border border-gray-200 bg-white hover:bg-gray-50 transition outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
-            >
-              {t("form.secondary")}
-            </Link>
-          </div>
-        </motion.form>
-      </motion.div>
-    </section>
   );
 }
