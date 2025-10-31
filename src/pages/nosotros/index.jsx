@@ -147,15 +147,7 @@ export default function AboutIndex({ messages }) {
               key="about-hero"
               className="max-w-3xl mx-auto space-y-8"
             >
-              {/* Badge tipo “+25 años de experiencia…” */}
-              {hero?.badge && (
-                <motion.div
-                  variants={fadeUp}
-                  className="inline-block rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/80 shadow-[0_10px_34px_rgba(0,0,0,.6)]"
-                >
-                  {hero.badge}
-                </motion.div>
-              )}
+             
 
               {/* Title principal */}
               <motion.h1
