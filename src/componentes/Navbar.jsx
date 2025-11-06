@@ -387,18 +387,29 @@ export default function Navbar({ messages }) {
   }, [router]);
 
   // ⤵️ Desktop: degradé arriba cuando NO está pinned; sólido cuando pinned
-    const desktopWrap = useMemo(() => {
+   const desktopWrap = useMemo(() => {
   const base =
     "hidden md:block md:fixed md:top-0 md:w-full md:z-50 transition-all duration-700 ease-out will-change-transform";
 
+  // rutas donde el navbar debe estar visible desde el inicio
+  const alwaysVisible =
+    router.pathname === "/news" ||
+    router.pathname.startsWith("/news/");
+
+  // estilos
   const whenTop =
     "bg-transparent text-white shadow-none border-b border-transparent";
 
   const whenScrolled =
     "bg-[#0C212D]/95 backdrop-blur-xl border-b border-white/10 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.7)]";
 
+  // 🔹 si está en /news o /news/[slug], mostrar siempre el fondo scrolleado
+  if (alwaysVisible) return `${base} ${whenScrolled}`;
+
+  // 🔹 en las demás rutas, comportamiento normal
   return `${base} ${scrolled ? whenScrolled : whenTop}`;
-}, [scrolled]);
+}, [scrolled, router.pathname]);
+
 
 
 

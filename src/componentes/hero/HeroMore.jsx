@@ -24,7 +24,7 @@ export default function HeroMore() {
       {/* 🖼 Imagen de fondo */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/bg-corporate.jpeg"
+          src="/images/furthermore/morebg.jpg"
           alt={t("meta.title")}
           fill
           priority

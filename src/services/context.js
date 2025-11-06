@@ -1,7 +1,12 @@
+"use client"
 // services/context.js
 import React, { useEffect, useRef, useState } from "react";
 import ContextGeneral from "./contextGeneral";
 import firebaseApp from "./firebase";
+import { useRouter } from "next/router";
+import { getBlog } from "@/lib/firestore/blogs";
+import { listBlogs, getBlogContent } from "@/lib/firestore/blogs";
+
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
@@ -30,8 +35,10 @@ function useDelayedFlag(flag, delayMs = 220) {
 }
 
 function Context(props) {
+  const router = useRouter();
   const auth = getAuth(firebaseApp);
   const firestore = getFirestore(firebaseApp);
+  const locale = router.locale || "es";
 
   /* Usuario y flags mínimos */
   const [user, setUser] = useState(null);
@@ -145,6 +152,93 @@ function Context(props) {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  /* ==========================
+     BLOGS: cache global
+     ========================== */
+  const [blogs, setBlogs] = useState([]);
+  const [blogsLoading, setBlogsLoading] = useState(true);
+
+  // 🔹 Carga inicial de metadatos de blogs públicos
+  useEffect(() => {
+  (async () => {
+    try {
+      const base = await listBlogs({ status: "public" });
+      const items = await Promise.all(
+        base.map(async (b) => {
+          const meta = await import("@/lib/firestore/blogs")
+            .then((m) => m.getBlog(b.slug, locale))
+            .catch(() => null);
+          return {
+            slug: b.slug,
+            locale,
+            coverUrl: meta?.coverUrl || b.coverUrl || "",
+            title: meta?.title || b.title || b.slug,
+            summary: meta?.summary || "",
+          };
+        })
+      );
+      setBlogs(items);
+    } catch (err) {
+      console.error("❌ Error al cargar blogs:", err);
+    } finally {
+      setBlogsLoading(false);
+    }
+  })();
+}, [locale]); // 👈 importante
+
+;
+
+  // 🔹 Obtener blog completo (lazy: carga HTML solo si no está cacheado)
+const getBlogBySlug = async (slug, locale = "es") => {
+  const lc = locale || "es";
+  const sameLocale = (b) => b.slug === slug && (b.locale || "es") === lc;
+  const found = blogs.find(sameLocale);
+
+  // 1) No está en cache o el que está es de otro idioma → cargar todo (meta + content)
+  if (!found) {
+    try {
+      const [meta, content] = await Promise.all([
+        getBlog(slug, lc),
+        getBlogContent(slug, lc),
+      ]);
+      if (!meta) return null;
+
+     const combined = { ...meta, ...content, locale: lc, html: content?.html || "" };
+
+
+      setBlogs((prev) => [
+        ...prev.filter((b) => !sameLocale(b)), // limpia solo este slug+locale
+        combined,
+      ]);
+
+      return combined;
+    } catch (err) {
+      console.error("⚠️ Error al cargar blog por slug:", err);
+      return null;
+    }
+  }
+
+  // 2) Ya está en cache y es del mismo locale
+  if (found.html) return found;
+
+  try {
+    const content = await getBlogContent(slug, lc);
+    const merged = { ...found, html: content?.html || "", locale: lc };
+
+    setBlogs((prev) => [
+      ...prev.filter((b) => !sameLocale(b)),
+      merged,
+    ]);
+
+    return merged;
+  } catch (err) {
+    console.error("⚠️ Error al cargar contenido del blog:", err);
+    return found;
+  }
+};
+
+
+
 
   
 
@@ -168,6 +262,10 @@ function Context(props) {
     checkingAuth,
     authReady,
     ready,
+
+    blogs,
+    blogsLoading,
+    getBlogBySlug,
   }}
 >
 

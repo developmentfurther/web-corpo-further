@@ -24,7 +24,7 @@ export default function HeroCorporate() {
       {/* 🖼 Imagen de fondo */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/bg-corporate.jpeg"
+          src="/images/corporate/corporate.jpeg"
           alt="Corporate Services background"
           fill
           priority

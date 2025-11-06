@@ -91,18 +91,19 @@ export default function HeroAbout() {
         )}
 
         {/* Título principal */}
-        <motion.h1
-          variants={fadeUp}
-          id="about-hero-title"
-          className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]"
-        >
-          {t("title.prefix") && (
-            <span className="block mb-2">{t("title.prefix")}</span>
-          )}
-          {t("title.highlight") && (
-            <span className={GRAD_TEXT}>{t("title.highlight")}</span>
-          )}
-        </motion.h1>
+       <motion.h1
+  variants={fadeUp}
+  id="about-hero-title"
+  className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] max-w-6xl mx-auto text-balance"
+>
+  {t("title.prefix") && (
+    <span className="block mb-2">{t("title.prefix")}</span>
+  )}
+  {t("title.highlight") && (
+    <span className={GRAD_TEXT}>{t("title.highlight")}</span>
+  )}
+</motion.h1>
+
 
         {/* Subtítulo */}
         {t("subtitle") && (

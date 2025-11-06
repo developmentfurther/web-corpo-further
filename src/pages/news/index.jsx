@@ -1,2 +1,2 @@
 // /pages/news/index.jsx
-export { default, getStaticProps } from "./page/[page]";
+export { default } from "./page/[page]";
