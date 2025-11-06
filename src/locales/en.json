@@ -55,10 +55,11 @@
   "hero": {
     "badge": "Language Consulting and Professional Development",
     "title": {
-      "prefix": "Language consultant with",
-      "highlight": "+ than 25 years of experience"
+      "prefix": "+25 Years of",
+      "highlight": " experience in language teaching"
     },
-    "description": "Open the doors to the FURTHER Universe and connect with the world",
+    "description": "Courses and classes in English, Portuguese, Italian, French, German and Spanish",
+    "descriptionAlt": "Learn how to communicate with confidence",
     "imageAlt": "Professional business meeting",
     "pills": {
       "projects": { "title": "5.5K+", "subtitle": "innovative projects completed worldwide" },
@@ -304,8 +305,8 @@
   "followTitle": "Follow Us on LinkedIn",
   "followText": "Stay up to date with insights, success stories, and corporate language strategies.",
   "hero": {
-    "badge": "Corporate Language Solutions",
-    "title": { "prefix": "In-company B2B solutions and", "highlight": "training programs" },
+    "badge": "Boost your team's communication",
+    "title": { "prefix": "In-Company B2B Solutions and ", "highlight": "training programs" },
     "description": "We provide corporate language courses at all levels, from A1 to C2, aligned with the Common European Framework of Reference (CEFR). We create high-impact programs tailored to your business objectives",
     "ctaPrimary": "Request Proposal",
     "ctaSecondary": "Learn More"
@@ -315,6 +316,11 @@
     "corporatePartners": { "value": 50, "label": "Companies Trust Us" },
     "corporateStudents": { "value": 50000, "label": "Students Trained" },
     "privateStudents": { "value": 10, "label": "Distinct Academic Programs" }
+  },
+
+  "companies": {
+    "title": "Companies that support us",
+    "subtitle": "These are some of the companies we support in their journey to develop communication tools:"
   },
   "services": {
     "title": "Further’s Language Services",
@@ -574,64 +580,40 @@
     "ctaPrimary": "Why Further?"
   },
   "why": {
-  "title": "¿Por qué Further?",
-  "intro": "Entendemos el idioma como un componente cultural. Por ello, promovemos un ambiente de constante habla inglesa para que la experiencia de aprendizaje sea completamente natural, enfocada en la comunicación real y la fluidez.",
+  "title": "¿Why Further?",
+  "intro": "We see language as a cultural component. That’s why we foster an environment of constant English speaking, making the learning experience completely natural, focused on real communication and fluency.",
 
-  "funTitle": "Aprendemos jugando",
-  "funBody": "Nuestras clases son todo menos aburridas. Con juegos, actividades, eventos, y material multimedia propio, tu aprendizaje de inglés va a ser dinámico e interesante clase a clase.",
+  "funTitle": "Learning Through Play",
+  "funBody": "Our classes are anything but boring. With games, activities, events, and our own multimedia materials, your English learning will be dynamic and engaging, class by class.",
 
-  "valuesTitle": "Nuestros valores",
+  "valuesTitle": "Our Values",
   "values": [
-    "Proyecto 100% inmersivo",
-    "Enfoque comunicacional",
-    "Arista proyectual - lúdica",
-    "Excelencia Académica",
-    "Comunidad"
+    "100% Immersive Program",
+    "Communicative Approach",
+    "Project-Based & Playful Activities",
+    "Academic Excellence",
+    "Community"
   ],
 
-  "locationsTitle": "Conocé nuestras sedes",
+  "locationsTitle": "Discover Our Campuses",
   "locations": {
     "patricios": {
       "title": "Parque Patricios",
-      "body": "Desde 1997, nuestro instituto te espera en el corazón de Parque Patricios.",
+      "body": "Since 1997, our institute welcomes you in the heart of Parque Patricios.",
       "videoSrc": "/videos/school-patricios.mp4",
       "poster": "/images/school-patricios.webp"
     },
     "saavedra": {
       "title": "Saavedra",
-      "body": "Ahora encontrá también la #ExperienciaFurther en el norte de Buenos Aires.",
+      "body": "Now experience the #FurtherExperience in the north of Buenos Aires.",
       "videoSrc": "/videos/school-saavedra.mp4",
       "poster": "/images/school-saavedra.webp"
     }
   }
 },
-
-  "sections": {
-    "fun": {
-      "title": "Learning through play",
-      "body": "Our classes are anything but boring. With games, activities, events, and custom multimedia materials, your English learning experience will be dynamic and engaging every step of the way."
-    },
-    "park": {
-      "title": "Our Campuses",
-      "body": "Parque Patricios: since 1997, our institute has been located in the heart of Parque Patricios. Saavedra: now experience #FurtherLearning in the north of Buenos Aires."
-    },
-    "culture": {
-      "kicker": "Our Methodology",
-      "title": "Culture and Real Communication",
-      "highlight": "Immersive Experience",
-      "body": "We understand language as a cultural component. We promote an English-speaking environment to make learning natural, focusing on real communication and fluency.",
-      "points": [
-        "100% immersive project",
-        "Communicative approach",
-        "Playful and project-based learning",
-        "Academic excellence",
-        "Community"
-      ]
-    }
-  },
   "exams": {
     "title": "International Exam Preparation",
-    "expertIntro": "We specialize in preparation for:",
+    "expertIntro": "We are experts in preparing students for:",
     "cambridgeTitle": "Cambridge English Exams",
     "cambridge": ["FCE", "CAE", "CPE", "IELTS", "BEC", "BULATS"],
     "usTitle": "American English Exams",
@@ -834,18 +816,36 @@
   },
   "hero": {
     "title": "Further Media:",
-    "subtitle": "Interactive Resources to Learn English"
+    "subtitle": "Interactive Resources to Learn English",
+    "description": "Take Your Learning Beyond the Classroom! With Further Media, access interactive resources to stay immersed in English anytime, anywhere. Discover our podcast, YouTube channel, and TikTok content, designed by our academic team to enhance your #FurtherExperience."
   },
   "records": {
     "title": "Further Records: The Podcast for English Learners",
-    "intro": "Our English podcast is part of the #FurtherExperience. Discover general culture topics and practice with exclusive worksheets designed by our academic team.",
-    "body": "The English vocabulary review from each episode is available on our YouTube channel, and you can follow every transcript on our blog. Learn from our characters and boost your listening skills!"
+    "intro": "Our English podcast for students is part of the #FurtherExperience. Learn about general culture in English and practice with tailor-made exercises using our exclusive worksheets. Improve your English comprehension and learn correct pronunciation.",
+    "body": "Vocabulary reviews from the podcast are available on our YouTube channel, and you can also follow each episode’s transcript on our blog. Learn alongside our characters!"
   },
-  "shorts": {
-    "title": "📢 New! Further Shorts: Our Podcast for Beginner Levels",
-    "body": "If you’re taking your first steps in English, our “Further Shorts” podcast is perfect for you. Designed for A1/A2 learners, it helps you develop listening skills and vocabulary through engaging cultural topics.",
-    "cta": "Watch the Further Shorts playlist on YouTube"
-  },
+ "shorts": {
+  "badge": "New!",
+  "title": "Further Shorts:",
+  "subtitle": "Our English Podcast for Beginner Levels.",
+  "body": "If you’re just starting out, our podcast Further Shorts is the perfect resource. Designed for A1/A2 levels, it helps you improve your listening skills and expand your English vocabulary through general culture topics.",
+  "channel": "Further Corporate",
+  "videos": [
+    {
+      "id": "IZsMRTEHFR4",
+      "title": "Announcement — Introducing Further Shorts!"
+    },
+    {
+      "id": "5y3wfyObvkc",
+      "title": "Shorts 001 — Let’s Talk About Food!"
+    },
+    {
+      "id": "GOByhoI3VSs",
+      "title": "Shorts 002 — Sharing Our Morning Routines"
+    }
+  ]
+},
+
   "spotify": {
     "title": "Listen on Spotify"
   },
@@ -857,7 +857,7 @@
   },
   "classes": {
     "title": "Classes Beyond the Classroom",
-    "body": "At Further, we enhance the learning experience with original materials, AI-integrated resources for immersive practice, and complementary audio and video content. Each course includes access to tools that strengthen learning and ensure a transformative experience."
+    "body": "At Further, we enhance the educational experience with our own publications, AI-integrated resources for immersive practice, and supplementary audio and video materials. Each course includes access to content that reinforces learning and ensures transformative results."
   },
   "youtube": {
     "title": "Join Further on YouTube",
@@ -913,15 +913,15 @@
 
 "contact": {
   "meta": {
-    "title": "Further Corporate: Contact Us and Book Your Language Training",
-    "description": "Looking for in-company English training or customized language workshops? Get in touch and join the #FurtherExperience.",
+    "title": "Further Corporate: Contact Us and Book Your Language Classes",
+    "description": "Looking for in-company language training, English classes, or customized language workshops? Contact us and join the #FurtherExperience.",
     "canonical": "https://furthercorporate.com/contact"
   },
   "breadcrumb": { "home": "Home", "contact": "Contact" },
   "hero": {
-    "title": "Contact Us and Start Your Language Journey",
-    "subtitle": "Let’s talk and design your ideal training experience",
-    "body": "Tell us about your goals and we’ll create a customized language learning proposal for you. In-company classes, private lessons, or specialized workshops — start your #FurtherExperience today."
+    "title": "Get in Touch and Start Your Language Classes",
+    "subtitle": "Let’s talk",
+    "body": "Tell us your needs, and we will design a customized learning proposal for you. In-company classes, private courses, or specialized workshops. Contact us and start your #FurtherExperience today."
   },
   "form": {
     "title": "Contact Form",

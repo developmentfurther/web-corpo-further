@@ -162,3 +162,13 @@ export default function LanguageFlags() {
     </section>
   );
 }
+
+export {
+  FlagAR,
+  FlagUS,
+  FlagUK,
+  FlagBR,
+  FlagFR,
+  FlagDE,
+  FlagIT,
+};

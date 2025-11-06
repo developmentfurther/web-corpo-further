@@ -86,10 +86,11 @@
   "hero": {
     "badge": "Consultoria de idiomas com + de 25 anos de experiência",
     "title": {
-      "prefix": "Consultoria de idiomas com",
-      "highlight": " + de 25 anos de experiência"
+      "prefix": "+25 anos de",
+      "highlight": " experiência no ensino de idiomas"
     },
-    "description": "Aulas de idiomas online e presenciais. Empresa de consultoria com quase 30 anos de experiência. Cursos de inglês para empresas e workshops de desenvolvimento profissional. Materiais audiovisuais originais.",
+    "description": "Formação e aulas em inglês, português, italiano, francês, alemão e espanhol.",
+    "descriptionAlt": "Aprenda a se comunicar com confiança",
     "button": "Solicite uma proposta personalizada",
     "imageAlt": "Treinamento corporativo de inglês",
     "pills": {
@@ -142,7 +143,8 @@
   "human": "Valor Humano",
   "excellenceDesc": "Programas desenvolvidos com padrões internacionais e resultados mensuráveis.",
   "aiDesc": "Inovação constante aplicando IA para potencializar a experiência de aprendizado.",
-  "humanDesc": "Professores e equipes comprometidos com o crescimento pessoal e profissional de cada aluno."
+  "humanDesc": "Professores e equipes comprometidos com o crescimento pessoal e profissional de cada aluno.",
+  "closing": "Na Further, incorporamos tecnologia de ponta para aprimorar sua experiência: chatbots, atendimento ao cliente, relatórios automatizados e ferramentas de prática assistida. Inovamos para oferecer soluções personalizadas e eficazes"
 },
     "footerNote": "Excelência acadêmica, inteligência artificial e valor humano no acompanhamento pedagógico — tudo em um único ecossistema de aprendizagem."
   },
@@ -152,11 +154,11 @@
   },
   "methodology": {
     "title": "Mais do que aulas: experiência e resultados",
-    "intro": "Aprender idiomas é uma ferramenta essencial para navegar no século XXI. Por isso, na Further criamos recursos audiovisuais próprios e utilizamos gatilhos das redes sociais para acompanhar nossos alunos em todos os momentos.",
+    "intro": "Aprender idiomas é uma ferramenta essencial para navegar no século XXI. Por isso, na Further criamos recursos audiovisuais próprios e utilizamos gatilhos das redes sociais para acompanhar nossos alunos em todos os momentos..",
     "bullets": [
       {
         "title": "Avaliação baseada no QECR",
-        "text": "Nosso sistema de avaliação segue os padrões do Quadro Europeu Comum de Referência (QECR), garantindo coerência e transparência em cada etapa da aprendizagem."
+        "text": "Nosso sistema de avaliação segue os padrões do Quadro Europeu Comum de Referência (QECR), garantindo coerência e transparência em cada etapa da aprendizagem"
       },
       {
         "title": "Fluência Garantida: Enfoque Comunicativo e Imersão Total",
@@ -249,8 +251,8 @@
     },
     "hero": {
       "badge": "+25 anos de experiência no ensino de idiomas",
-      "title": { "prefix": "Serviços linguísticos profissionais", "highlight": "desde 1997" },
-      "subtitle": "Mais de duas décadas formando comunicadores confiantes.",
+      "title": { "prefix": "+25 anos de experiência no", "highlight": "ensino de idiomas" },
+      "subtitle": "Serviços linguísticos profissionais desde 1997",
       "description": "Na Further Corporate, oferecemos soluções linguísticas completas e personalizadas: desde capacitação B2B (In-Company) até desenvolvimento profissional e produção de recursos audiovisuais próprios. Apoiamos empresas e profissionais em seu crescimento global.",
       "imageAlt": "Equipe da Further Corporate durante uma sessão de capacitação linguística",
       "caption": "Consultoria de idiomas líder com presença internacional desde 1997.",
@@ -261,14 +263,14 @@
       "heading": "Por que escolher a Further?",
       "subheading": "Nosso compromisso é com a excelência",
       "paragraphs": [
-        "A Further nasceu em 1997 com uma visão clara: transformar o ensino de idiomas. Hoje, com mais de 25 anos de experiência, criamos programas de idiomas personalizados para impulsionar empresas e profissionais.",
+        " A Further nasceu em 1997 com uma visão clara: transformar o ensino de idiomas. Hoje, com mais de 25 anos de experiência, criamos programas de idiomas personalizados para impulsionar empresas e profissionais.",
         "Nosso compromisso é com o progresso real: medimos resultados, promovemos a comunicação eficaz e incentivamos a confiança ao se comunicar em contextos profissionais."
       ]
     },
     "missionVision": {
       "mission": {
         "title": "Nossa missão",
-        "text": "Ensinar com uma abordagem comunicativa e prática, para que nossos alunos se sintam seguros ao interagir com outras culturas."
+        "text": "Ensinar com uma abordagem comunicativa e prática, para que nossos alunos se sintam seguros ao interagir com outras culturas"
       },
       "vision": {
         "title": "Nossa visão",
@@ -325,16 +327,16 @@
 
 "corporate": {
   "meta": {
-    "title": "Further Corporate: Treinamento de Idiomas para Empresas (B2B)",
+    "title": "Further Corporate: Capacitação em Idiomas para Empresas (B2B)",
     "description": "Soluções B2B sob medida: Programas In-Company (online ou presenciais), Workshops de Desenvolvimento Profissional e Análise de Competências. Mais de 50 empresas já confiam na Further."
   },
   "followTitle": "Siga-nos no LinkedIn",
   "followText": "Fique por dentro das novidades, cases de sucesso e estratégias de comunicação corporativa.",
 
   "hero": {
-    "badge": "Soluções linguísticas corporativas",
-    "title": { "prefix": "Treinamento de idiomas", "highlight": "B2B" },
-    "description": "Programas corporativos personalizados, alinhados ao CEFR (Quadro Europeu Comum), com resultados mensuráveis e duradouros.",
+    "badge": "Melhore a comunicação da sua equipe.",
+    "title": { "prefix": "Soluções B2B In-Company e ", "highlight": "Programas de Treinamento" },
+    "description": "Oferecemos cursos corporativos de idiomas em todos os níveis, do A1 ao C2, com a solidez do Quadro Europeu Comum de Referência (QECR). Trabalhamos com propostas de alto impacto, alinhadas aos objetivos do seu negócio",
     "ctaPrimary": "Solicitar proposta",
     "ctaSecondary": "Saiba mais"
   },
@@ -343,6 +345,10 @@
     "corporatePartners": { "value": 50, "label": "Empresas que confiam em nós" },
     "corporateStudents": { "value": 50000, "label": "Alunos formados" },
     "privateStudents": { "value": 10, "label": "Programas acadêmicos distintos" }
+  },
+  "companies": {
+    "title": "Empresas que nos apoiam",
+    "subtitle": "Estas são algumas das empresas que apoiamos em sua jornada para desenvolver ferramentas de comunicação:"
   },
   "services": {
     "title": "Serviços linguísticos da Further",

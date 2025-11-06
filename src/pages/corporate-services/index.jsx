@@ -18,6 +18,9 @@ import { FiAward, FiUsers, FiTarget, FiBookOpen  } from "react-icons/fi";
 import Ecosistema from "@/componentes/home/Ecosistema";
 import StatsCorporate from "@/componentes/home/StatsCorporate";
 import HeroCorporate from "@/componentes/hero/HeroCorporate";
+import LanguageFlags from "@/componentes/ui/LanguageFlags";
+import { FlagUS, FlagUK, FlagBR, FlagFR, FlagDE, FlagIT, FlagAR } from "@/componentes/ui/LanguageFlags";
+
 
 /* ==============================
    Design Tokens (dark + light)
@@ -420,123 +423,126 @@ const onSubmit = async (e) => {
 
           {/* SERVICES */}
           <section id="servicios" className="relative py-24">
-            <div className={SHELL}>
-              <motion.div
-                variants={itemFade}
-                initial="hidden"
-                animate="show"
-                viewport={{ once: true }}
-                className="text-center mb-16"
-              >
-                <h2 className={`${TITLE} text-4xl sm:text-5xl lg:text-6xl`}>
-  {tCorp.sections?.servicesTitle?.prefix}{" "}
-  <span className={GRAD_TEXT}>{tCorp.sections?.servicesTitle?.highlight}</span>
-</h2>
+  <div className={SHELL}>
+    {/* 🧠 Título de sección */}
+    <div className="text-center mb-16">
+      <h2 className={`${TITLE} text-4xl sm:text-5xl lg:text-6xl`}>
+        {tCorp.sections?.servicesTitle?.prefix}{" "}
+        <span className={GRAD_TEXT}>
+          {tCorp.sections?.servicesTitle?.highlight}
+        </span>
+      </h2>
+    </div>
 
-              </motion.div>
+    {/* 💼 Grid de servicios (solo efecto hover) */}
+    <div className="grid gap-8 md:grid-cols-3">
+      {services.map((svc) => (
+        <motion.article
+          key={svc.title}
+          className={`${CARD} ${CARD_HOVER} p-8 group overflow-hidden`}
+          whileHover={{ y: -10, rotateX: 0.0001 }}
+          transition={{ duration: 0.4 }}
+        >
+          {/* Fondo sutil al hover */}
+          <div
+            className={`absolute inset-0 ${GRAD_SUBTLE} opacity-0 group-hover:opacity-100 transition-opacity duration-700`}
+          />
 
-              <motion.div
-                className="grid gap-8 md:grid-cols-3"
-                variants={containerStagger}
-                initial="hidden"
-                animate="show"
-                viewport={{ once: true, amount: 0.2 }}
-              >
-                {services.map((svc) => (
-                  <motion.article
-                    key={svc.title}
-                    variants={itemScale}
-                    className={`${CARD} ${CARD_HOVER} p-8 group overflow-hidden`}
-                    whileHover={{ y: -10, rotateX: 0.0001 }}
-                  >
-                    <div
-                      className={`absolute inset-0 ${GRAD_SUBTLE} opacity-0 group-hover:opacity-100 transition-opacity duration-700`}
-                    />
-                    <div className="relative">
-                      <motion.div
-                        className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center mb-6 ring-1 ring-white/10 group-hover:ring-white/30 group-hover:scale-110 transition-all duration-500"
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.6 }}
-                      >
-                        {svc.icon}
-                      </motion.div>
-                      <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#EE7203] group-hover:to-[#FF3816] transition-all duration-300">
-                        {svc.title}
-                      </h3>
-                      <p className={`${TEXT} text-base`}>{svc.body}</p>
-                    </div>
-                  </motion.article>
-                ))}
-              </motion.div>
-            </div>
-            
-          </section>
+          <div className="relative">
+            {/* Ícono con rotación ligera al hover */}
+            <motion.div
+              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center mb-6 ring-1 ring-white/10 group-hover:ring-white/30 group-hover:scale-110 transition-all duration-500"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6 }}
+            >
+              {svc.icon}
+            </motion.div>
+
+            {/* Título con gradiente en hover */}
+            <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#EE7203] group-hover:to-[#FF3816] transition-all duration-300">
+              {svc.title}
+            </h3>
+
+            {/* Descripción */}
+            <p className={`${TEXT} text-base`}>{svc.body}</p>
+          </div>
+        </motion.article>
+      ))}
+    </div>
+  </div>
+</section>
+
           <Ecosistema />
 
-          {/* LANGUAGES + CEFR */}
-          <section
-            className={`${BG_ALT} backdrop-blur-xl border-y border-white/10 py-24`}
-          >
-            <div className={SHELL}>
-              <div className="grid gap-12 lg:grid-cols-2">
-                <motion.div
-                  variants={itemFade}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true }}
-                >
-                  <h2 className={`${TITLE} text-3xl sm:text-4xl mb-6`}>
-  {tCorp.sections?.languagesTitle?.prefix}{" "}
-  <span className={GRAD_TEXT}>{tCorp.sections?.languagesTitle?.highlight}</span>
-</h2>
+          {/* 🌍 LANGUAGES + CEFR */}
+<section className={`${BG_ALT} backdrop-blur-xl border-y border-white/10 py-24`}>
+  <div className={SHELL}>
+    <div className="grid gap-12 lg:grid-cols-2 items-center">
+      {/* 🏳️ Idiomas con banderas reutilizando tu componente */}
+      <div className="flex flex-col items-center lg:items-start">
+        <h2 className={`${TITLE} text-3xl sm:text-4xl mb-10 text-center lg:text-left`}>
+          {tCorp.sections?.languagesTitle?.prefix}{" "}
+          <span className={GRAD_TEXT}>
+            {tCorp.sections?.languagesTitle?.highlight}
+          </span>
+        </h2>
 
-                  <div className="flex flex-wrap gap-3">
-                    {languages.map((l, i) => (
-                      <motion.span
-                        key={l}
-                        className="px-5 py-2.5 rounded-2xl border border-white/15 bg-white/5 text-white font-medium hover:border-white/30 hover:bg-white/10 transition-all cursor-default"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.05 }}
-                        whileHover={{ scale: 1.05, y: -2 }}
-                      >
-                        {l}
-                      </motion.span>
-                    ))}
-                  </div>
-                </motion.div>
+        <div className="w-full flex justify-center lg:justify-start">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-8">
+            {[
+              { id: "en", name: "English (US)", Component: FlagUS },
+              { id: "uk", name: "English (UK)", Component: FlagUK },
+              { id: "pt", name: "Português", Component: FlagBR },
+              { id: "fr", name: "Français", Component: FlagFR },
+              { id: "de", name: "Deutsch", Component: FlagDE },
+              { id: "it", name: "Italiano", Component: FlagIT },
+              { id: "es", name: "Español", Component: FlagAR },
+            ].map(({ id, name, Component }) => (
+              <motion.div
+                key={id}
+                whileHover={{ scale: 1.1, y: -4 }}
+                transition={{ duration: 0.25 }}
+                className="relative flex flex-col items-center group"
+              >
+                <div className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all shadow-md ring-1 ring-white/10 hover:ring-[#EE7203]/50">
+                  <Component className="h-10 w-14" />
+                </div>
+                <span className="text-sm text-white/80 mt-2 font-medium tracking-wide">
+                  {name}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
 
-                <motion.div
-                  className={`${CARD} ${CARD_HOVER} p-8`}
-                  variants={itemScale}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <h3 className="text-2xl font-bold mb-4">{cefr.title}</h3>
-                  <p className={`${SUB} mb-3`}>{cefr.p1}</p>
-                  <p className={`${SUB} mb-6`}>{cefr.p2}</p>
-                  <ul className="space-y-2 mb-6">
-                    {cefr.bullets.map((b, i) => (
-                      <li key={i} className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
-                        <span className={TEXT}>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <motion.a
-                    href={cefr.blogHref}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#EE7203] to-[#FF3816] hover:gap-3 transition-all"
-                    whileHover={{ x: 4 }}
-                  >
-                    {cefr.blogLabel} <span>↗</span>
-                  </motion.a>
-                </motion.div>
-              </div>
-            </div>
-          </section>
+      {/* 📈 CEFR Card */}
+      <div
+        className={`${CARD} ${CARD_HOVER} p-8 bg-gradient-to-b from-[#112C3E]/80 to-[#0A1628]/90 text-white`}
+      >
+        <h3 className="text-2xl font-bold mb-4">{cefr.title}</h3>
+        <p className={`${SUB} mb-3`}>{cefr.p1}</p>
+        <p className={`${SUB} mb-6`}>{cefr.p2}</p>
+        <ul className="space-y-2 mb-6">
+          {cefr.bullets.map((b, i) => (
+            <li key={i} className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
+              <span className={TEXT}>{b}</span>
+            </li>
+          ))}
+        </ul>
+        <motion.a
+          href={cefr.blogHref}
+          className="inline-flex items-center gap-2 text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#EE7203] to-[#FF3816] hover:gap-3 transition-all"
+          whileHover={{ x: 4 }}
+        >
+          {cefr.blogLabel} <span>↗</span>
+        </motion.a>
+      </div>
+    </div>
+  </div>
+</section>
+
 
           {/* TESTIMONIALS */}
           {testimonials.length > 0 && (
@@ -554,7 +560,7 @@ const onSubmit = async (e) => {
                   className="grid gap-8 md:grid-cols-2"
                   variants={containerStagger}
                   initial="hidden"
-                  whileInView="show"
+                  animate="show"
                   viewport={{ once: true, amount: 0.2 }}
                 >
                   {testimonials.map((t, i) => (
@@ -598,7 +604,7 @@ const onSubmit = async (e) => {
               <motion.div
                 variants={itemFade}
                 initial="hidden"
-                whileInView="show"
+                animate="show"
                 viewport={{ once: true }}
                 className="max-w-3xl mx-auto"
               >
@@ -764,7 +770,7 @@ const onSubmit = async (e) => {
                 className={`${CARD} ${GRAD} p-12 text-center overflow-hidden relative`}
                 variants={itemScale}
                 initial="hidden"
-                whileInView="show"
+                animate="show"
                 viewport={{ once: true }}
               >
                 

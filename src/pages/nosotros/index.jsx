@@ -17,6 +17,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { loadMessages } from "@/lib/i18n";
+import HeroAbout from "@/componentes/hero/HeroAbout";
 
 
 /* ====== Tokens ====== */
@@ -96,122 +97,9 @@ export default function AboutIndex({ messages }) {
       <main
         className={`${BG_DARK} min-h-screen relative overflow-hidden text-white`}
       >
-        {/* ============================= */}
-        {/* HERO (+25 años / video fondo) */}
-        {/* ============================= */}
-        <section
-          className="relative z-10 overflow-hidden min-h-[100vh] flex items-center justify-center"
-          aria-labelledby="about-hero-title"
-        >
-          {/* Video de fondo */}
-          <motion.div
-            className="absolute inset-0 -z-10 overflow-hidden"
-            style={{ perspective: 1000 }}
-          >
-            <motion.video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="none"
-              poster="/images/school-poster.webp"
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.6]"
-              style={{
-                scale: videoScale,
-                y: videoY,
-              }}
-            >
-              <source src="/videos/school-bg.webm" type="video/webm" />
-              <source src="/videos/school-bg.mp4" type="video/mp4" />
-            </motion.video>
-
-            {/* Overlay para contraste */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/60 via-[#0A1628]/85 to-[#0A1628]/95" />
-          </motion.div>
-
-          {/* Orbes decorativos */}
-          <div
-            className="pointer-events-none absolute inset-0 -z-[5]"
-            aria-hidden
-          >
-            <div className="absolute -top-28 -right-24 h-72 w-72 rounded-full bg-[#EE7203]/25 blur-3xl" />
-            <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#FF3816]/20 blur-3xl" />
-          </div>
-
-          {/* Contenido centrado */}
-          <div className="relative text-center px-6">
-            <motion.div
-              initial="hidden"
-              animate="show"
-              variants={stagger}
-              key="about-hero"
-              className="max-w-3xl mx-auto space-y-8"
-            >
-             
-
-              {/* Title principal */}
-              <motion.h1
-                variants={fadeUp}
-                id="about-hero-title"
-                className={`${TITLE_DARK} text-4xl sm:text-5xl lg:text-6xl leading-[1.1]`}
-              >
-                {!!hero?.title?.prefix && (
-                  <span className="block mb-3">{hero.title.prefix}</span>
-                )}
-                {!!hero?.title?.highlight && (
-                  <span className={`${GRAD_TEXT}`}>{hero.title.highlight}</span>
-                )}
-              </motion.h1>
-
-              {/* Subtítulo corto bajo el title */}
-              {hero?.subtitle && (
-                <motion.p
-                  variants={fadeUp}
-                  className={`${SUB_DARK} text-lg max-w-xl mx-auto`}
-                >
-                  {hero.subtitle}
-                </motion.p>
-              )}
-
-              {/* Descripción hero */}
-              {hero?.description && (
-                <motion.p
-                  variants={fadeUp}
-                  className={`${BODY_DARK} text-base max-w-xl mx-auto`}
-                >
-                  {hero.description}
-                </motion.p>
-              )}
-
-              {/* Botones: Contacto / Descubrí Further Media */}
-              {(hero?.primaryCta?.label || hero?.secondaryCta?.label) && (
-                <motion.div
-                  variants={fadeUp}
-                  className="flex flex-wrap justify-center gap-4 pt-2"
-                >
-                  {hero?.primaryCta?.label && (
-                    <a
-                      href={hero?.primaryCta?.href || "/contacto"}
-                      className={`${LINK} ${GRAD} text-white shadow-[0_10px_34px_rgba(238,114,3,0.35)] hover:scale-[1.02] active:scale-[.99]`}
-                    >
-                      {hero.primaryCta.label} <span aria-hidden>↗</span>
-                    </a>
-                  )}
-                  {hero?.secondaryCta?.label && (
-                    <a
-                      href={hero?.secondaryCta?.href || "#media"}
-                      className={`${LINK} ${CARD_GLASS} text-white/90 hover:border-white/20`}
-                    >
-                      {hero.secondaryCta.label} <span aria-hidden>→</span>
-                    </a>
-                  )}
-                </motion.div>
-              )}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* onda hacia sección clara */}
+        {/* SECCIÓN HERO */}
+          <HeroAbout />
+  
       
 
       {/* ====================================================== */}

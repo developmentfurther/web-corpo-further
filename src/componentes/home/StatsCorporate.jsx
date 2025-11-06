@@ -79,10 +79,9 @@ export default function StatsCorporate() {
         </div>
 
         {/* ====== CAROUSEL FIXED CONTAINER ====== */}
-        <div className="hidden sm:block mt-16 relative block isolate w-full max-w-6xl mx-auto overflow-hidden">
-  <div className="h-[90px] sm:h-[110px] flex items-center justify-center">
-    <CarouselInfinitePause />
-  </div>
+        {/* Visible solo desde sm en adelante */}
+<div className="hidden sm:block mt-16 relative w-full max-w-6xl mx-auto">
+  <CarouselInfinitePause />
 </div>
 
       </div>

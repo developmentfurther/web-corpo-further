@@ -48,12 +48,25 @@ export default function Ecosistema () {
       >
         <div className="w-16 h-16 mx-auto mb-5 flex items-center justify-center rounded-2xl 
                         bg-gradient-to-tr from-[#EE7203] to-[#FF3816] shadow-lg">
-          {/* 🎓 SVG Academic Cap */}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-            stroke="white" strokeWidth="1.8" className="w-8 h-8">
-            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" />
-            <path d="M12 21v-6" />
-          </svg>
+       
+          {/* 🎓 Academic Hat (mortarboard) */}
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="white"
+  strokeWidth="1.8"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  className="w-8 h-8"
+>
+  {/* ala del sombrero */}
+  <path d="M3 9l9-4 9 4-9 4-9-4z" />
+  {/* copa + base */}
+  <path d="M7 11v3.5a5 5 0 0010 0V11" />
+  {/* borla */}
+  <path d="M21 9v5" />
+</svg>
         </div>
         <h4 className="text-xl font-bold mb-3 text-white">
           {t("ecosystem.excellence")}
@@ -76,11 +89,28 @@ export default function Ecosistema () {
       >
         <div className="w-16 h-16 mx-auto mb-5 flex items-center justify-center rounded-2xl 
                         bg-gradient-to-tr from-[#EE7203] to-[#FF3816] shadow-lg">
-          {/* 🤖 SVG AI */}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke="white" strokeWidth="1.8" className="w-8 h-8">
-            <path d="M9 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v3H3a2 2 0 00-2 2v2a2 2 0 002 2h1v3a2 2 0 002 2h1v1a2 2 0 002 2h2a2 2 0 002-2v-1h1a2 2 0 002-2v-3h1a2 2 0 002-2v-2a2 2 0 00-2-2h-1V7a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H9z" />
-          </svg>
+        {/* ⚙️ AI / CPU Chip */}
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="white"
+  strokeWidth="1.8"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  className="w-8 h-8"
+>
+  {/* cuadrado principal del chip */}
+  <rect x="7" y="7" width="10" height="10" rx="2" ry="2" />
+  
+  {/* patitas horizontales */}
+  <path d="M4 10h3M4 14h3M17 10h3M17 14h3" />
+  
+  {/* patitas verticales */}
+  <path d="M10 4v3M14 4v3M10 17v3M14 17v3" />
+</svg>
+
+
         </div>
         <h4 className="text-xl font-bold mb-3 text-white">
           {t("ecosystem.ai")}
@@ -103,13 +133,21 @@ export default function Ecosistema () {
       >
         <div className="w-16 h-16 mx-auto mb-5 flex items-center justify-center rounded-2xl 
                         bg-gradient-to-tr from-[#EE7203] to-[#FF3816] shadow-lg">
-          {/* 💬 SVG Chat / People */}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 24 24" stroke="white" strokeWidth="1.8"
-            className="w-8 h-8">
-            <path strokeLinecap="round" strokeLinejoin="round"
-              d="M7 8h10M7 12h6m2 8a9 9 0 100-18 9 9 0 000 18z" />
-          </svg>
+         {/* 👤 Human Value */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="white"
+                strokeWidth="1.8"
+                className="w-8 h-8"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12zm0 2c-3.33 0-6 2.17-6 4.5V21h12v-2.5c0-2.33-2.67-4.5-6-4.5z"
+                />
+              </svg>
         </div>
         <h4 className="text-xl font-bold mb-3 text-white">
           {t("ecosystem.human")}

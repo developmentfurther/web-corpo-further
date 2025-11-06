@@ -7,6 +7,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { loadMessages } from "@/lib/i18n";
 import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiVolume2 } from "react-icons/fi";
+
 /* ========= Tokens ========= */
 const BG_DARK = "bg-[#0A1628] text-white"; // hero igual al navbar (más oscuro)
 const BG_BLUE = "bg-[#0A1628] text-white"; // azul igual al Footer
@@ -97,6 +100,104 @@ function ApplePodcastsIcon(props) {
     </svg>
   );
 }
+
+
+function YouTubePlaylistPlayer({ t }) {
+  const videos = t?.shorts?.videos || [];
+  const channel = t?.shorts?.channel || "Further Corporate";
+  const [active, setActive] = React.useState(null);
+
+  return (
+    <motion.div
+      layout
+      transition={{ layout: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } }}
+      className="relative mt-10 w-full rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-md shadow-lg overflow-hidden"
+
+    >
+      {/* Header (traducible) */}
+      <div className="p-5 border-b border-white/10">
+        <h4 className="text-lg font-semibold text-white mb-1">
+          {t?.shorts?.title || "Further Shorts"}
+        </h4>
+        <p className="text-white/60 text-sm">{channel}</p>
+      </div>
+
+      {/* Lista de vídeos */}
+      <div className="divide-y divide-white/10">
+        {videos.map((v, i) => (
+          <button
+            key={v.id}
+            onClick={() => setActive(v.id === active ? null : v.id)}
+            className={`w-full flex items-center gap-4 text-left px-5 py-3 hover:bg-white/[0.07] transition ${
+              active === v.id ? "bg-white/[0.08]" : ""
+            }`}
+          >
+            <div className="relative h-12 w-12 rounded-md overflow-hidden flex-shrink-0">
+              <img
+                src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                alt={v.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-white font-medium truncate">{v.title}</p>
+              <p className="text-white/50 text-xs truncate">{channel}</p>
+            </div>
+            <div className="flex-shrink-0">
+              {active === v.id ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-white"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-white"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              )}
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Iframe expandible */}
+      <AnimatePresence>
+        {active && (
+          <motion.div
+            key={active}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+            className="overflow-hidden border-t border-white/10"
+          >
+            <div className="aspect-video w-full">
+              <iframe
+                src={`https://www.youtube.com/embed/${active}?autoplay=1&mute=1`}
+                title="Further Shorts Video"
+                className="w-full h-full"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+
+
+
 
 /* ===== Page ===== */
 export default function FurtherMediaPage({ messages }) {
@@ -379,9 +480,51 @@ export default function FurtherMediaPage({ messages }) {
             </div>
           </div>
 
+
+              
+     
+{/* === SHORTS SECTION (azul Footer, i18n) === */}
+<section id="shorts" className={BG_BLUE} aria-labelledby="shorts-title">
+  <div className={`${SHELL} py-14`}>
+    <header className="mb-8">
+  <h3
+    id="shorts-title"
+    className={`${TITLE_DARK} text-2xl sm:text-3xl mb-2 flex items-center gap-2`}
+  >
+    <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-white/10 border border-white/10 text-white/90">
+      <FiVolume2 className="h-5 w-5" aria-hidden="true" />
+    </span>
+    <span>{t?.shorts?.badge || "New!"}</span>
+  </h3>
+
+  <h4 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+    {t?.shorts?.title || "Further Shorts:"}{" "}
+    <span className={GRAD_TEXT}>
+      {t?.shorts?.subtitle ||
+        "Our English Podcast for Beginner Levels."}
+    </span>
+  </h4>
+
+  <p className="text-white/80 max-w-3xl">
+    {t?.shorts?.body ||
+      "If you’re just starting out, our podcast Further Shorts is the perfect resource. Designed for A1/A2 levels, it helps you improve your listening skills and expand your English vocabulary through general culture topics."}
+  </p>
+</header>
+
+
+    {/* 🎧 Playlist única */}
+    <YouTubePlaylistPlayer t={t} />
+  </div>
+
+</section>
+
+
+
           {/* Hacia Apps (blanco) */}
           <WaveToLight/>
         </section>
+
+
 
         {/* === APPS (blanco) con logos === */}
         <section

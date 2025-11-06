@@ -1,12 +1,16 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import { useTranslations } from "next-intl";
 
 export default function HeroSchool() {
   const t = useTranslations("school.hero");
+  const { scrollYProgress } = useScroll({ offset: ["start start", "end start"] });
+
+  // Parallax leve del video
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const videoY = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   const fadeUp = {
     initial: { opacity: 0, y: 25 },
@@ -21,29 +25,27 @@ export default function HeroSchool() {
       id="hero"
       className="relative flex items-center justify-center text-center min-h-[80vh] sm:min-h-[100vh] overflow-hidden text-white"
     >
-      {/* 🖼 Imagen de fondo */}
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src={t("imageSrc") || "/images/bg-corporate.jpeg"}
-          alt={t("imageAlt") || "Further School background"}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-100"
-        />
-        {/* 🎨 Capa de degradado progresivo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/10 via-[#0A1628]/75 to-[#0A1628]/100" />
-      </div>
+      {/* 🎥 Video de fondo */}
+      <motion.div
+        className="absolute inset-0 -z-10 overflow-hidden"
+        style={{ perspective: 1000 }}
+      >
+        <motion.video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster="/images/school-poster.webp"
+          className="absolute inset-0 w-full h-full object-cover brightness-[0.6]"
+          style={{ scale: videoScale, y: videoY }}
+        >
+          <source src="/videos/school.mp4" type="video/mp4" />
+        </motion.video>
 
-      {/* ✨ Luces decorativas */}
-      <div
-        aria-hidden
-        className="absolute top-1/3 left-[15%] w-[18rem] h-[18rem] bg-[radial-gradient(circle_at_center,rgba(255,88,0,0.25),transparent_70%)] blur-[120px]"
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-[10%] right-[15%] w-[22rem] h-[22rem] bg-[radial-gradient(circle_at_center,rgba(238,114,3,0.35),transparent_70%)] blur-[140px]"
-      />
+        {/* Overlay oscuro para contraste */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/60 via-[#0A1628]/85 to-[#0A1628]/95" />
+      </motion.div>
 
       {/* 🧱 Contenido principal */}
       <motion.div

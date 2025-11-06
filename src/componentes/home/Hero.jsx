@@ -23,8 +23,8 @@ export default function Hero() {
         poster="/images/hero-poster.webp"
         className="absolute inset-0 w-full h-full object-cover brightness-[0.6]"
       >
-        <source src="/videos/hero-bg.webm" type="video/webm" />
-        <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        <source src="/videos/homepage.mp4" type="video/mp4" />
+        
       </video>
 
       {/* Gradiente Overlay */}
@@ -93,12 +93,23 @@ export default function Hero() {
 
   {/* 💬 Descripción */}
   <motion.p
+  initial={{ opacity: 0, y: 15 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1.2, delay: 0.15 }}
+  className="mt-7 text-lg md:text-xl text-white/85 max-w-3xl leading-relaxed "
+>
+  {t("home.hero.description")}
+</motion.p>
+
+
+{/* ✨ Frase inspiracional / emocional */}
+  <motion.p
     initial={{ opacity: 0, y: 15 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1.2, delay: 0.15 }}
-    className="mt-7 text-lg md:text-xl text-white/85 max-w-2xl leading-relaxed backdrop-blur-[2px]"
+    transition={{ duration: 1.2, delay: 0.3 }}
+    className="mt-5 text-white/80 italic text-lg md:text-[1.25rem] max-w-2xl leading-relaxed"
   >
-    {t("home.hero.description")}
+    {t("home.hero.descriptionAlt")}
   </motion.p>
 
   {/* 🚀 CTA */}

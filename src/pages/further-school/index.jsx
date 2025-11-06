@@ -218,7 +218,7 @@ export default function FurtherSchoolPage({ messages }) {
       <MotionConfig reducedMotion="user">
         {/* ===== MAIN ===== */}
         <main
-          className={`${BG_DARK} ${TEXT_DARK} min-h-screen overflow-x-clip`}
+          className={` ${TEXT_DARK} min-h-screen overflow-x-clip`}
         >
           {/* === HERO === */}
           <HeroSchool />
@@ -277,7 +277,7 @@ export default function FurtherSchoolPage({ messages }) {
           {/* Texto */}
           <div className="flex flex-col justify-center">
             <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">
-              {t?.why?.valuesKicker || "Nuestros valores"}
+              {t?.why?.valuesKicker || ""}
             </p>
             <h2
               id="values-title"
@@ -285,7 +285,7 @@ export default function FurtherSchoolPage({ messages }) {
             >
               {t?.why?.valuesTitle || "Principios que nos definen"}{" "}
               <span className={GRAD_TEXT}>
-                {t?.why?.valuesHighlight || "Nuestra esencia"}
+                {t?.why?.valuesHighlight }
               </span>
             </h2>
             <p className="mt-3 text-gray-700">

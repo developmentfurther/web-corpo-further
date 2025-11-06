@@ -75,12 +75,13 @@
 
   "home": {
   "hero": {
-    "badge": "Consultora de idiomas con + de 25 años de trayectoria",
+    "badge": "Consultora de idiomas",
     "title": {
-      "prefix": "Consultora de idiomas con ",
-      "highlight": "+ de 25 años de trayectoria"
+      "prefix": "+25 Años de ",
+      "highlight": "trayectoria en la enseñanza de idiomas"
     },
-    "description": "Abrí las puertas del Universo FURTHER y comunicate con el mundo",
+    "description": "Capacitaciones y clases de inglés, portugués, italiano, francés, alemán y español",
+    "descriptionAlt": "Aprendé a comunicarte con confianza",
     "imageAlt": "Reunión de negocios profesional",
     "pills": {
       "projects": { "title": "5.5K+", "subtitle": "proyectos innovadores completados en todo el mundo" },
@@ -242,7 +243,7 @@
     },
     "hero": {
       "badge": "25+ años de experiencia en la enseñanza de idiomas",
-      "title": { "prefix": "25+ años de experiencia en la enseñanza de ", "highlight": "idiomas" },
+      "title": { "prefix": "25+ años de experiencia en", "highlight": "la enseñanza de idiomas" },
       "subtitle": "Servicios de idiomas profesionales desde 1997",
       "description": "En Further Corporate, ofrecemos soluciones lingüísticas integrales y customizadas: desde capacitación B2B (In-Company), hasta desarrollo profesional y recursos audiovisuales propios. Acompañamos a empresas y profesionales en su crecimiento global.",
       "imageAlt": "Equipo de Further Corporate durante una sesión de capacitación",
@@ -310,8 +311,8 @@
   "followText": "Mantente al día con novedades, casos de éxito y estrategias lingüísticas corporativas.",
 
   "hero": {
-    "badge": "Soluciones lingüísticas corporativas",
-    "title": { "prefix": "Impulsa la Comunicación de tu Equipo:", "highlight": "Soluciones B2B In-Company y Programas de Capacitación" },
+    "badge": "Impulsa la Comunicación de tu Equipo",
+    "title": { "prefix": "Soluciones B2B In-Company y ", "highlight": "Programas de Capacitación" },
     "description": "Brindamos cursos corporativos de idiomas en todos los niveles, desde A1 hasta C2, con la solidez del Marco Común Europeo de Referencia (MCER). Trabajamos en una propuesta de alto impacto, alineada a los objetivos de tu negocio.",
     "ctaPrimary": "Solicitar propuesta",
     "ctaSecondary": "Más información"
@@ -323,9 +324,10 @@
     "privateStudents": { "value": 10, "label": "Propuestas académicas distintas" }
   },
   "companies": {
-    "title": "Clientes que nos acompañan",
-    "subtitle": "Estos son algunos de nuestros clientes a los que acompañamos en su camino de desarrollo de herramientas comunicacionales:"
+    "title": "Empresas que nos acompañan",
+    "subtitle": "Estos son algunas de las empresas a los que acompañamos en su camino de desarrollo de herramientas comunicacionales:"
   },
+
   "services": {
     "title": "Servicios de idiomas de Further",
     "cards": [
@@ -573,6 +575,7 @@
     "title": "Further School:",
     "subtitle": "enseñando inglés desde 1997",
     "badge": "Clases de inglés para todas las edades",
+    "description": "En Further School, ofrecemos clases de inglés presenciales y en línea para estudiantes de todas las edades. Apoyamos cada etapa del aprendizaje con un enfoque inmersivo que integra la enseñanza del inglés con el currículo escolar, garantizando un aprendizaje eficaz.",
     "imageSrc": "/images/bg-school.avif",
     "imageAlt": "Clases de inglés en Further School",
     "subheading": "En Further School brindamos clases de inglés presenciales y online a alumnos de todas las edades. Acompañamos cada etapa evolutiva con un trabajo inmersivo que alinea la enseñanza del inglés con la escolaridad, asegurando un aprendizaje efectivo."
