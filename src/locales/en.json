@@ -2,8 +2,8 @@
   "meta": {
     "siteName": "Further Corporate",
     "home": {
-      "title": "Further Corporate: Contact Us and Book Your Language Classes",
-      "description": "Looking for in-company language training, English classes, or customized language workshops? Contact us and join the #FurtherExperience."
+      "title": "Further Corporate:  Language & Professional Training Consultancy",
+      "description": "Over 25 years leading B2B training. In-Company Classes (onsite or online) and Workshops for professional success. 50,000 students have already trained with Further."
     }
   },
   "common": {
@@ -866,6 +866,12 @@
   "tiktok": {
     "title": "Join our Community on TikTok",
     "feedLabel": "Discover daily tips and short lessons"
+  },
+  "closing": {
+    "title": "Practice makes progress",
+    "subtitle": "Join our classes and power up your English with real media",
+    "requestButton": "Request Consultation",
+    "backHome": "Back to Home"
   }
 },
 

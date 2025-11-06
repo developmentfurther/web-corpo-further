@@ -2,8 +2,8 @@
   "meta": {
     "siteName": "Further Corporate",
     "home": {
-      "title": "Further Corporate: Capacitación de Idiomas para empresas (B2B)",
-      "description": "Soluciones B2B a medida: Programas In-Company (online o presencial), Workshops de Desarrollo Profesional y Análisis de Competencias. Más de 50 empresas ya confían en Further."
+      "title": "Further Corporate:  Consultora de idiomas y capacitación profesional",
+      "description": "Más de 25 años liderando la capacitación B2B. Clases In-Company (presencial u online) y Talleres para el éxito profesional. 50.000 alumnos ya se capacitaron con Further."
     }
   },
   "common": {
@@ -841,11 +841,27 @@
     "intro": "Nuestro podcast en inglés para estudiantes forma parte de la #ExperienciaFurther. Aprendé sobre temas de cultura general y practicá con nuestras worksheets exclusivas, diseñadas por el equipo académico de Further.",
     "body": "El repaso de vocabulario en inglés del podcast está disponible en nuestro canal de YouTube, y también podés seguir la transcripción de cada episodio en nuestro blog. ¡Aprendé de la mano de nuestros personajes!"
   },
-  "shorts": {
-    "title": "📢 ¡Novedad! Further Shorts: nuestro podcast en Inglés para Niveles Iniciales",
-    "body": "Si estás dando tus primeros pasos en el idioma, nuestro podcast “Further Shorts” es el recurso ideal para vos. Pensado para niveles A1/A2, te ayudamos a mejorar tus listening skills y ampliar tu vocabulario a través de temas de cultura general.",
-    "cta": "Ver playlist Further Shorts en YouTube"
-  },
+   "shorts": {
+  "badge": "New!",
+  "title": "Further Shorts:",
+  "subtitle": "Nuestro podcast de inglés para niveles principiantes.",
+  "body": "Si estás empezando, nuestro podcast Further Shorts es el recurso perfecto. Diseñado para niveles A1/A2, te ayuda a mejorar tu comprensión auditiva y a ampliar tu vocabulario en inglés a través de temas de cultura general.",
+  "channel": "Further Corporate",
+  "videos": [
+    {
+      "id": "IZsMRTEHFR4",
+      "title": "Announcement — Introducing Further Shorts!"
+    },
+    {
+      "id": "5y3wfyObvkc",
+      "title": "Shorts 001 — Let’s Talk About Food!"
+    },
+    {
+      "id": "GOByhoI3VSs",
+      "title": "Shorts 002 — Sharing Our Morning Routines"
+    }
+  ]
+},
   "spotify": {
     "title": "Escuchanos en Spotify"
   },
@@ -866,6 +882,12 @@
   "tiktok": {
     "title": "Unite a nuestra comunidad en TikTok",
     "feedLabel": "Explorá clips educativos y tips diarios"
+  },
+  "closing": {
+    "title": "La práctica hace progresar",
+    "subtitle": "Únete a nuestras clases y mejora tu inglés con contenido multimedia real.",
+    "requestButton": "Solicitar consulta",
+    "backHome": "Volver a Inicio"
   }
 },
 

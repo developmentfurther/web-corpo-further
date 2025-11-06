@@ -717,24 +717,25 @@ export default function FurtherMediaPage({ messages }) {
                   id="cta-title"
                   className={`${TITLE_DARK} text-3xl sm:text-4xl`}
                 >
-                  <span className={GRAD_TEXT}>Practice makes progress.</span>
+                  <span className={GRAD_TEXT}>
+                    {t?.closing?.title}
+                  </span>
                 </h3>
                 <p className="mt-2 text-white/80 max-w-2xl">
-                  {t?.cta?.body ||
-                    "Join our classes and power up your English with real media."}
+                  {t?.closing?.subtitle}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     href="/contacto"
                     className="inline-flex items-center rounded-xl px-5 py-3 font-semibold text-[#0C212D] bg-white hover:bg-white/90 transition outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                   >
-                    {t?.cta?.primary || "Request consultation"}
+                    {t?.closing?.requestButton}
                   </Link>
                   <Link
                     href="/"
                     className="inline-flex items-center rounded-xl px-5 py-3 font-semibold text-white border border-white/15 hover:bg-white/5 transition outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                   >
-                    {t?.cta?.secondary || "Back to Home"}
+                    {t?.closing?.backHome}
                   </Link>
                 </div>
               </div>
