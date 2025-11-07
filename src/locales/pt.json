@@ -671,7 +671,8 @@
     "subheading": "TEFL Certification in Buenos Aires | Live, Teach, and Start Your Global Career",
     "description": "Ready to travel the world while teaching English? Further offers the complete TEFL Certification program you need. Live, work, and gain invaluable experience in Buenos Aires, consistently ranked among the most vibrant cities in South America.",
     "imageSrc": "/images/bg-tefl.jpeg",
-    "imageAlt": "TEFL teacher training classroom"
+    "imageAlt": "TEFL teacher training classroom",
+    "cta": "Contact us"
   },
   "tracks": {
     "title": "Program Areas",
@@ -943,7 +944,31 @@
     "subtitle": "Participe das nossas aulas e aprimore seu inglês com conteúdo real",
     "requestButton": "Solicitar Consulta",
     "backHome": "De volta para Home"
+  },
+  "cards": {
+  "records": {
+    "id": "#spotify",
+    "title": "Further Records",
+    "desc": "Ouça nosso podcast no Spotify e melhore sua compreensão a cada episódio. Participe de conversas reais e histórias inspiradoras."
+  },
+  "youtube": {
+    "id": "#youtube",
+    "title": "Canal do YouTube",
+    "desc": "Aprenda inglês com vídeos, entrevistas e aulas criadas pela nossa equipe de professores. Conteúdo envolvente e atualizado."
+  },
+  "tiktok": {
+    "id": "#tiktok",
+    "title": "TikTok e Shorts",
+    "desc": "Lições curtas e divertidas para praticar inglês todos os dias. Perfeito para aprender vocabulário e expressões reais em minutos."
   }
+},
+"aboutSection": {
+  "title": "Descubra o Further Media",
+"subtitle": "Explore nosso universo de conteúdo em inglês — podcasts, vídeos e aulas curtas criadas para inspirar e ajudar você a evoluir todos os dias.",
+"visitButton": "Explorar conteúdo"
+
+}
+
 },
 "faq": {
   "meta": {

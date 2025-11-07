@@ -112,6 +112,7 @@ export default function AcademyPage({ messages }) {
 
         {/* === HERO === */}
         <HeroAcademy />
+        <WaveToLight />
 
 
 

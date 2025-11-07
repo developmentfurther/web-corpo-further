@@ -27,6 +27,9 @@ import {
   Clapperboard,
   ArrowUpRight,
 } from "lucide-react";
+import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
+import Link from "next/link";
+import FurtherMediaSection from "@/componentes/about/FurtherMediaSection";
 
 /* ====== Tokens ====== */
 const BG_DARK = "bg-[#0A1628]";
@@ -107,6 +110,7 @@ export default function AboutIndex({ messages }) {
       >
         {/* SECCIÓN HERO */}
           <HeroAbout />
+          <WaveToLight />
   
       
 
@@ -255,138 +259,10 @@ export default function AboutIndex({ messages }) {
 
 
 
-        {/* ================================== */}
-{/* FURTHER MEDIA (dinámico y envolvente) */}
+  {/* ================================== */}
+{/* FURTHER MEDIA (nueva versión estilo Service360) */}
 {/* ================================== */}
-<section id="media" className="relative z-10 overflow-hidden bg-[#0A1628] text-white">
-  {/* Fondo animado con orbes y gradiente en movimiento */}
-  <motion.div
-    className="absolute inset-0 -z-10"
-    animate={{
-      backgroundPosition: ["0% 0%", "100% 100%"],
-    }}
-    
-    style={{
-      backgroundImage:
-        "radial-gradient(circle at 30% 40%, rgba(238,114,3,0.15), transparent 50%), radial-gradient(circle at 70% 60%, rgba(255,56,22,0.15), transparent 60%)",
-      backgroundSize: "200% 200%",
-    }}
-  />
-
-  {/* Orbes suaves decorativos */}
-  <div className="absolute -top-32 left-1/4 w-96 h-96 bg-[#EE7203]/10 blur-3xl rounded-full" />
-  <div className="absolute bottom-0 right-1/4 w-[32rem] h-[32rem] bg-[#FF3816]/10 blur-[120px] rounded-full" />
-
-  <div className="mx-auto max-w-7xl px-6 py-24 text-center relative z-10">
-    <motion.div
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={stagger}
-    >
-      {/* Title con iconos flotando */}
-      <motion.div
-        variants={fadeUp}
-        className="relative inline-block mb-6"
-      >
-        {/* Iconos orbitando */}
-        <motion.div
-  className="absolute -top-10 left-1/2 -translate-x-1/2 flex gap-6 justify-center"
-  
->
-  {[
-  { icon: <Headphones className="w-6 h-6 text-[#EE7203]" />, color: "#EE7203" },
-  { icon: <PlayCircle className="w-6 h-6 text-[#FF3816]" />, color: "#FF3816" },
-  { icon: <Clapperboard className="w-6 h-6 text-[#EE7203]" />, color: "#EE7203" },
-].map((it, i) => (
-    <motion.span
-      key={i}
-      whileHover={{
-        scale: 1.4,
-        textShadow: `0 0 12px ${it.color}`,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 250,
-        damping: 10,
-      }}
-      className="cursor-pointer select-none"
-      style={{
-        color: it.color,
-        fontSize: "1.5rem",
-        lineHeight: 1,
-      }}
-    >
-      {it.icon}
-    </motion.span>
-  ))}
-</motion.div>
-
-        <h3 className={`${TITLE_DARK} text-3xl sm:text-4xl relative z-10`}>
-          # {media?.title || "Descubrí Further Media"}
-        </h3>
-      </motion.div>
-
-      {/* Text */}
-      <motion.p
-        variants={fadeUp}
-        className={`${SUB_DARK} text-lg max-w-2xl mx-auto mb-12`}
-      >
-        {media?.text ||
-          "Explorá nuestro podcast, canal de YouTube y contenido en TikTok. Practicá vocabulario, mejorá tu comprensión y sumate a la #ExperienciaFurther."}
-      </motion.p>
-
-      {/* Video embed con frame animado */}
-      <motion.div
-        variants={fadeUp}
-        whileHover={{ scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 120, damping: 12 }}
-        className="relative max-w-3xl mx-auto rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(238,114,3,0.15)] mb-14 border-2 border-transparent bg-gradient-to-r from-[#EE7203]/30 via-[#FF4D1F]/30 to-[#FF3816]/30 p-[2px]"
-      >
-        <div className="relative rounded-3xl overflow-hidden">
-          <iframe
-            src="https://www.youtube.com/embed/NSaMDoGdA60"
-            title="Further Media video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            className="w-full aspect-video rounded-3xl"
-          />
-          {/* Borde gradiente animado al hover */}
-          <motion.div
-            className="absolute inset-0 rounded-3xl border-2 border-transparent pointer-events-none"
-            whileHover={{
-              borderColor: [
-                "rgba(238,114,3,0.4)",
-                "rgba(255,56,22,0.4)",
-                "rgba(238,114,3,0.4)",
-              ],
-            }}
-            
-          />
-        </div>
-      </motion.div>
-
-      {/* CTA con pulso animado */}
-      <motion.a
-        href="/further-media"
-        variants={fadeUp}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.98 }}
-        className="relative inline-flex items-center gap-3 px-10 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-[#EE7203] to-[#FF3816] shadow-[0_0_25px_rgba(238,114,3,0.3)] overflow-hidden backdrop-blur-sm"
-      >
-        <motion.span
-          className="absolute inset-0 rounded-full bg-gradient-to-r from-[#EE7203]/30 to-[#FF3816]/30 blur-xl opacity-60"
-          animate={{ opacity: [0.6, 0.2, 0.6] }}
-         
-        />
-        <span className="relative z-10 font-semibold">
-          {media?.ctaLabel || "Explorar contenido →"}
-        </span>
-      </motion.a>
-    </motion.div>
-  </div>
-</section>
+<FurtherMediaSection />
 
 
         {/* ====================== */}

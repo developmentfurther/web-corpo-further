@@ -8,6 +8,7 @@ import { motion, MotionConfig, useReducedMotion, useScroll, useTransform } from 
 import { FiCheck, FiBookOpen, FiGlobe, FiUsers, FiAward, FiChevronRight, FiPlay, FiHelpCircle } from "react-icons/fi";
 import { loadMessages } from "@/lib/i18n";
 import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
+import HeroTefl from "@/componentes/hero/HeroTefl";
 
 /* ===== Design Tokens (coherentes con el resto del sitio) ===== */
 const HEADER_BLUE = "#0A1628";
@@ -105,88 +106,9 @@ const video = t.video ?? {};
         </Head>
 
         {/* ===== MAIN ===== */}
-        <main className={`${BG_DARK} min-h-screen overflow-x-clip`}>
+        <main className={` min-h-screen overflow-x-clip`}>
           {/* ========== HERO (dark con video) ========== */}
-<section
-  className="relative z-10 overflow-hidden py-24 lg:py-28"
-  aria-labelledby="tefl-hero-title"
->
-  <div className="absolute inset-0 `${BG_DARK}" />
-
-  <div
-    className={`${SHELL} relative grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center`}
-  >
-    {/* Texto */}
-    <motion.div
-  initial="hidden"
-  animate="show"
-  variants={stagger}
-  className="space-y-8"
->
-  {/* Badge */}
-  <motion.span
-    variants={fadeUp}
-    className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-semibold text-white/85 backdrop-blur-sm"
-  >
-    <span className="h-2 w-2 rounded-full bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
-    TEFL Program
-  </motion.span>
-
-  {/* Título principal */}
-  <motion.h1
-    variants={fadeUp}
-    id="tefl-hero-title"
-    className={`${TITLE_DARK} text-4xl sm:text-5xl lg:text-6xl leading-[1.08]`}
-  >
-    <span className="block">{hero?.title || "TEFL:"}</span>
-    <span className={`${GRAD_TEXT} block`}>
-      {hero?.subtitle || "Teaching English as a Foreign Language"}
-    </span>
-  </motion.h1>
-
-  {/* 🆕 Subtítulo agregado */}
-  {hero?.subheading && (
-    <motion.h2
-      variants={fadeUp}
-      className="text-xl sm:text-2xl font-semibold text-white/90 max-w-2xl"
-    >
-      {hero.subheading}
-    </motion.h2>
-  )}
-
-  {/* Descripción */}
-  {hero?.description && (
-    <motion.p
-      variants={fadeUp}
-      className={`${SUB_DARK} text-lg max-w-xl`}
-    >
-      {hero.description}
-    </motion.p>
-  )}
-</motion.div>
-
-
-    {/* Imagen */}
-    <motion.div
-  variants={fadeIn}
-  initial="hidden"
-  whileInView="show"
-  viewport={{ once: true, amount: 0.2 }}
-  className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10"
->
-  <Image
-    src={hero?.imageSrc?.trim() ? hero.imageSrc : "/images/bg-tefl.jpeg"}
-    alt={hero?.imageAlt || "TEFL classroom"}
-    fill
-    sizes="(min-width:1024px) 40vw, 100vw"
-    className="object-cover scale-105 hover:scale-110 transition-transform duration-700 ease-out"
-    priority
-  />
-</motion.div>
-  </div>
-
- 
-</section>
+            <HeroTefl/>
 
           <WaveToLight />
 
