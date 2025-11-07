@@ -22,7 +22,9 @@
   font-family: "Chalk", "Schoolbell", cursive;
 }
 
-
+html {
+  scroll-behavior: smooth;
+}
 
 :root { --background: #0C212D;
         --grad-from: #EE7203;

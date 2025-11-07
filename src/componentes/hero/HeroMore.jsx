@@ -104,14 +104,7 @@ export default function HeroMore() {
             </span>
           </a>
 
-          <a
-            href={t("instagram.href")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/80 hover:text-white transition-colors text-sm sm:text-base"
-          >
-            {t("cta.secondary")} →
-          </a>
+         
         </motion.div>
       </motion.div>
     </header>

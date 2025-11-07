@@ -20,7 +20,7 @@ import StatsCorporate from "@/componentes/home/StatsCorporate";
 import HeroCorporate from "@/componentes/hero/HeroCorporate";
 import LanguageFlags from "@/componentes/ui/LanguageFlags";
 import { FlagUS, FlagUK, FlagBR, FlagFR, FlagDE, FlagIT, FlagAR } from "@/componentes/ui/LanguageFlags";
-
+import { ArrowUpRight } from "lucide-react";
 
 /* ==============================
    Design Tokens (dark + light)
@@ -184,23 +184,7 @@ export default function CorporateIndex({ messages }) {
     metaHome?.description ??
     "Corporate language training with CEFR-aligned assessment and measurable outcomes.";
 
-  const hero = {
-    badge:
-      tCorp?.hero?.badge ??
-      "Corporate Language Solutions",
-    prefix:
-      tCorp?.hero?.title?.prefix ??
-      "Servicios de idiomas",
-    highlight: tCorp?.hero?.title?.highlight ?? "B2B",
-    description:
-      tCorp?.hero?.description ??
-      "Programas corporativos personalizados, alineados al CEFR, con resultados medibles.",
-    ctaPrimary: tCommon?.buttons?.requestProposal ?? "Request Proposal",
-    ctaSecondary: tCommon?.cta?.learnMore ?? "Learn More",
-  };
-
- 
-
+  
 
   const serviceCardsRaw =
     tCorp?.services?.cards ?? [];
@@ -292,17 +276,7 @@ export default function CorporateIndex({ messages }) {
     [servicesSource]
   );
 
-  const languages =
-    Array.isArray(tCorp?.languages) && tCorp.languages.length
-      ? tCorp.languages
-      : [
-          "English",
-          "Italiano",
-          "Deutsch",
-          "Português",
-          "Français",
-          "Español (L2)",
-        ];
+
 
   const cefr = {
     title: tCorp?.cefr?.title ?? "CEFR Placement",
@@ -437,36 +411,31 @@ const onSubmit = async (e) => {
     {/* 💼 Grid de servicios (solo efecto hover) */}
     <div className="grid gap-8 md:grid-cols-3">
       {services.map((svc) => (
-        <motion.article
-          key={svc.title}
-          className={`${CARD} ${CARD_HOVER} p-8 group overflow-hidden`}
-          whileHover={{ y: -10, rotateX: 0.0001 }}
-          transition={{ duration: 0.4 }}
-        >
-          {/* Fondo sutil al hover */}
-          <div
-            className={`absolute inset-0 ${GRAD_SUBTLE} opacity-0 group-hover:opacity-100 transition-opacity duration-700`}
-          />
+        <article
+  key={svc.title}
+  className={`${CARD} ${CARD_HOVER} p-8 group overflow-hidden relative transition-transform duration-300 ease-out hover:scale-[1.03] hover:shadow-2xl`}
+>
+  {/* Fondo sutil al hover */}
+  <div
+    className={`absolute inset-0 ${GRAD_SUBTLE} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+  />
 
-          <div className="relative">
-            {/* Ícono con rotación ligera al hover */}
-            <motion.div
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center mb-6 ring-1 ring-white/10 group-hover:ring-white/30 group-hover:scale-110 transition-all duration-500"
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.6 }}
-            >
-              {svc.icon}
-            </motion.div>
+  <div className="relative">
+    {/* Ícono sin rotación ni motion */}
+    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center mb-6 ring-1 ring-white/10 group-hover:ring-white/30 transition-all duration-300 group-hover:scale-110">
+      {svc.icon}
+    </div>
 
-            {/* Título con gradiente en hover */}
-            <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#EE7203] group-hover:to-[#FF3816] transition-all duration-300">
-              {svc.title}
-            </h3>
+    {/* Título con gradiente en hover */}
+    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#EE7203] group-hover:to-[#FF3816] transition-all duration-300">
+      {svc.title}
+    </h3>
 
-            {/* Descripción */}
-            <p className={`${TEXT} text-base`}>{svc.body}</p>
-          </div>
-        </motion.article>
+    {/* Descripción */}
+    <p className={`${TEXT} text-base`}>{svc.body}</p>
+  </div>
+</article>
+
       ))}
     </div>
   </div>
@@ -807,7 +776,7 @@ const onSubmit = async (e) => {
       animate={{ x: [0, 4, 0] }}
       transition={{ duration: 1.5, repeat: Infinity }}
     >
-      →
+       <ArrowUpRight className="w-5 h-5 ml-1" aria-hidden />
     </motion.span>
   </motion.a>
 </div>

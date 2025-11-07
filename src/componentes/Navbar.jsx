@@ -253,64 +253,106 @@ function useNavByLocale(messages) {
   const loc = LOCALES.SUPPORTED.includes(locale) ? locale : LOCALES.DEFAULT;
   const p = PATHS[loc] || PATHS[LOCALES.DEFAULT];
 
-  const nav = messages?.nav || {};
-  const corp = nav?.corporate || {};
-  const media = nav?.furtherMedia || {};
+  // === labels por idioma ===
+  let labels = {};
 
-  const trainingLabel =
-    loc === "es" ? "Capacitaciones" : corp?.training || "Training";
+  switch (loc) {
+    case "es":
+      labels = {
+        about: "Nosotros",
+        corporate: "Corporativo",
+        training: "Capacitaciones",
+        academy: "Further Academy",
+        furthermore: "Furthermore",
+        tefl: "TEFL",
+        school: "School",
+        media: "Further Media",
+        records: "Further Records",
+        youtube: "YouTube",
+        tiktok: "TikTok",
+        faq: "Preguntas frecuentes",
+        news: "Noticias",
+        cta: "Contacto",
+        ctaMobile: "Contacto",
+      };
+      break;
 
-  const labels = {
-    about: nav?.about || "About",
-    corporate: corp?._ || "Corporate",
-    training: trainingLabel,
-    academy: corp?.academy || "Further Academy",
-    furthermore: corp?.furthermore || "Furthermore",
-    tefl: corp?.tefl || "TEFL",
-    school: nav?.school || "School",
-    media: media?._ || "Further Media",
-    records: media?.records || "Further Records",
-    youtube: media?.youtube || "YouTube",
-    tiktok: media?.tiktok || "TikTok",
-    faq: nav?.faq || "FAQ",
-    cta: messages?.common?.cta?.contact || "Contact",
-    ctaMobile: messages?.common?.cta?.contact || "Contact",
-  };
+    case "pt":
+      labels = {
+        about: "Sobre nós",
+        corporate: "Corporativo",
+        training: "Treinamentos",
+        academy: "Further Academy",
+        furthermore: "Furthermore",
+        tefl: "TEFL",
+        school: "School",
+        media: "Further Media",
+        records: "Further Records",
+        youtube: "YouTube",
+        tiktok: "TikTok",
+        faq: "Perguntas frequentes",
+        news: "Notícias",
+        cta: "Contato",
+        ctaMobile: "Contato",
+      };
+      break;
 
+    default: // en
+      labels = {
+        about: "About",
+        corporate: "Corporate",
+        training: "Training",
+        academy: "Further Academy",
+        furthermore: "Furthermore",
+        tefl: "TEFL",
+        school: "School",
+        media: "Further Media",
+        records: "Further Records",
+        youtube: "YouTube",
+        tiktok: "TikTok",
+        faq: "FAQ",
+        news: "News",
+        cta: "Contact",
+        ctaMobile: "Contact",
+      };
+      break;
+  }
+
+  // === estructura del menú ===
   const NAV = [
-  {
-    label: labels.about,
-    href: p.about,
-    items: [
-      { label: labels.about, href: p.about },
-      { label: labels.faq, href: p.faq },
-    ],
-  },
-  {
-    label: labels.corporate,
-    items: [
-      { label: labels.training, href: p.corporate.training },
-      { label: labels.academy, href: p.corporate.academy },
-      { label: labels.furthermore, href: p.corporate.furthermore },
-      { label: labels.tefl, href: p.corporate.tefl },
-    ],
-  },
-  { label: labels.school, href: p.school },
-  {
-    label: labels.media,
-    href: p.media.records,
-    items: [
-      { label: labels.records, href: `${p.media.records}#spotify` },
-      { label: labels.youtube, href: `${p.media.records}#youtube` },
-      { label: labels.tiktok, href: `${p.media.records}#tiktok` },
-    ],
-  },
-  { label: "News", href: p.news },
-];
-
+    {
+      label: labels.about,
+      href: p.about,
+      items: [
+        { label: labels.about, href: p.about },
+        { label: labels.faq, href: p.faq },
+      ],
+    },
+    {
+      label: labels.corporate,
+      items: [
+        { label: labels.training, href: p.corporate.training },
+        { label: labels.academy, href: p.corporate.academy },
+        { label: labels.furthermore, href: p.corporate.furthermore },
+        { label: labels.tefl, href: p.corporate.tefl },
+      ],
+    },
+    { label: labels.school, href: p.school },
+    {
+      label: labels.media,
+      href: p.media.records,
+      items: [
+        { label: labels.records, href: `${p.media.records}#spotify` },
+        { label: labels.youtube, href: `${p.media.records}#youtube` },
+        { label: labels.tiktok, href: `${p.media.records}#tiktok` },
+      ],
+    },
+    { label: labels.news, href: p.news },
+  ];
 
   return { NAV, labels, paths: p, locale: loc };
 }
+
 
 /* ========= Navbar ========= */
 export default function Navbar({ messages }) {
@@ -415,7 +457,7 @@ export default function Navbar({ messages }) {
 
   // Mobile bottom fixed (sin cambios)
   const mobileWrap =
-    "md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0C212D]/95 backdrop-blur-xl border-t border-white/10";
+    "md:hidden fixed top-0 left-0 right-0 z-40 bg-[#0C212D]/95 backdrop-blur-xl border-t border-white/10";
 
   const isActive = (href) =>
     href && href !== "#" && activePath?.startsWith(href);

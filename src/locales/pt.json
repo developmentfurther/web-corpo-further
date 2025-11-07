@@ -819,9 +819,68 @@
     "href": "https://www.instagram.com/furtherlanguages/"
   },
   "testimonials": {
-    "title": "Junte-se à #ComunidadeFurther",
-    "subtitle": "O que nossos alunos dizem — Resultados reais e progresso constante."
-  }
+  "title": "Junte-se à #FurtherCommunity",
+  "subtitle": "O que dizem nossos alunos — Resultados reais e progresso constante.",
+  "items": [
+    {
+      "id": "t1",
+      "name": "Nelson Menezes",
+      "review": "Excelente instituto de inglês. Minha filha está muito feliz e motivada com as aulas, graças ao compromisso e à dedicação dos professores.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t2",
+      "name": "Piviana Cordova",
+      "review": "Um excelente lugar para aprender inglês — meus filhos adoram! Eles ouvem inglês o tempo todo, o que os ajuda a entender e se acostumar com o sotaque.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t3",
+      "name": "Martin Palacios",
+      "review": "Meu filho estuda no instituto desde os 6 anos e agora tem 15. O atendimento sempre foi excelente e os professores têm ótimo nível. Obrigado!",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t4",
+      "name": "Martina Botter",
+      "review": "A Further é um lugar maravilhoso para aprender inglês. O ambiente é incrível, e cada professor e membro da equipe é apaixonado pelo que faz.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t5",
+      "name": "Maria Teresa Fernández",
+      "review": "Muito boa comunicação com os alunos e as famílias. O nível é excelente, estamos muito gratos ao instituto. Um ótimo lugar para aprender idiomas.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t6",
+      "name": "Liz Quispe",
+      "review": "Experiência muito boa! Estudo inglês há alguns anos e minha família e eu estamos muito satisfeitos com a organização, o método de ensino e o empenho dos professores.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t7",
+      "name": "Marcio Degiovannini",
+      "review": "Excelente escola de inglês! As aulas são dinâmicas, os professores são dedicados e você realmente aprende. O ambiente é ótimo, você se sente à vontade desde o primeiro dia.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t8",
+      "name": "Romina Paula Campos",
+      "review": "Como pais, estamos muito satisfeitos com o instituto. O ambiente é lindo, o ensino é excelente e os professores são apaixonados e simpáticos. A diretora Natalia é uma pessoa incrível.",
+      "source": "Google Business",
+      "rating": 5
+    }
+  ]
+}
+
 },
 "furtherMedia": {
   "meta": {

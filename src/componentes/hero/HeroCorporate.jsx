@@ -94,7 +94,7 @@ export default function HeroCorporate() {
           className="mt-8 flex flex-wrap justify-center gap-4"
         >
           <a
-            href="#services"
+            href="#contacto"
             className="relative inline-flex items-center justify-center px-8 py-3 font-semibold text-white rounded-full overflow-hidden shadow-lg text-sm sm:text-base"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
@@ -104,12 +104,7 @@ export default function HeroCorporate() {
             </span>
           </a>
 
-          <a
-            href="/about"
-            className="text-white/80 hover:text-white transition-colors text-sm sm:text-base"
-          >
-            {t("ctaSecondary") || "Conocé nuestra historia"} →
-          </a>
+         
         </motion.div>
       </motion.div>
     </header>

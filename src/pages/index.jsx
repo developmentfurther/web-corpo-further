@@ -142,11 +142,10 @@ function Stats() {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-white" aria-labelledby="stats-title">
+   <section className="pt-8 pb-16 lg:pt-10 lg:pb-20 bg-white" aria-labelledby="stats-title">
+
       <div className={SHELL}>
-        <h2 id="stats-title" className="sr-only">
-          Key company metrics
-        </h2>
+        
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, idx) => (
             <motion.div

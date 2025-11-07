@@ -1,47 +1,53 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
-import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
-import { FiArrowRight, FiPlay } from "react-icons/fi";
+import { motion, useMotionValue, useTransform, useScroll, useReducedMotion } from "framer-motion";
+import { FiArrowRight } from "react-icons/fi";
 import { useTranslations } from "next-intl";
 
 export default function Hero() {
-  const t = useTranslations(); // ✅ Traducciones
+  const t = useTranslations();
+  const prefersReduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
 
   return (
-    <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black text-white">
-      {/* 🎥 Video de fondo */}
+    <section
+      id="hero"
+      className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black text-white"
+    >
+      {/* 🎥 Video optimizado */}
       <video
         autoPlay
         muted
         loop
         playsInline
-        preload="none"
+        preload="metadata"
         poster="/images/hero-poster.webp"
-        className="absolute inset-0 w-full h-full object-cover brightness-[0.6]"
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover brightness-[0.65] will-change-transform"
       >
+        <source src="/videos/homepage.webm" type="video/webm" />
         <source src="/videos/homepage.mp4" type="video/mp4" />
-        
       </video>
 
-      {/* Gradiente Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 pointer-events-none" />
+      {/* Overlay gradiente liviano */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 pointer-events-none" />
 
-      {/* 🔮 Luces dinámicas */}
-      <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/3 left-[10%] w-[25rem] h-[25rem] bg-[radial-gradient(circle_at_center,rgba(255,100,50,0.5),transparent_70%)] blur-[100px]"
-      />
-      <motion.div
-        animate={{ scale: [1.1, 1.3, 1.1], opacity: [0.15, 0.35, 0.15] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-[20%] right-[10%] w-[30rem] h-[30rem] bg-[radial-gradient(circle_at_center,rgba(238,114,3,0.4),transparent_70%)] blur-[120px]"
-      />
-
+      {/* Desactiva luces dinámicas si reduceMotion */}
+      {!prefersReduced && (
+        <>
+          <motion.div
+            animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-1/3 left-[10%] w-[20rem] h-[20rem] bg-[radial-gradient(circle_at_center,rgba(255,100,50,0.5),transparent_70%)] blur-[90px]"
+          />
+          <motion.div
+            animate={{ scale: [1.1, 1.25, 1.1], opacity: [0.15, 0.35, 0.15] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-[20%] right-[10%] w-[24rem] h-[24rem] bg-[radial-gradient(circle_at_center,rgba(238,114,3,0.4),transparent_70%)] blur-[100px]"
+          />
+        </>
+      )}
       {/* 🧠 Contenido principal */}
       
 <motion.div

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX } from "react-icons/fi";
-
+import { Gamepad2, Dice6 } from "lucide-react"
 
 
 export default function GamesGallery({messages}) {

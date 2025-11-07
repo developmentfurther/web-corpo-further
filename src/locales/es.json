@@ -655,8 +655,65 @@
     "href": "https://www.instagram.com/furtherlanguages/"
   },
   "testimonials": {
-    "title": "Sumate a la #ComunidadFurther",
-    "subtitle": "Lo que dicen nuestros alumnos — Resultados reales y progreso constante."
+    "title": "Únete a la #FurtherCommunity",
+    "subtitle": "Lo que dicen nuestros alumnos: resultados reales y progreso constante.",
+    "items": [
+      {
+        "id": "t1",
+        "name": "Nelson Menezes",
+        "review": "Excelente instituto de inglés. Mi hija está muy contenta y motivada con las clases, y eso se debe en gran parte al compromiso y la dedicación de los profesores.",
+        "source": "Google Business",
+        "rating": 5
+      },
+      {
+        "id": "t2",
+        "name": "Piviana Cordova",
+        "review": "Un lugar excelente para aprender inglés, a mis hijos les encanta. Les hablan en inglés todo el tiempo así va entendiendo todo de a poco y familiarizandose con el acento.",
+        "source": "Google Business",
+        "rating": 5
+      },
+      {
+        "id": "t3",
+        "name": "Martin Palacios",
+        "review": "Mi hijo desde los 6 años estudia en el instituto, ahora tiene 15. La verdad es que el trato siempre fue excelente. Los docentes de buen nivel. Gracias",
+        "source": "Google Business",
+        "rating": 5
+      },
+      {
+        "id": "t4",
+        "name": "Martina Botter",
+        "review": "Further es un lugar maravilloso para aprender inglés. No solo porque el ambiente es increíble, sino por la dedicación y pasión con la que cada uno de los profesores y el equipo de administración se entrega a su labor.",
+        "source": "Google Business",
+        "rating": 5
+      },
+      {
+        "id": "t5",
+        "name": "Maria Teresa Fernández",
+        "review": "Muy buena atención y comunicación tanto a las familias como a los y las estudiantes. El nivel es buenísimo, estamos agradecidos con el instituto. Es un excelente lugar para aprender idiomas",
+        "rating": 5
+      },
+      {
+        "id": "t6",
+        "name": "Liz Quispe",
+        "review": "Muy buena experiencia! Hice ingles desde hace unos años y hasta ahora mi familia y yo estamos muy satisfechos con la organizacion de esta institución, la forma de aprendizaje y el interés de los profes por hacer que entendamos.",
+        "source": "Google Business",
+        "rating": 5
+      },
+      {
+        "id": "t7",
+        "name": "Marcio Degiovannini",
+        "review": "Excelente academia de inglés! Las clases son súper dinámicas y se nota el compromiso de los profes para que realmente aprendas. El ambiente es muy bueno, te sentís cómodo desde el primer día.",
+        "source": "Google Business",
+        "rating": 5
+      },
+      {
+        "id": "t8",
+        "name": "Romina Paula Campos",
+        "review": "Como padres estamos muy satisfecha con el Instituto. El ambiente es hermoso, la enseñanza es excelente y los profesores son apasionados y con muy buena onda. La directora Natalia, excelente ser humano.",
+        "source": "Google Business",
+        "rating": 5
+      }
+    ]
   }
 },
 

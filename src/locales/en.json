@@ -630,9 +630,68 @@
     "href": "https://www.instagram.com/furtherlanguages/"
   },
   "testimonials": {
-    "title": "Join the #FurtherCommunity",
-    "subtitle": "What our students say — Real results and steady progress."
-  }
+  "title": "Join the #FurtherCommunity",
+  "subtitle": "What our students say — Real results and steady progress.",
+  "items": [
+    {
+      "id": "t1",
+      "name": "Nelson Menezes",
+      "review": "Excellent English institute. My daughter is very happy and motivated with her classes, thanks to the teachers’ commitment and dedication.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t2",
+      "name": "Piviana Cordova",
+      "review": "An excellent place to learn English — my kids love it. They are spoken to in English all the time, which helps them gradually understand and get used to the accent.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t3",
+      "name": "Martin Palacios",
+      "review": "My son has been studying at the institute since he was 6; now he’s 15. The teachers have always been great, and the overall experience is excellent. Thank you!",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t4",
+      "name": "Martina Botter",
+      "review": "Further is a wonderful place to learn English. The atmosphere is amazing, and every teacher and staff member is truly passionate about what they do.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t5",
+      "name": "Maria Teresa Fernández",
+      "review": "Great communication with both students and families. The level is excellent — we’re very thankful to the institute. A great place to learn languages.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t6",
+      "name": "Liz Quispe",
+      "review": "Very good experience! I’ve been studying English for a few years and my family and I are very satisfied with the organization, learning method, and teachers’ dedication.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t7",
+      "name": "Marcio Degiovannini",
+      "review": "Excellent English academy! Classes are dynamic, teachers are committed, and you really learn. The environment is great — you feel comfortable from day one.",
+      "source": "Google Business",
+      "rating": 5
+    },
+    {
+      "id": "t8",
+      "name": "Romina Paula Campos",
+      "review": "As parents, we’re very satisfied with the institute. The environment is lovely, the teaching quality is excellent, and the teachers are passionate and friendly. Natalia, the director, is an exceptional person.",
+      "source": "Google Business",
+      "rating": 5
+    }
+  ]
+}
+
 },
 
 

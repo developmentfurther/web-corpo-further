@@ -85,7 +85,7 @@ export default function HeroAcademy() {
           className="mt-8 flex flex-wrap justify-center gap-4"
         >
           <a
-            href="#courses"
+            href="#all-courses"
             className="relative inline-flex items-center justify-center px-8 py-3 font-semibold text-white rounded-full overflow-hidden shadow-lg text-sm sm:text-base"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
@@ -95,12 +95,7 @@ export default function HeroAcademy() {
             </span>
           </a>
 
-          <a
-            href="/about"
-            className="text-white/80 hover:text-white transition-colors text-sm sm:text-base"
-          >
-            {t("ctaSecondary") || "Learn more about us"} →
-          </a>
+         
         </motion.div>
       </motion.div>
     </header>

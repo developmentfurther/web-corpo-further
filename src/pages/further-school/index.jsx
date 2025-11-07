@@ -21,7 +21,9 @@ import {
   FiAward,
   FiGlobe,
   FiInstagram,
+  FaStar
 } from "react-icons/fi";
+
 import { loadMessages } from "@/lib/i18n";
 import TestimonialsCarousel from "@/componentes/ui/TestimonialsCarousel";
 import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
@@ -201,7 +203,6 @@ export default function FurtherSchoolPage({ messages }) {
   // Testimonios (usa home o school si existen; si no, fallback breve)
   const testimonials =
     t?.testimonials?.items ??
-    messages?.home?.testimonials?.items ??
     [];
 
     
@@ -318,60 +319,87 @@ export default function FurtherSchoolPage({ messages }) {
     </section>
 
     {/* ================= SEDES ================= */}
+<motion.div variants={fadeUp} className="mt-24 text-center relative">
+  {/* Fondo decorativo */}
+  <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-gray-50 to-white" />
+  <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(238,114,3,0.08),transparent_70%)] blur-[100px]" />
+
+  <h3 className="text-3xl font-extrabold text-gray-900 mb-14">
+    {t?.why?.locationsTitle || "Conocé nuestras sedes"}
+  </h3>
+
+  <div className="grid gap-14 lg:grid-cols-2 max-w-6xl mx-auto">
+    {/* === PARQUE PATRICIOS === */}
     <motion.div
-      variants={fadeUp}
-      className="mt-24 text-center"
+      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 30 }}
+      transition={{ duration: 0.6 }}
+      className={`${CARD_LIGHT} p-6 sm:p-8 relative overflow-hidden group`}
     >
-      <h3 className="text-3xl font-extrabold text-gray-900 mb-14">
-        {t?.why?.locationsTitle || "Conocé nuestras sedes"}
-      </h3>
+      {/* Fondo con glow sutil al hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#EE7203]/[0.03] to-[#FF3816]/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-      <div className="grid gap-14 lg:grid-cols-2 max-w-6xl mx-auto">
-        {/* Parque Patricios */}
-        <div className={`${CARD_LIGHT} p-6 sm:p-8`}>
-          <h4 className="text-xl font-bold mb-2 text-gray-900">
-            {t?.why?.locations?.patricios?.title || "Parque Patricios"}
-          </h4>
-          <p className="text-gray-700 mb-4">
-            {t?.why?.locations?.patricios?.body ||
-              "Desde 1997, nuestro instituto te espera en el corazón de Parque Patricios."}
-          </p>
-          <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-md border border-gray-200">
-            <video
-              src={t?.why?.locations?.patricios?.videoSrc || "/videos/school-patricios.mp4"}
-              poster={t?.why?.locations?.patricios?.poster || "/images/school-patricios.webp"}
-              className="w-full h-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
-          </div>
-        </div>
+      <h4 className="text-xl font-bold mb-2 text-gray-900 relative z-10">
+        {t?.why?.locations?.patricios?.title || "Parque Patricios"}
+      </h4>
+      <p className="text-gray-700 mb-4 relative z-10">
+        {t?.why?.locations?.patricios?.body ||
+          "Desde 1997, nuestro instituto te espera en el corazón de Parque Patricios."}
+      </p>
 
-        {/* Saavedra */}
-        <div className={`${CARD_LIGHT} p-6 sm:p-8`}>
-          <h4 className="text-xl font-bold mb-2 text-gray-900">
-            {t?.why?.locations?.saavedra?.title || "Saavedra"}
-          </h4>
-          <p className="text-gray-700 mb-4">
-            {t?.why?.locations?.saavedra?.body ||
-              "Ahora encontrá también la #ExperienciaFurther en el norte de Buenos Aires."}
-          </p>
-          <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-md border border-gray-200">
-            <video
-              src={t?.why?.locations?.saavedra?.videoSrc || "/videos/school-saavedra.mp4"}
-              poster={t?.why?.locations?.saavedra?.poster || "/images/school-saavedra.webp"}
-              className="w-full h-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
-          </div>
-        </div>
+      {/* Contenedor del video */}
+      <div className="aspect-[9/16] mx-auto w-full max-w-[360px] rounded-2xl overflow-hidden border border-gray-200 bg-black relative z-10 transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-[0_0_30px_rgba(255,56,22,0.25)]">
+        <iframe
+          src={t?.why?.locations?.patricios?.iframe || "https://www.youtube.com/embed/nqietazWT7Q"}
+          title="Video Parque Patricios"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          loading="lazy"
+          className="w-full h-full rounded-2xl"
+        />
       </div>
+
+      {/* Pequeño acento visual */}
+      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-tr from-[#EE7203]/30 to-[#FF3816]/30 blur-3xl opacity-0 group-hover:opacity-80 transition-all duration-700" />
     </motion.div>
+
+    {/* === SAAVEDRA === */}
+    <motion.div
+      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className={`${CARD_LIGHT} p-6 sm:p-8 relative overflow-hidden group`}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-[#EE7203]/[0.03] to-[#FF3816]/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+      <h4 className="text-xl font-bold mb-2 text-gray-900 relative z-10">
+        {t?.why?.locations?.saavedra?.title || "Saavedra"}
+      </h4>
+      <p className="text-gray-700 mb-4 relative z-10">
+        {t?.why?.locations?.saavedra?.body ||
+          "Ahora encontrá también la #ExperienciaFurther en el norte de Buenos Aires."}
+      </p>
+
+      <div className="aspect-[9/16] mx-auto w-full max-w-[360px] rounded-2xl overflow-hidden border border-gray-200 bg-black relative z-10 transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-[0_0_30px_rgba(255,56,22,0.25)]">
+        <iframe
+          src={
+            t?.why?.locations?.saavedra?.iframe ||
+            "https://player.vimeo.com/video/1134605055?" // ← reemplazá cuando tengas el link
+          }
+          title="Video Saavedra"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          loading="lazy"
+          className="w-full h-full rounded-2xl"
+        />
+      </div>
+
+      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-tr from-[#FF3816]/30 to-[#EE7203]/30 blur-3xl opacity-0 group-hover:opacity-80 transition-all duration-700" />
+    </motion.div>
+  </div>
+</motion.div>
+
+
   </div>
 </section>
 
@@ -396,12 +424,12 @@ export default function FurtherSchoolPage({ messages }) {
       <motion.h2
         variants={fadeUp}
         id="exams-title"
-        className={`${TITLE_DARK} text-3xl`}
+        className={`${TITLE_DARK} text-3xl flex justify-center`}
       >
         {exams.title}
       </motion.h2>
 
-      <motion.p variants={fadeUp} className={`${SUB_DARK}`}>
+      <motion.p variants={fadeUp} className={`${SUB_DARK} flex justify-center`}>
         {exams.expertIntro}
       </motion.p>
 

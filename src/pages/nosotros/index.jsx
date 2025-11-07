@@ -18,7 +18,15 @@ import {
 } from "framer-motion";
 import { loadMessages } from "@/lib/i18n";
 import HeroAbout from "@/componentes/hero/HeroAbout";
-
+import {
+  Target,
+  Globe,
+  Users,
+  Headphones,
+  PlayCircle,
+  Clapperboard,
+  ArrowUpRight,
+} from "lucide-react";
 
 /* ====== Tokens ====== */
 const BG_DARK = "bg-[#0A1628]";
@@ -118,7 +126,7 @@ export default function AboutIndex({ messages }) {
       animate={{
         backgroundPosition: ["0% 0%", "100% 100%"],
       }}
-      transition={{ duration: 10, repeat: Infinity, repeatType: "mirror" }}
+     
     />
 
     <div className="mx-auto max-w-7xl px-6 py-20 lg:py-24 relative z-10">
@@ -191,10 +199,10 @@ export default function AboutIndex({ messages }) {
   className="grid gap-10 lg:grid-cols-3"
 >
   {[
-    { data: missionVision?.mission, icon: "🎯" },
-    { data: missionVision?.vision, icon: "🌍" },
-    { data: missionVision?.staff, icon: "👩‍🏫" },
-  ].map(
+  { data: missionVision?.mission, icon: <Target className="w-8 h-8 text-[#EE7203]" /> },
+  { data: missionVision?.vision, icon: <Globe className="w-8 h-8 text-[#FF3816]" /> },
+  { data: missionVision?.staff, icon: <Users className="w-8 h-8 text-[#EE7203]" /> },
+].map(
     (item, i) =>
       item.data && (
         <motion.div
@@ -205,7 +213,7 @@ export default function AboutIndex({ messages }) {
             rotateX: 3,
             rotateY: -2,
           }}
-          transition={{ type: "spring", stiffness: 150, damping: 10 }}
+         
           className="relative group rounded-3xl border border-gray-200 bg-white shadow-lg p-8 overflow-hidden"
         >
           {/* Glow dinámico */}
@@ -215,12 +223,7 @@ export default function AboutIndex({ messages }) {
           <motion.div
             className="absolute top-6 right-6 text-3xl"
             animate={{ y: [0, -6, 0] }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.3,
-            }}
+            
           >
             {item.icon}
           </motion.div>
@@ -262,7 +265,7 @@ export default function AboutIndex({ messages }) {
     animate={{
       backgroundPosition: ["0% 0%", "100% 100%"],
     }}
-    transition={{ duration: 20, repeat: Infinity, repeatType: "mirror" }}
+    
     style={{
       backgroundImage:
         "radial-gradient(circle at 30% 40%, rgba(238,114,3,0.15), transparent 50%), radial-gradient(circle at 70% 60%, rgba(255,56,22,0.15), transparent 60%)",
@@ -292,10 +295,10 @@ export default function AboutIndex({ messages }) {
   
 >
   {[
-    { icon: "🎧", color: "#EE7203" },
-    { icon: "▶️", color: "#FF3816" },
-    { icon: "🎬", color: "#EE7203" },
-  ].map((it, i) => (
+  { icon: <Headphones className="w-6 h-6 text-[#EE7203]" />, color: "#EE7203" },
+  { icon: <PlayCircle className="w-6 h-6 text-[#FF3816]" />, color: "#FF3816" },
+  { icon: <Clapperboard className="w-6 h-6 text-[#EE7203]" />, color: "#EE7203" },
+].map((it, i) => (
     <motion.span
       key={i}
       whileHover={{
@@ -359,11 +362,7 @@ export default function AboutIndex({ messages }) {
                 "rgba(238,114,3,0.4)",
               ],
             }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+            
           />
         </div>
       </motion.div>
@@ -379,7 +378,7 @@ export default function AboutIndex({ messages }) {
         <motion.span
           className="absolute inset-0 rounded-full bg-gradient-to-r from-[#EE7203]/30 to-[#FF3816]/30 blur-xl opacity-60"
           animate={{ opacity: [0.6, 0.2, 0.6] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+         
         />
         <span className="relative z-10 font-semibold">
           {media?.ctaLabel || "Explorar contenido →"}
@@ -435,7 +434,7 @@ export default function AboutIndex({ messages }) {
                       <motion.blockquote
                         key={idx}
                         variants={fadeUp}
-                        className="relative bg-white border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                       className="relative bg-white border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 ease-out"
                       >
                         {/* Comillas decorativas */}
                         <div className="absolute top-6 left-6 text-6xl font-serif text-[#EE7203]/25 leading-none select-none">
@@ -528,7 +527,7 @@ export default function AboutIndex({ messages }) {
                       aria-label={cta?.button || "Visitanos en LinkedIn"}
                     >
                       {cta?.button || "Visitanos en LinkedIn"}{" "}
-                      <span aria-hidden>↗</span>
+                      <ArrowUpRight className="w-5 h-5 ml-1" aria-hidden />
                     </a>
                   </div>
                 </div>
