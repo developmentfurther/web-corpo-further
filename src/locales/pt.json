@@ -425,7 +425,15 @@
         "name": "Mariano Pereira",
         "role": "Head de Treinamento & Desenvolvimento",
         "company": "Universidade Torcuato Di Tella"
-      }
+      },
+      {
+  "quote": "Estamos muito satisfeitos com a Further. São uma equipe de ótimas pessoas e profissionais, com professores dedicados e atentos ao progresso dos alunos.",
+  "name": "Gustavo",
+  "role": "Sócio Fundador",
+  "company": "Scientia – Soluções Informáticas"
+}
+
+
     ]
   },
   "sections": {
@@ -765,7 +773,7 @@
     "badge": "Aulas de inglês a partir dos 3 anos e para todas as idades",
     "imageSrc": "/images/bg-school.avif",
     "imageAlt": "Sala de aula de inglês na Further School",
-    "ctaPrimary": "Porque a Further?"
+    "whyfurther": "Porque a Further?"
   },
   "why": {
   "title": "¿Por que a Further?",

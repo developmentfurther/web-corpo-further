@@ -96,7 +96,7 @@ export default function HeroSchool() {
           >
             <span className="absolute inset-0 bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
             <span className="relative flex items-center gap-2">
-              {t("ctaPrimary") || "Explore our programs"}
+              {t("whyfurther") || "Explore our programs"}
               <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform duration-300" />
             </span>
           </a>

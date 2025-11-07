@@ -350,7 +350,7 @@ export default function FurtherSchoolPage({ messages }) {
       {/* Contenedor del video */}
       <div className="aspect-[9/16] mx-auto w-full max-w-[360px] rounded-2xl overflow-hidden border border-gray-200 bg-black relative z-10 transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-[0_0_30px_rgba(255,56,22,0.25)]">
         <iframe
-          src={t?.why?.locations?.patricios?.iframe || "https://www.youtube.com/embed/nqietazWT7Q"}
+          src={t?.why?.locations?.patricios?.iframe || "https://player.vimeo.com/video/1134646362?"}
           title="Video Parque Patricios"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

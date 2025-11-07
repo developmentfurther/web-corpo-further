@@ -397,7 +397,17 @@
         "name": "Mariano Pérez",
         "role": "Head of Learning & Development",
         "company": "Universidad Torcuato Di Tella"
-      }
+      },
+     {
+  "quote": "We are very satisfied with Further. They are a team of great people and professionals, with dedicated teachers who truly care about their students’ progress.",
+  "name": "Gustavo",
+  "role": "Co-Founder",
+  "company": "Scientia – IT Solutions"
+}
+
+
+
+
     ]
   },
   "sections": {
@@ -577,7 +587,7 @@
     "badge": "English classes for all ages",
     "imageSrc": "/images/bg-school.avif",
     "imageAlt": "English classroom at Further School",
-    "ctaPrimary": "Why Further?"
+    "whyfurther": "Why Further?"
   },
   "why": {
   "title": "¿Why Further?",

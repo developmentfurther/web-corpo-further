@@ -588,14 +588,13 @@ export default function FurtherMediaPage({ messages }) {
           <div className={`${SHELL} py-12`}>
             <h4
               id="classes-title"
-              className={`${TITLE_DARK} text-2xl sm:text-3xl mb-3`}
+              className={`${TITLE_DARK} text-2xl sm:text-3xl mb-3 flex justify-center`}
             >
               {t?.classes?.title || "English classes that go further"}
             </h4>
-            <p className="text-white/85 max-w-3xl">
-              {t?.classes?.body ||
-                "Each course includes complementary material to reinforce concepts beyond the classroom."}
-            </p>
+            <p className="text-white/85 max-w-3xl mx-auto text-center leading-relaxed">
+  {t?.classes?.body }
+</p>
           </div>
         </section>
 
@@ -608,7 +607,7 @@ export default function FurtherMediaPage({ messages }) {
           <div className={`${SHELL} py-12`}>
             <h4
               id="youtube-title"
-              className={`${TITLE_DARK} text-2xl sm:text-3xl mb-4`}
+              className={`${TITLE_DARK} text-2xl sm:text-3xl mb-4 flex justify-center`}
             >
               {t?.youtube?.title || "Further Corporate on YouTube"}
             </h4>
@@ -650,57 +649,59 @@ export default function FurtherMediaPage({ messages }) {
           <WaveToLight/>
         </section>
 
-        {/* === TIKTOK (blanco) === */}
-        <section
-          id="tiktok"
-          className="bg-white text-gray-900"
-          aria-labelledby="tiktok-title"
-        >
-          <div className={`${SHELL} py-12`}>
-            {tiktokEmbed ? (
-              <div className={`${CARD_LIGHT} overflow-hidden`}>
-                {/* 9:16 */}
-                <div className="relative pt-[177.77%]" />
-                <iframe
-                  className="absolute inset-0 h-full w-full rounded-b-[2rem]"
-                  src="https://www.tiktok.com/@further_corporate"
-                  title={t?.tiktok?.title || "Further Corporate on TikTok"}
-                  frameBorder="0"
-                  allow="encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                />
-              </div>
-            ) : (
-              <div className={`${CARD_LIGHT} p-6 text-center`}>
-                <h4
-                  id="tiktok-title"
-                  className={`${TITLE_LIGHT} text-2xl mb-2`}
-                >
-                  {t?.tiktok?.title || "Further Corporate on TikTok"}
-                </h4>
-                <p className={`${SUB_LIGHT} mb-4`}>
-                  {t?.tiktok?.body || "Follow us for more short-form practice."}
-                </p>
-                <div className="text-center mt-6">
-              <a
-                href="https://www.tiktok.com/@further_corporate"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl px-4 py-2 border border-gray-200 bg-white hover:bg-gray-50 transition outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
-              >
-                {t?.tiktok?.title || "Further Corporate on TikTok"}
-              </a>
-            </div>
-              </div>
-            )}
+        {/* === TIKTOK (sección simple pero llamativa) === */}
+<section
+  id="tiktok"
+  className="relative bg-white text-gray-900 overflow-hidden"
+  aria-labelledby="tiktok-title"
+>
+  {/* fondo decorativo con glows suaves */}
+  <div
+    aria-hidden
+    className="absolute inset-0"
+    style={{
+      background:
+        "radial-gradient(circle at 70% 30%, rgba(255,88,22,0.08), transparent 60%), radial-gradient(circle at 30% 70%, rgba(238,114,3,0.08), transparent 60%)",
+    }}
+  />
 
-            
-          </div>
+  <div className={`${SHELL} relative py-24 text-center`}>
+    <h3
+      id="tiktok-title"
+      className="text-3xl sm:text-4xl font-extrabold mb-6 bg-gradient-to-r from-[#EE7203] via-[#FF5A2B] to-[#FF3816] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(255,88,22,0.25)]"
+    >
+      {t?.tiktok?.title || "Follow Further on TikTok"}
+    </h3>
+    <p className="text-gray-700 max-w-2xl mx-auto mb-10">
+      {t?.tiktok?.body }
+    </p>
 
-          {/* Sube a CTA final (azul Footer) */}
-          <WaveToDark />
-        </section>
+    {/* Botón central */}
+    <a
+      href="https://www.tiktok.com/@further_corporate"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-semibold text-white 
+                 bg-gradient-to-r from-[#EE7203] via-[#FF5A2B] to-[#FF3816]
+                 shadow-[0_0_35px_rgba(255,88,22,0.35)]
+                 hover:shadow-[0_0_50px_rgba(255,56,22,0.5)]
+                 hover:scale-105 transition-all duration-300"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        className="w-6 h-6"
+      >
+        <path d="M17.5 6.5a5.5 5.5 0 0 1-3.5-1.3V14a5 5 0 1 1-5-5c.3 0 .7 0 1 .1v3a2 2 0 1 0 2 2V2h2a3.5 3.5 0 0 0 3.5 3.5Z" />
+      </svg>
+      {t?.tiktok?.cta || "Follow us on TikTok"}
+    </a>
+  </div>
+
+  <WaveToDark />
+</section>
+
 
         {/* === CTA final (azul Footer) === */}
         <section className={BG_BLUE} aria-labelledby="cta-title">
