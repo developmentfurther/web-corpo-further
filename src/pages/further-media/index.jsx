@@ -47,7 +47,7 @@ function toYouTubeEmbedSrc(idOrUrl = "") {
 const DEFAULT_BLUBRRY =
   "https://player.blubrry.com/3778744/playlist/?episodes=50&scroll=1&display=nw#undefined";
 const DEFAULT_SPOTIFY_SHOW_ID = "1S9j1XZF0DscjTgITQOqH6";
-const DEFAULT_YT = ["jkh2soMiyvM", "NSaMDoGdA60"];
+const DEFAULT_YT = ["OK7NKUR5ceM", "tfc8b2tCuBI"];
 const DEFAULT_TIKTOK_PROFILE = "@further_corporate";
 
 /* ===== SVG Logos (accesibles) ===== */
@@ -344,16 +344,17 @@ export default function FurtherMediaPage({ messages }) {
 
               {/* Visual */}
               <div className={`${CARD_GLASS} p-2`}>
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-                  <img
-                    src="/images/media/mediabg.png"
-                    alt={t?.hero?.imageAlt || "Podcast production desk"}
-                    className="object-cover w-full h-full"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div>
-                {t?.hero?.caption && (
+               <div className="relative w-full overflow-hidden rounded-2xl bg-[#0A1628] flex justify-center">
+  <img
+    src="/images/media/mediabg.png"
+    alt={t?.hero?.imageAlt || "Podcast production desk"}
+    className="object-contain w-full h-auto"
+    loading="eager"
+    decoding="async"
+  />
+</div>
+
+   {t?.hero?.caption && (
                   <div className="mt-4 px-4 pb-2 text-sm text-white/65">
                     {t.hero.caption}
                   </div>
@@ -604,7 +605,7 @@ export default function FurtherMediaPage({ messages }) {
           <div className={`${SHELL} py-12`}>
             <h4
               id="youtube-title"
-              className={`${TITLE_DARK} text-2xl sm:text-3xl mb-4 flex justify-center`}
+              className={`${TITLE_DARK} text-2xl sm:text-3xl mb-4 flex justify-center py-12`}
             >
               {t?.youtube?.title || "Further Corporate on YouTube"}
             </h4>

@@ -991,12 +991,14 @@ useEffect(() => {
   title={open ? uiFinal.a11yClose : uiFinal.a11yOpen}
   style={{ position: "fixed", ...fabPos, zIndex: 130 }}
   animate={{
-    // 🔹 cuando el chat está abierto, baja un poco (evita tapar el input)
-    y: open ? 60 : 0,
-    // 🔹 efecto sutil de “flotar”
-    scale: open ? 0.95 : 1,
-    opacity: open ? 0.95 : 1,
-  }}
+  y:
+    typeof window !== "undefined" && window.innerWidth < 768
+      ? (open ? 50 : 0) // 🔹 en mobile baja un poquito
+      : (open ? 20 : 0), // 🔹 en desktop apenas se mueve
+  scale: open ? 0.95 : 1,
+  opacity: open ? 0.95 : 1,
+}}
+
   transition={{
     type: "spring",
     stiffness: 280,
@@ -1050,37 +1052,41 @@ useEffect(() => {
 
           {/* Viñeta de bienvenida — cómic limpio, sin sombras pesadas */}
           <AnimatePresence>
-            {showWelcomeTip && (
-              <motion.div
-                initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 320, damping: 24 }}
-                style={{
-                  position: "fixed",
-                  right: "calc(env(safe-area-inset-right, 0px) + 6.5rem)",
-                  bottom: "calc(env(safe-area-inset-bottom, 0px) + 2.4rem)",
-                  zIndex: 131,
-                  maxWidth: 280,
-                }}
-                className="relative px-4 py-2 text-sm text-[#0C212D] bg-white border border-[#CBD5E1] rounded-2xl
-                 [filter:drop-shadow(0_2px_6px_rgba(0,0,0,.18))] pointer-events-none"
-                role="status"
-              >
-                {locale?.startsWith("es")
-                  ? "¡Hola! Soy Mr. Further."
-                  : "Hi! I’m Mr. Further."}
-                <span
-                  aria-hidden
-                  className="absolute -right-2 bottom-4 w-3.5 h-3.5 rotate-45 bg-[#CBD5E1] rounded-[2px]"
-                />
-                <span
-                  aria-hidden
-                  className="absolute -right-[7px] bottom=[18px] w-3 h-3 rotate-45 bg-white rounded-[2px] border border-white"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+  {showWelcomeTip && (
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 320, damping: 24 }}
+      style={{
+        position: "fixed",
+        right: "calc(env(safe-area-inset-right, 0px) + 6.5rem)",
+        bottom:
+          typeof window !== "undefined" && window.innerWidth < 768
+            ? "calc(env(safe-area-inset-bottom, 0px) + 5.5rem)"
+            : "calc(env(safe-area-inset-bottom, 0px) + 2.4rem)",
+        zIndex: 131,
+        maxWidth: 280,
+      }}
+      className="relative px-4 py-2 text-sm text-[#0C212D] bg-white border border-[#CBD5E1] rounded-2xl
+        [filter:drop-shadow(0_2px_6px_rgba(0,0,0,.18))] pointer-events-none"
+      role="status"
+    >
+      {locale?.startsWith("es")
+        ? "¡Hola! Soy Mr. Further."
+        : "Hi! I’m Mr. Further."}
+      <span
+        aria-hidden
+        className="absolute -right-2 bottom-4 w-3.5 h-3.5 rotate-45 bg-[#CBD5E1] rounded-[2px]"
+      />
+      <span
+        aria-hidden
+        className="absolute -right-[7px] bottom=[18px] w-3 h-3 rotate-45 bg-white rounded-[2px] border border-white"
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
+
 
           {/* Panel */}
           <AnimatePresence>

@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 
 export default function Testimonials({
-  wrapperClass = "py-20 lg:py-28 bg-gray-50 overflow-hidden",
+  wrapperClass = "py-20  bg-gray-50 overflow-hidden",
   containerClass = "mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8",
 }) {
   const t = useTranslations();
