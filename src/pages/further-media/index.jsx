@@ -346,10 +346,7 @@ export default function FurtherMediaPage({ messages }) {
               <div className={`${CARD_GLASS} p-2`}>
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
                   <img
-                    src={
-                      t?.hero?.imageSrc ||
-                      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1480&auto=format&fit=crop"
-                    }
+                    src="/images/media/mediabg.png"
                     alt={t?.hero?.imageAlt || "Podcast production desk"}
                     className="object-cover w-full h-full"
                     loading="eager"
