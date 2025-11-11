@@ -177,12 +177,14 @@ export default function Services() {
                   <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
                     <div className="w-28 h-28 mb-5 rounded-full bg-white/10 flex items-center justify-center overflow-hidden transition-transform duration-500 group-hover:scale-110">
                       <Image
-                        src={card.logo}
-                        alt={`${card.title} logo`}
-                        width={90}
-                        height={90}
-                        className="object-contain opacity-90 group-hover:opacity-100 transition-opacity"
-                      />
+  src={card.logo}
+  alt={`${card.title} logo`}
+  width={90}
+  height={90}
+  unoptimized // ✅ evita que Next.js las procese en cada render
+  priority     // ✅ mejora precarga (opcional)
+  className="object-contain opacity-90 group-hover:opacity-100 transition-opacity"
+/>
                     </div>
                     <h3 className="text-xl font-semibold mb-2 text-white">
                       {card.title}

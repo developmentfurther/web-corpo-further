@@ -147,7 +147,7 @@ export default function BlogDetail() {
                   <motion.div
                     key={b.slug}
                     initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.05 }}
                     className="rounded-2xl overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"

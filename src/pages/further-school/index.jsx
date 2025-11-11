@@ -301,7 +301,7 @@ export default function FurtherSchoolPage({ messages }) {
   <div className={`${SHELL} py-24`}>
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.6 }}
       className="text-center mb-16"
@@ -337,7 +337,7 @@ export default function FurtherSchoolPage({ messages }) {
     {/* Llamado a la acción */}
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.3 }}
       className="text-center mt-16"
     >
@@ -466,7 +466,7 @@ export default function FurtherSchoolPage({ messages }) {
   <div className={`${SHELL} py-16`}>
     <motion.div
       initial="hidden"
-      whileInView="show"
+      animate="show"
       viewport={{ once: true, amount: 0.2 }}
       className="space-y-8"
     >

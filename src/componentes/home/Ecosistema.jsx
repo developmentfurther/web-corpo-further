@@ -19,7 +19,7 @@ export default function Ecosistema () {
   <motion.div
   className="relative z-10 mt-0"
   initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
+  animate={{ opacity: 1, y: 0 }}
   viewport={{ once: true, amount: 0.3 }}
   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
 >
@@ -162,7 +162,7 @@ export default function Ecosistema () {
 {/* Frase final */}
 <motion.p
   initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
+  animate={{ opacity: 1, y: 0 }}
   viewport={{ once: true, amount: 0.4 }}
   transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
   className="mt-20 text-xl md:text-2xl text-center text-white/85 

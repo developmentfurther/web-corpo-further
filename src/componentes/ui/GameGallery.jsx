@@ -15,7 +15,7 @@ export default function GamesGallery({messages}) {
   <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 w-full overflow-hidden">
     <motion.h2
       initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
       className="text-2xl sm:text-3xl font-extrabold mb-8 text-gray-900 text-center"

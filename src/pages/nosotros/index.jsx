@@ -136,7 +136,7 @@ export default function AboutIndex({ messages }) {
     <div className="mx-auto max-w-7xl px-6 py-20 lg:py-24 relative z-10">
       <motion.div
         initial="hidden"
-        whileInView="show"
+        animate="show"
         viewport={{ once: true, amount: 0.3 }}
         variants={stagger}
         className="rounded-[2rem] border border-gray-200 bg-white/80 backdrop-blur-xl shadow-lg p-8 lg:p-12 transition-all duration-500"
@@ -173,7 +173,7 @@ export default function AboutIndex({ messages }) {
               <motion.p
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.5 }}
                 className={`${BODY_LIGHT} leading-relaxed text-base`}
               >
@@ -197,7 +197,7 @@ export default function AboutIndex({ messages }) {
     <div className="mx-auto max-w-7xl px-6 py-20 lg:py-24">
       <motion.div
   initial="hidden"
-  whileInView="show"
+  animate="show"
   viewport={{ once: true, amount: 0.25 }}
   variants={stagger}
   className="grid gap-10 lg:grid-cols-3"
@@ -277,7 +277,7 @@ export default function AboutIndex({ messages }) {
               <div className="mx-auto max-w-7xl px-6 py-20 lg:py-24">
                 <motion.div
                   initial="hidden"
-                  whileInView="show"
+                  animate="show"
                   viewport={{ once: true, amount: 0.2 }}
                   variants={stagger}
                 >
@@ -366,7 +366,7 @@ export default function AboutIndex({ messages }) {
             <div className="mx-auto max-w-7xl px-6 py-20 lg:py-24">
               <motion.div
                 initial="hidden"
-                whileInView="show"
+                animate="show"
                 viewport={{ once: true, amount: 0.3 }}
                 variants={fadeIn}
                 className={`${CARD_GLASS} p-10 lg:p-14`}

@@ -139,7 +139,7 @@ export default function Footer({
           {/* -- Columna Brand (logo + copy) */}
           <motion.div
             initial={{ opacity: 0, y: reduce ? 0 : 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: reduce ? 0.2 : 0.5, ease: "easeOut" }}
             className="col-span-1"
@@ -202,7 +202,7 @@ export default function Footer({
           {/* -- Columna Newsletter */}
           <motion.div
             initial={{ opacity: 0, y: reduce ? 0 : 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: reduce ? 0.2 : 0.5, ease: "easeOut" }}
             className="col-span-1"
@@ -348,7 +348,7 @@ function FooterColumn({ title, items = [] }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: reduce ? 0 : 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: reduce ? 0.2 : 0.5, ease: "easeOut" }}
       className="col-span-1"

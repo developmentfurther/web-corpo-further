@@ -151,7 +151,7 @@ function Stats() {
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               viewport={{ once: true }}
               className="text-center"
@@ -189,7 +189,7 @@ function Methodology() {
         {/* === Título centrado === */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-16"
@@ -210,7 +210,7 @@ function Methodology() {
           {/* === Columna izquierda: 3 cards === */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="space-y-6"
@@ -246,25 +246,29 @@ function Methodology() {
             ))}
           </motion.div>
 
-          {/* === Columna derecha: Video === */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-200"
-          >
-            <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden">
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/NVZum4VeTw8?autoplay=1&mute=1&loop=1&controls=0&playlist=NVZum4VeTw8&rel=0"
-                title="Further Methodology Video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
-            </div>
-          </motion.div>
+          
+         {/* === Columna derecha: Video === */}
+<motion.div
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.3 }}
+  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+  className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-200"
+>
+  <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden">
+    <iframe
+      className="absolute inset-0 w-full h-full"
+      src="https://www.youtube.com/embed/NVZum4VeTw8?mute=1&controls=1&rel=0&playsinline=1"
+      title="Further Methodology Video"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowFullScreen
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+</motion.div>
+
+
         </div>
       </div>
 
@@ -290,7 +294,7 @@ function CTA() {
       <div className={SHELL}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="max-w-4xl mx-auto text-center"
         >

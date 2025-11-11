@@ -131,7 +131,7 @@ const video = t.video ?? {};
     <motion.article
       key={trk.title + i}
       initial="hidden"
-      whileInView="show"
+      animate="show"
       viewport={{ once: true, amount: 0.2 }}
       variants={fadeIn}
       className={`${CARD_LIGHT} p-6`}

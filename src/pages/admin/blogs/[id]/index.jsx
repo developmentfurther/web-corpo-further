@@ -115,7 +115,7 @@ function EditBlog() {
   return (
     <main className="min-h-screen bg-[#0A1628] text-white py-10 pt-28">
       <div className={SHELL}>
-        <AdminBackButton/ >
+        <AdminBackButton / >
 
         <div className={CARD}>
           <h1 className={TITLE}>Editar blog: {id}</h1>

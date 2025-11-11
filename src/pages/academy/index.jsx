@@ -94,7 +94,7 @@ export default function AcademyPage({ messages }) {
   /* === anim === */
   const fadeUp = {
     initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
+    animate: { opacity: 1, y: 0 },
     viewport: { once: true },
     transition: { duration: prefersReduced ? 0 : 0.6, ease: "easeOut" },
   };
@@ -166,7 +166,7 @@ export default function AcademyPage({ messages }) {
             <div className="relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 className={`${WRAP}`}
               >
@@ -260,7 +260,7 @@ export default function AcademyPage({ messages }) {
   <div className={WRAP}>
     <motion.div
       initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7 }}
       className="text-center mb-14"
@@ -281,7 +281,7 @@ export default function AcademyPage({ messages }) {
   <motion.article
     key={i}
     initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
+    animate={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.2 }}
     whileHover={{

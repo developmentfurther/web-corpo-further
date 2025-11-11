@@ -13,17 +13,23 @@ import {
   TITLE,
 } from "@/styles/adminStyles";
 import { renderBlocksToHtml } from "@/lib/renderEditor";
-
+import imageCompression from "browser-image-compression";
+import Image from "next/image";
 import dynamic from "next/dynamic";
+
 const Editor = dynamic(() => import("@/componentes/Editor"), { ssr: false });
 
 function NewBlog() {
   const router = useRouter();
 
+  // ============================
+  // Estado del formulario
+  // ============================
   const [form, setForm] = useState({
     title: "",
     summary: "",
-    coverUrl: "",
+    coverUrl: "",      // se llena automáticamente con ImageKit
+    coverKitId: "",    // ID del archivo en ImageKit
     locale: "es",
     status: "private",
   });
@@ -31,6 +37,67 @@ function NewBlog() {
   const [blocks, setBlocks] = useState({ blocks: [] });
   const [saving, setSaving] = useState(false);
 
+  // ============================
+  // Estados para subir imagen
+  // ============================
+  const [preview, setPreview] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [sizes, setSizes] = useState({ beforeMB: 0, afterMB: 0 });
+
+  // ============================
+  // Subida de imagen a ImageKit
+  // ============================
+  async function handleCoverFile(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setPreview(URL.createObjectURL(file));
+
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1600,
+      useWebWorker: true,
+      onProgress: (p) => setProgress(Math.round(p)),
+    };
+
+    try {
+      setUploading(true);
+      const beforeMB = file.size / 1024 / 1024;
+      const compressed = await imageCompression(file, options);
+      const afterMB = compressed.size / 1024 / 1024;
+      setSizes({ beforeMB, afterMB });
+
+      const formData = new FormData();
+      formData.append("file", compressed, compressed.name || file.name);
+
+      const res = await fetch("/api/upload-imagekit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data?.url)
+        throw new Error(data.error || "Error al subir");
+
+      setForm((f) => ({
+        ...f,
+        coverUrl: data.optimizedUrl || data.url,
+        coverKitId: data.fileId || "",
+      }));
+
+      alert("✅ Imagen subida correctamente a ImageKit");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error al subir la imagen");
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  // ============================
+  // Guardar blog
+  // ============================
   const onSave = async (e) => {
     e.preventDefault();
 
@@ -39,21 +106,26 @@ function NewBlog() {
       return;
     }
 
+    if (!form.coverUrl) {
+      alert("Por favor, subí una imagen de portada antes de guardar.");
+      return;
+    }
+
     setSaving(true);
     try {
-      // HTML a partir de los bloques del editor
       const html = renderBlocksToHtml(blocks.blocks || []);
 
-      // 1) Guardar meta raíz (crea el doc y setea status/cover + locale base)
+      // 1️⃣ Guardar meta raíz
       const meta = await saveBlogMeta({
         title: form.title,
         summary: form.summary,
         coverUrl: form.coverUrl,
+        coverKitId: form.coverKitId, // ✅ nuevo campo
         status: form.status,
-        locale: form.locale, // es | en | pt
+        locale: form.locale,
       });
 
-      // 2) Guardar contenido del locale base (edición humana, sin IA)
+      // 2️⃣ Guardar contenido del idioma base
       await saveBlogLocale({
         slug: meta.slug,
         locale: form.locale,
@@ -63,66 +135,57 @@ function NewBlog() {
         blocks: blocks.blocks || [],
       });
 
-      // 3) Auto-traducción SOLO si el idioma base es "es" → clonar EN/PT
-      // 3️⃣ Auto-traducción (solo si idioma base es "es")
-if (form.locale === "es") {
-  for (const to of ["en", "pt"]) {
-    try {
-      const res = await fetch("/api/translate-blog", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          from: "es",
-          to,
-          html,
-          blocks: blocks.blocks || [],
-          title: form.title,
-          summary: form.summary,
-        }),
-      });
+      // 3️⃣ Auto-traducción si idioma base = "es"
+      if (form.locale === "es") {
+        for (const to of ["en", "pt"]) {
+          try {
+            const res = await fetch("/api/translate-blog", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                from: "es",
+                to,
+                html,
+                blocks: blocks.blocks || [],
+                title: form.title,
+                summary: form.summary,
+              }),
+            });
 
-      const data = await res.json();
-      if (data?._warn) {
-        console.warn("⚠️ Traducción con fallback:", data._warn);
+            const data = await res.json();
+
+            const translatedTitle = data?.translatedTitle || form.title;
+            const translatedSummary = data?.translatedSummary || form.summary;
+            const translatedHtml = data?.translatedHtml || html;
+            const translatedBlocks = Array.isArray(data?.translatedBlocks)
+              ? data.translatedBlocks
+              : blocks.blocks || [];
+
+            await saveBlogLocale({
+              slug: meta.slug,
+              locale: to,
+              title: translatedTitle,
+              summary: translatedSummary,
+              html: translatedHtml,
+              blocks: translatedBlocks,
+            });
+
+            console.log(`✅ ${to.toUpperCase()} traducido correctamente`);
+          } catch (err) {
+            console.error(`❌ Error al traducir ${to}:`, err);
+            await saveBlogLocale({
+              slug: meta.slug,
+              locale: to,
+              title: form.title,
+              summary: form.summary,
+              html,
+              blocks: blocks.blocks || [],
+            });
+          }
+        }
       }
 
-      // fallback: si Gemini no devuelve texto, copiamos el español
-      const translatedTitle = data?.translatedTitle || form.title;
-      const translatedSummary = data?.translatedSummary || form.summary;
-      const translatedHtml = data?.translatedHtml || html;
-      const translatedBlocks = Array.isArray(data?.translatedBlocks)
-        ? data.translatedBlocks
-        : blocks.blocks || [];
-
-      // guardar traducción en Firestore
-      await saveBlogLocale({
-        slug: meta.slug,
-        locale: to,
-        title: translatedTitle,
-        summary: translatedSummary,
-        html: translatedHtml,
-        blocks: translatedBlocks,
-      });
-
-      console.log(`✅ ${to.toUpperCase()} traducido correctamente`);
-    } catch (err) {
-      console.error(`❌ Error al traducir ${to}:`, err);
-      // fallback: si falla la API, copiamos el español
-      await saveBlogLocale({
-        slug: meta.slug,
-        locale: to,
-        title: form.title,
-        summary: form.summary,
-        html,
-        blocks: blocks.blocks || [],
-      });
-    }
-  }
-}
-
-
       alert("✅ Blog creado con éxito.");
-      // Podés ir al listado o directo al editor ES
       router.push(`/admin/blogs/${meta.slug}?locale=${form.locale}`);
     } catch (err) {
       console.error("❌ Error al crear blog:", err);
@@ -132,6 +195,9 @@ if (form.locale === "es") {
     }
   };
 
+  // ============================
+  // Render
+  // ============================
   const previewHtml = renderBlocksToHtml(blocks?.blocks || []);
 
   return (
@@ -149,6 +215,7 @@ if (form.locale === "es") {
           <h1 className={TITLE}>Nuevo Blog</h1>
 
           <form onSubmit={onSave} className="space-y-6">
+            {/* 🏷️ Título */}
             <div>
               <label className={LABEL}>Título</label>
               <input
@@ -160,6 +227,7 @@ if (form.locale === "es") {
               />
             </div>
 
+            {/* 📝 Resumen */}
             <div>
               <label className={LABEL}>Resumen</label>
               <textarea
@@ -171,16 +239,58 @@ if (form.locale === "es") {
               />
             </div>
 
+            {/* 🖼️ Imagen de portada */}
             <div>
-              <label className={LABEL}>Cover URL</label>
-              <input
-                className={INPUT}
-                value={form.coverUrl}
-                onChange={(e) => setForm({ ...form, coverUrl: e.target.value })}
-                placeholder="https://..."
-              />
+              <label className={LABEL}>Imagen de portada</label>
+
+              {!form.coverUrl ? (
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCoverFile}
+                  className="w-full bg-white/10 rounded px-3 py-2 outline-none cursor-pointer file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-gradient-to-r file:from-[#EE7203] file:to-[#FF3816] file:text-white hover:file:opacity-90"
+                />
+              ) : (
+                <div className="flex items-center gap-4">
+                  <div className="relative w-40 h-28 rounded-lg overflow-hidden border border-white/10 shadow-md">
+                    <Image
+                      src={form.coverUrl}
+                      alt="cover preview"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    {sizes.beforeMB > 0 && (
+                      <p className="text-xs text-white/60">
+                        {sizes.beforeMB.toFixed(2)} MB → {sizes.afterMB.toFixed(2)} MB
+                      </p>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({
+                          ...f,
+                          coverUrl: "",
+                          coverKitId: "",
+                        }))
+                      }
+                      className="bg-red-600/90 text-white px-3 py-1 rounded-md text-sm hover:bg-red-700 transition"
+                    >
+                      Eliminar imagen
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {uploading && (
+                <p className="text-sm text-white/70 mt-2">
+                  Subiendo... {progress}%
+                </p>
+              )}
             </div>
 
+            {/* 🌐 Idioma y estado */}
             <div className="flex gap-4">
               <div className="flex-1">
                 <label className={LABEL}>Idioma base</label>
@@ -197,33 +307,31 @@ if (form.locale === "es") {
               <div className="flex-1">
                 <label className={LABEL}>Estado</label>
                 <select
-  className="w-full bg-[#112C3E] text-white border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF3816]"
-  value={form.status}
-  onChange={(e) => setForm({ ...form, status: e.target.value })}
->
-  <option value="public">public</option>
-  <option value="unlisted">unlisted</option>
-</select>
-
+                  className="w-full bg-[#112C3E] text-white border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF3816]"
+                  value={form.status}
+                  onChange={(e) => setForm({ ...form, status: e.target.value })}
+                >
+                  <option value="public">public</option>
+                  <option value="unlisted">unlisted</option>
+                </select>
               </div>
             </div>
 
-           {/* 🧩 Editor visual */}
-<div>
-  <label className={LABEL}>Contenido</label>
-  <div className="bg-white/[0.05] rounded-xl p-4 border border-white/[0.1]">
-    {/* Contenedor físico que Editor.js necesita */}
-    <div id="editorjs" />
-    <Editor
-      data={blocks}
-      onChange={setBlocks}
-      holder="editorjs"
-      slug="draft"
-    />
-  </div>
-</div>
+            {/* 🧩 Editor visual */}
+            <div>
+              <label className={LABEL}>Contenido</label>
+              <div className="bg-white/[0.05] rounded-xl p-4 border border-white/[0.1]">
+                <div id="editorjs" />
+                <Editor
+                  data={blocks}
+                  onChange={setBlocks}
+                  holder="editorjs"
+                  slug="draft"
+                />
+              </div>
+            </div>
 
-            {/* 🧩 Vista previa */}
+            {/* 👀 Vista previa */}
             <div className="mt-8 bg-white/[0.03] border border-white/[0.08] rounded-xl p-6">
               <h3 className="text-white/70 text-sm mb-3">Vista previa:</h3>
               <div
@@ -232,6 +340,7 @@ if (form.locale === "es") {
               />
             </div>
 
+            {/* 🚀 Botones */}
             <div className="flex gap-3 pt-4">
               <button type="submit" disabled={saving} className={BTN_PRIMARY}>
                 {saving ? "Guardando..." : "Crear blog"}
