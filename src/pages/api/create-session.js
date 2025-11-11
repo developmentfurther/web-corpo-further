@@ -3,7 +3,7 @@ import { serialize } from "cookie";
 import { SignJWT } from "jose";
 import admin from "@/lib/firebaseAdmin"; // tu helper Node con firebase-admin inicializado
 
-const ADMINS = ["sebas@gmail.com", "saabtian@gmail.com", "test@test.com", "dev@dev.com"];
+const ADMINS = ["sebas@gmail.com", "saabtian@gmail.com", "test@test.com", "dev@dev.com", "comunicacioncorporativafurther@gmail.com"];
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();

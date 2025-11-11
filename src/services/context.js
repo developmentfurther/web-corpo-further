@@ -42,7 +42,7 @@ function Context(props) {
 
   /* Usuario y flags mínimos */
   const [user, setUser] = useState(null);
-  const admins = ["saabtian@gmail.com", "sebas@gmail.com","dev@dev.com", "test@test.com"]; // ↓ se compara en lowercase
+  const admins = ["saabtian@gmail.com", "sebas@gmail.com","dev@dev.com", "test@test.com", "comunicacioncorporativafurther@gmail.com"]; // ↓ se compara en lowercase
   const [userProfile, setUserProfile] = useState(null);
   const [skipUserUntil2FA, setSkipUserUntil2FA] = useState(false);
 
