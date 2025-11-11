@@ -37,6 +37,7 @@ function useDelayedFlag(flag, delayMs = 220) {
 function Context(props) {
   const router = useRouter();
   const auth = getAuth(firebaseApp);
+  
   const firestore = getFirestore(firebaseApp);
   const locale = router.locale || "es";
 

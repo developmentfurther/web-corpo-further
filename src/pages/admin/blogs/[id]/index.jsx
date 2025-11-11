@@ -19,6 +19,7 @@ import {
 } from "@/styles/adminStyles";
 import { renderBlocksToHtml } from "@/lib/renderEditor";
 import dynamic from "next/dynamic";
+import AdminBackButton from "@/componentes/ui/AdminBackButton";
 
 const Editor = dynamic(() => import("@/componentes/Editor"), { ssr: false });
 const LOCALES = ["es", "en", "pt"];
@@ -114,13 +115,7 @@ function EditBlog() {
   return (
     <main className="min-h-screen bg-[#0A1628] text-white py-10 pt-28">
       <div className={SHELL}>
-        <button
-          onClick={() => router.push("/admin")}
-          className="mb-6 flex items-center gap-2 text-white/70 hover:text-white transition"
-        >
-          <span className="text-lg">←</span>
-          <span className="text-sm">Volver al listado</span>
-        </button>
+        <AdminBackButton/ >
 
         <div className={CARD}>
           <h1 className={TITLE}>Editar blog: {id}</h1>

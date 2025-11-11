@@ -9,6 +9,8 @@ import {
   toggleVisibility,
   deleteInstagramPost,
 } from "@/lib/firestore/instagram";
+import AdminBackButton from "@/componentes/ui/AdminBackButton";
+import Admin from "..";
 
 /* ===== Tokens visuales ===== */
 const BG = "bg-[#0A1628]";
@@ -133,7 +135,7 @@ function InstagramList() {
   return (
     <main className={`${BG} text-white min-h-screen p-6 pt-28 relative`}>
       <Modal />
-
+      <AdminBackButton />
       {/* Fondo decorativo */}
       <div
         aria-hidden

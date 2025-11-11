@@ -5,6 +5,7 @@ import { listBlogs, deleteBlog } from "@/lib/firestore/blogs";
 import { getAuth, signOut } from "firebase/auth";
 import firebaseApp from "@/services/firebase";
 import { useRouter } from "next/router";
+import AdminBackButton from "@/componentes/ui/AdminBackButton";
 
 function AdminBlogsList() {
   const [rows, setRows] = useState([]);
@@ -52,6 +53,7 @@ function AdminBlogsList() {
 
   return (
     <main className="min-h-screen bg-[#0A1628] text-white p-6 pt-28">
+      <AdminBackButton />
       <div className="max-w-5xl mx-auto">
         {/* Header superior */}
         <div className="flex items-center justify-between mb-6">
