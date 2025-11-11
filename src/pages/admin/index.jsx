@@ -2,6 +2,10 @@
 import Link from "next/link";
 import { FiFileText, FiInstagram, FiUsers, FiSettings } from "react-icons/fi";
 import withAdminGuard from "@/lib/guards/withAdminGuard";
+import { useContext } from "react";
+import { signOut } from "firebase/auth";
+import ContextGeneral from "@/services/contextGeneral";
+import { useRouter } from "next/router";
 
 const CARD =
   "bg-white/[0.05] border border-white/10 rounded-2xl p-6 flex flex-col items-start justify-between transition hover:bg-white/[0.08] hover:border-white/20";
@@ -9,6 +13,18 @@ const GRAD_TEXT =
   "bg-gradient-to-r from-[#EE7203] via-[#FF4D1F] to-[#FF3816] bg-clip-text text-transparent";
 
 function AdminDashboard() {
+  const { auth, user } = useContext(ContextGeneral);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push("/login"); // redirige al login
+    } catch (err) {
+      console.error("❌ Error al cerrar sesión:", err);
+    }
+  };
+
   const modules = [
     {
       title: "Blogs",
@@ -41,16 +57,34 @@ function AdminDashboard() {
   return (
     <main className="min-h-screen bg-[#0A1628] text-white py-16 px-6 pt-28">
       <div className="max-w-6xl mx-auto">
+        {/* === Header === */}
         <header className="mb-12 text-center">
-          <h1 className="text-4xl font-bold">
-            Panel de{" "}
-            <span className={GRAD_TEXT}>Administración Further</span>
-          </h1>
-          <p className="text-white/70 mt-3">
-            Bienvenido al panel de gestión. Seleccioná un módulo para comenzar.
+          <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+            <div>
+              <h1 className="text-4xl font-bold">
+                Panel de{" "}
+                <span className={GRAD_TEXT}>Administración Further</span>
+              </h1>
+              <p className="text-white/70 mt-3">
+                Bienvenido{user?.email ? `, ${user.email}` : ""}.
+              </p>
+            </div>
+
+            {/* 🔹 Botón de logout */}
+            <button
+              onClick={handleLogout}
+              className="mt-6 sm:mt-0 px-5 py-2.5 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition text-sm font-medium"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+
+          <p className="text-white/70">
+            Seleccioná un módulo para comenzar.
           </p>
         </header>
 
+        {/* === Módulos === */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {modules.map((m) =>
             m.disabled ? (

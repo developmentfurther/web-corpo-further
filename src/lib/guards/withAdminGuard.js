@@ -1,46 +1,37 @@
+// lib/guards/withAdminGuard.js
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import ContextGeneral from "@/services/contextGeneral";
 
+function Protected({ Component, props }) {
+  const { user, ready, checkingAuth, isAdmin } = useContext(ContextGeneral);
+  const router = useRouter();
+  const [authorized, setAuthorized] = useState(false);
+
+  useEffect(() => {
+    if (checkingAuth || !ready) return;
+    if (!user) return router.replace("/login");
+    if (!isAdmin) return router.replace("/");
+    setAuthorized(true);
+  }, [user, ready, checkingAuth, isAdmin, router]);
+
+  if (checkingAuth || !ready) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-400 bg-[#0A1628]">
+        Cargando sesión segura…
+      </div>
+    );
+  }
+
+  if (!authorized) return null;
+
+  return <Component {...props} />;
+}
+
+// 🚫 Desactiva SSR para páginas protegidas
 export default function withAdminGuard(Component) {
-  return function ProtectedPage(props) {
-    const { user, ready, checkingAuth, isAdmin } = useContext(ContextGeneral);
-    const router = useRouter();
-    const [authorized, setAuthorized] = useState(false);
-
-    useEffect(() => {
-      // Esperar a que Firebase termine su chequeo
-      if (checkingAuth || !ready) return;
-
-      // 🔹 1. Usuario no autenticado
-      if (!user) {
-        router.replace("/login");
-        return;
-      }
-
-      // 🔹 2. Usuario autenticado pero no admin
-      if (!isAdmin) {
-        router.replace("/");
-        return;
-      }
-
-      // 🔹 3. Usuario autorizado → mostrar contenido
-      setAuthorized(true);
-    }, [user, ready, checkingAuth, isAdmin, router]);
-
-    // Mientras Firebase verifica
-    if (checkingAuth || !ready) {
-      return (
-        <div className="min-h-screen flex items-center justify-center text-gray-400 bg-[#0A1628]">
-          Cargando sesión segura…
-        </div>
-      );
-    }
-
-    // Aún no autorizado → no renderiza contenido sensible
-    if (!authorized) return null;
-
-    // ✅ Usuario admin: render real
-    return <Component {...props} />;
-  };
+  return dynamic(() => Promise.resolve((props) => (
+    <Protected Component={Component} props={props} />
+  )), { ssr: false });
 }
