@@ -31,7 +31,7 @@ function NewBlog() {
     coverUrl: "",      // se llena automáticamente con ImageKit
     coverKitId: "",    // ID del archivo en ImageKit
     locale: "es",
-    status: "private",
+    status: "public",
   });
 
   const [blocks, setBlocks] = useState({ blocks: [] });

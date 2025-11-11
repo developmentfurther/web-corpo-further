@@ -38,7 +38,7 @@ export default async function handler(req, res) {
       .sign(secret);
 
     // 🔹 Duración real de la cookie (8h)
-    const maxAgeSeconds = 8 * 60 * 60;
+    const maxAgeSeconds = 7 * 24 * 60 * 60; // ✅ 604800 segundos (1 semana)
 
     // 🔹 Ajuste dinámico de dominio según entorno
     const domain =

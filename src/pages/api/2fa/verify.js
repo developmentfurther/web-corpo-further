@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
     // 🔐 Guardar verificación temporal
     const now = new Date();
-    const expires = new Date(now.getTime() + 2 * 60 * 1000); // 2 minutos para test
+   const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // ✅ 1 semana
     await updateDoc(ref, {
       enabled: true,
       lastUsed: serverTimestamp(),
