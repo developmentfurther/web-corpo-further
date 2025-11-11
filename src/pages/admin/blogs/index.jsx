@@ -34,20 +34,7 @@ function AdminBlogsList() {
     await load();
   };
 
-  const handleLogout = async () => {
-    try {
-      setLoggingOut(true);
-      await signOut(auth); // Cierra sesión Firebase
-      await fetch("/api/logout", { method: "POST" }); // Borra cookie de sesión
-      localStorage.clear();
-      sessionStorage.clear();
-      router.replace("/login");
-    } catch (err) {
-      console.error("❌ Error al cerrar sesión:", err);
-    } finally {
-      setLoggingOut(false);
-    }
-  };
+  
 
   if (loading) return <main className="p-6 text-white">Cargando…</main>;
 
@@ -67,24 +54,7 @@ function AdminBlogsList() {
             </Link>
           </div>
 
-          {/* Botón de logout */}
-          <button
-            onClick={handleLogout}
-            disabled={loggingOut}
-            className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium bg-red-500/15 hover:bg-red-500/25 border border-red-400/30 text-red-200 transition disabled:opacity-60"
-          >
-            {loggingOut ? (
-              <>
-                <span className="w-4 h-4 border-2 border-white/70 border-t-transparent rounded-full animate-spin" />
-                Cerrando…
-              </>
-            ) : (
-              <>
-                <LogoutIcon />
-                Cerrar sesión
-              </>
-            )}
-          </button>
+         
         </div>
 
         {/* Tabla de blogs */}

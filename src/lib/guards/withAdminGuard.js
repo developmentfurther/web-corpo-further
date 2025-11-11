@@ -4,30 +4,40 @@ import ContextGeneral from "@/services/contextGeneral";
 
 export default function withAdminGuard(Component) {
   return function ProtectedPage(props) {
-    const { user, ready, checkingAuth, isAdmin } = useContext(ContextGeneral);
+    const { user, isAdmin, checkingAuth, authReady, twoFAStatus } =
+      useContext(ContextGeneral);
     const [authorized, setAuthorized] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-      if (!checkingAuth && ready) {
-        // 🔹 1. Usuario no autenticado → al login
+      if (!checkingAuth && authReady) {
+        // 🔹 1. No hay usuario → login
         if (!user) {
           router.replace("/login");
           return;
         }
 
-        // 🔹 2. Usuario autenticado pero no admin → fuera
+        // 🔹 2. Usuario sin permisos → home
         if (!isAdmin) {
           router.replace("/");
           return;
         }
 
-        // 🔹 3. Usuario autorizado
-        setAuthorized(true);
-      }
-    }, [user, ready, checkingAuth, isAdmin, router]);
+        // 🔹 3. 2FA requerido pero no verificado
+        if (twoFAStatus === "unverified" || twoFAStatus === "disabled") {
+          console.log("🔐 Redirigiendo a verificación 2FA...");
+          router.replace("/2fa");
+          return;
+        }
 
-    if (checkingAuth || !ready) {
+        // 🔹 4. 2FA correcto → permitir acceso
+        if (twoFAStatus === "ok") {
+          setAuthorized(true);
+        }
+      }
+    }, [user, isAdmin, checkingAuth, authReady, twoFAStatus, router]);
+
+    if (checkingAuth || !authReady) {
       return (
         <div className="min-h-screen flex items-center justify-center text-gray-500">
           Verificando acceso…
@@ -40,4 +50,3 @@ export default function withAdminGuard(Component) {
     return <Component {...props} />;
   };
 }
- 

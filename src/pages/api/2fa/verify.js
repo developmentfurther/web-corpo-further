@@ -5,6 +5,7 @@ import {
   getDoc,
   updateDoc,
   serverTimestamp,
+  Timestamp,
 } from "firebase/firestore";
 import firebaseApp from "@/services/firebase";
 
@@ -24,16 +25,18 @@ export default async function handler(req, res) {
 
     const { secret } = snap.data();
     const valid = authenticator.verify({ token: code, secret });
-
     if (!valid) return res.status(401).json({ error: "Código incorrecto" });
 
-    // ✅ Si es válido → marcar como activado
+    // 🔐 Guardar verificación temporal
+    const now = new Date();
+    const expires = new Date(now.getTime() + 2 * 60 * 1000); // 2 minutos para test
     await updateDoc(ref, {
       enabled: true,
       lastUsed: serverTimestamp(),
+      verifiedUntil: Timestamp.fromDate(expires),
     });
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, verifiedUntil: expires });
   } catch (err) {
     console.error("Error validando 2FA:", err);
     return res.status(500).json({ error: err.message });

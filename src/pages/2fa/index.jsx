@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import ContextGeneral from "@/services/contextGeneral";
 
 export default function TwoFA() {
-  const { user, setTwoFAStatus } = useContext(ContextGeneral);
+  const { user, setTwoFAStatus, logout } = useContext(ContextGeneral);
   const router = useRouter();
 
   const [qr, setQr] = useState(null);
@@ -55,49 +55,48 @@ export default function TwoFA() {
   }, [user]);
 
   const handleVerify = async (e) => {
-    e.preventDefault();
-    setError("");
-    setVerifying(true);
-    setSuccessMsg("");
+  e.preventDefault();
+  setError("");
+  setVerifying(true);
+  setSuccessMsg("");
 
-    try {
-      const res = await fetch("/api/2fa/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user.email, code }),
-      });
-      const data = await res.json();
+  try {
+    const res = await fetch("/api/2fa/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: user.email, code }),
+    });
+    const data = await res.json();
 
-      if (!data.ok) {
-        setError(data.error || "Código incorrecto");
-        setVerifying(false);
-        return;
-      }
-
-      // ✅ Código correcto
-      await fetch("/api/2fa/confirm", { method: "POST" });
-      setTwoFAStatus("verified");
-
-      setSuccessMsg("✅ Verificación exitosa. Redirigiendo al panel…");
-      setTimeout(() => router.replace("/admin"), 1600);
-    } catch (err) {
-      console.error(err);
-      setError("Error al verificar el código");
-    } finally {
+    if (!data.ok) {
+      setError(data.error || "Código incorrecto");
       setVerifying(false);
+      return;
     }
-  };
 
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/logout", { method: "POST" });
-      localStorage.clear();
-      sessionStorage.clear();
-      router.replace("/login");
-    } catch (err) {
-      console.error("Error al cerrar sesión:", err);
-    }
-  };
+    // ✅ Código correcto
+    await fetch("/api/2fa/confirm", { method: "POST" });
+
+    // 🔹 Refrescar estado global (revisar /api/2fa/status)
+    const resStatus = await fetch(`/api/2fa/status?email=${encodeURIComponent(user.email)}`);
+    const st = await resStatus.json();
+    setTwoFAStatus(st.verified ? "ok" : "unverified");
+
+    // 🔹 Esperar un poco a que el contexto se sincronice
+    setSuccessMsg("✅ Verificación exitosa. Redirigiendo al panel…");
+    setTimeout(() => {
+      router.replace("/admin");
+    }, 500);
+  } catch (err) {
+    console.error(err);
+    setError("Error al verificar el código");
+  } finally {
+    setVerifying(false);
+  }
+};
+
+
+
 
   if (loading)
     return (
@@ -204,7 +203,7 @@ export default function TwoFA() {
 
             <button
               type="button"
-              onClick={handleLogout}
+              onClick={logout}
               className="w-full py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-400/30 text-red-200 text-sm"
             >
               Cerrar sesión

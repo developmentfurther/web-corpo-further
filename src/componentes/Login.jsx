@@ -6,7 +6,7 @@ import ContextGeneral from "@/services/contextGeneral";
 const ADMIN_PATH = "/admin";
 
 export default function Login() {
-  const { auth, user, ready, userProfile } = useContext(ContextGeneral);
+  const { auth, user, ready, userProfile, logout } = useContext(ContextGeneral);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -106,202 +106,179 @@ if (isAdmin) {
     }
   };
 
-  /* =======================================================
-     5️⃣ LOGOUT → cierra sesión + borra cookie + redirige
-     ======================================================= */
- const handleLogout = async () => {
-  try {
-    setLoading(true);
+  
+return (
+  <div className="min-h-screen relative overflow-hidden bg-[#0C212D]">
+    {/* Fondo con gradientes suaves */}
+    <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_10%_10%,rgba(238,114,3,.25),transparent),radial-gradient(40%_30%_at_90%_20%,rgba(255,56,22,.22),transparent)]" />
+    <div className="absolute inset-0 bg-[radial-gradient(70%_70%_at_50%_120%,rgba(255,255,255,.06),transparent)]" />
 
-    // 1️⃣ Cierra sesión de Firebase (borra tokens locales)
-    await signOut(auth);
-    setUser(null);
-    setUserProfile(null);
-
-
-    // 2️⃣ Luego borra la cookie de sesión del backend
-    await fetch("/api/logout", { method: "POST" });
-
-    // 3️⃣ Limpia posibles datos cacheados del contexto
-    if (typeof window !== "undefined") {
-      localStorage.clear();
-      sessionStorage.clear();
-    }
-
-    // 4️⃣ Redirige al login
-    router.replace("/login");
-  } catch (err) {
-    console.error("Error al cerrar sesión:", err);
-    setError("No se pudo cerrar sesión correctamente.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-  return (
-    <div className="min-h-screen relative overflow-hidden bg-[#0C212D]">
-      {/* Fondo con gradientes suaves */}
-      <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_10%_10%,rgba(238,114,3,.25),transparent),radial-gradient(40%_30%_at_90%_20%,rgba(255,56,22,.22),transparent)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(70%_70%_at_50%_120%,rgba(255,255,255,.06),transparent)]" />
-
-      <div className="relative max-w-md mx-auto px-5 py-10 min-h-screen flex items-center">
-        <div className="w-full">
-          {/* Card */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl">
-            {/* Header */}
-            <div className="px-6 pt-6 pb-4 border-b border-white/10">
-              <h1 className="text-xl font-semibold text-white tracking-tight text-center">
-                {user ? "¡Bienvenido!" : "Iniciar sesión"}
-              </h1>
-              {user && user.email && (
-                <p className="text-sm text-white/70 text-center mt-1 flex items-center justify-center gap-2">
-                  {user.email}
-                  {isAdmin && (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] bg-green-500/20 text-green-200 border border-green-400/30">
-                      Admin
-                    </span>
-                  )}
-                </p>
-              )}
-            </div>
-
-            {/* Body */}
-            <div className="px-6 py-6">
-              {user ? (
-                <div className="space-y-3">
-                  {isAdmin && (
-                    <button
-                      onClick={() => router.push(ADMIN_PATH)}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow hover:brightness-110 transition bg-gradient-to-r from-[#EE7203] to-[#FF3816]"
-                      disabled={loading}
-                      title="Panel de administración"
-                    >
-                      <span className="inline-block w-4 h-4">
-                        <ShieldIcon />
-                      </span>
-                      Ir al panel de Admin
-                    </button>
-                  )}
-
-                  <button
-                    onClick={handleLogout}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium bg-red-500/15 hover:bg-red-500/25 border border-red-400/30 text-red-200 transition disabled:opacity-60"
-                    disabled={loading}
-                  >
-                    <span className="inline-block w-4 h-4">
-                      <LogoutIcon />
-                    </span>
-                    Cerrar sesión
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="username"
-                      className="block text-xs font-medium text-white/80"
-                    >
-                      Usuario (email)
-                    </label>
-                    <input
-                      type="email"
-                      id="username"
-                      className="w-full px-3 py-2.5 rounded-xl bg-white/10 border border-white/15 placeholder-white/50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#EE7203]/40 focus:border-[#EE7203]/50"
-                      placeholder="tu@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      autoComplete="username"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="password"
-                      className="block text-xs font-medium text-white/80"
-                    >
-                      Contraseña
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showPass ? "text" : "password"}
-                        id="password"
-                        className="w-full pr-10 px-3 py-2.5 rounded-xl bg-white/10 border border-white/15 placeholder-white/50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#EE7203]/40 focus:border-[#EE7203]/50"
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        autoComplete="current-password"
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPass((v) => !v)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md hover:bg-white/10 text-white/80" // ← fix de hover:bg_white/10
-                        aria-label={
-                          showPass ? "Ocultar contraseña" : "Mostrar contraseña"
-                        }
-                        title={
-                          showPass ? "Ocultar contraseña" : "Mostrar contraseña"
-                        }
-                      >
-                        {showPass ? <EyeOffIcon /> : <EyeIcon />}
-                      </button>
-                    </div>
-                  </div>
-
-                  {!!error && (
-                    <p
-                      className="text-sm text-red-300 bg-red-500/10 border border-red-400/20 rounded-lg p-2 text-center"
-                      role="alert"
-                      aria-live="assertive"
-                    >
-                      {error}
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow hover:brightness-110 transition bg-gradient-to-r from-[#EE7203] to-[#FF3816] disabled:opacity-60"
-                    disabled={loading}
-                  >
-                    {loading && (
-                      <span className="w-4 h-4 border-2 border-white/70 border-t-transparent rounded-full animate-spin" />
-                    )}
-                    {loading ? "Ingresando…" : "Iniciar sesión"}
-                  </button>
-                </form>
-              )}
-            </div>
-
-            {/* Footer */}
-            <div className="px-6 pb-5 pt-3 border-t border-white/10">
-              <p className="text-[11px] text-white/50 text-center">
-                {ready ? "Sesión lista" : "Preparando sesión…"}
+    <div className="relative max-w-md mx-auto px-5 py-10 min-h-screen flex items-center">
+      <div className="w-full">
+        {/* Card */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl">
+          {/* Header */}
+          <div className="px-6 pt-6 pb-4 border-b border-white/10">
+            <h1 className="text-xl font-semibold text-white tracking-tight text-center">
+              {user && twoFAStatus === "ok" ? "¡Bienvenido!" : "Iniciar sesión"}
+            </h1>
+            {user && user.email && twoFAStatus === "ok" && (
+              <p className="text-sm text-white/70 text-center mt-1 flex items-center justify-center gap-2">
+                {user.email}
                 {isAdmin && (
-                  <>
-                    {" "}
-                    • <span className="text-white/70">Admin</span>
-                  </>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-green-500/20 text-green-200 border border-green-400/30">
+                    Admin
+                  </span>
                 )}
               </p>
-            </div>
+            )}
           </div>
 
-          {/* Link secundario si está logueado */}
-          {user && (
-            <div className="mt-4 text-center">
-              <button
-                onClick={() => router.push("/")}
-                className="text-xs text-white/60 hover:text-white/80 underline underline-offset-4"
-              >
-                Ir al inicio
-              </button>
-            </div>
-          )}
+          {/* Body */}
+          <div className="px-6 py-6">
+            {/* === 1️⃣ Si sesión y 2FA válidos → Mostrar panel corto === */}
+            {user && twoFAStatus === "ok" ? (
+              <div className="space-y-3">
+                {isAdmin && (
+                  <button
+                    onClick={() => router.push(ADMIN_PATH)}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow hover:brightness-110 transition bg-gradient-to-r from-[#EE7203] to-[#FF3816]"
+                    disabled={loading}
+                    title="Panel de administración"
+                  >
+                    <span className="inline-block w-4 h-4">
+                      <ShieldIcon />
+                    </span>
+                    Ir al panel de Admin
+                  </button>
+                )}
+
+                <button
+                  onClick={logout}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium bg-red-500/15 hover:bg-red-500/25 border border-red-400/30 text-red-200 transition disabled:opacity-60"
+                  disabled={loading}
+                >
+                  <span className="inline-block w-4 h-4">
+                    <LogoutIcon />
+                  </span>
+                  Cerrar sesión
+                </button>
+              </div>
+            ) : checkingAuth || loading ? (
+              /* === 2️⃣ Estado intermedio mientras Firebase o cookie se limpian === */
+              <div className="flex items-center justify-center py-10 text-white/70">
+                <div className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/70 border-t-transparent rounded-full animate-spin" />
+                  <span>Cargando sesión…</span>
+                </div>
+              </div>
+            ) : (
+              /* === 3️⃣ Sin sesión → Mostrar formulario === */
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="username"
+                    className="block text-xs font-medium text-white/80"
+                  >
+                    Usuario (email)
+                  </label>
+                  <input
+                    type="email"
+                    id="username"
+                    className="w-full px-3 py-2.5 rounded-xl bg-white/10 border border-white/15 placeholder-white/50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#EE7203]/40 focus:border-[#EE7203]/50"
+                    placeholder="tu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="username"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="password"
+                    className="block text-xs font-medium text-white/80"
+                  >
+                    Contraseña
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPass ? "text" : "password"}
+                      id="password"
+                      className="w-full pr-10 px-3 py-2.5 rounded-xl bg-white/10 border border-white/15 placeholder-white/50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#EE7203]/40 focus:border-[#EE7203]/50"
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPass((v) => !v)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md hover:bg-white/10 text-white/80"
+                      aria-label={
+                        showPass ? "Ocultar contraseña" : "Mostrar contraseña"
+                      }
+                      title={
+                        showPass ? "Ocultar contraseña" : "Mostrar contraseña"
+                      }
+                    >
+                      {showPass ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
+                  </div>
+                </div>
+
+                {!!error && (
+                  <p className="text-sm text-red-300 bg-red-500/10 border border-red-400/20 rounded-lg p-2 text-center">
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow hover:brightness-110 transition bg-gradient-to-r from-[#EE7203] to-[#FF3816] disabled:opacity-60"
+                  disabled={loading}
+                >
+                  {loading && (
+                    <span className="w-4 h-4 border-2 border-white/70 border-t-transparent rounded-full animate-spin" />
+                  )}
+                  {loading ? "Ingresando…" : "Iniciar sesión"}
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="px-6 pb-5 pt-3 border-t border-white/10">
+            <p className="text-[11px] text-white/50 text-center">
+              {ready ? "Sesión lista" : "Preparando sesión…"}
+              {isAdmin && (
+                <>
+                  {" "}
+                  • <span className="text-white/70">Admin</span>
+                </>
+              )}
+            </p>
+          </div>
         </div>
+
+        {/* Link secundario si está logueado */}
+        {user && twoFAStatus === "ok" && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => router.push("/")}
+              className="text-xs text-white/60 hover:text-white/80 underline underline-offset-4"
+            >
+              Ir al inicio
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  );
+  </div>
+);
+
+  
 }
  
 

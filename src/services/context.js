@@ -6,7 +6,7 @@ import firebaseApp from "./firebase";
 import { useRouter } from "next/router";
 import { getBlog } from "@/lib/firestore/blogs";
 import { listBlogs, getBlogContent } from "@/lib/firestore/blogs";
-
+import { signOut } from "firebase/auth";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
@@ -60,7 +60,7 @@ function Context(props) {
   const isAdmin = Boolean(
     user?.email && admins.includes((user.email || "").toLowerCase())
   );
-  const ready = authReady && !checkingAuth;
+  const ready = !checkingAuth && authReady;
 
   /* Crea/actualiza /users/{emailLower} con perfil mínimo */
   const ensureUserDocument = async (firebaseUser) => {
@@ -153,6 +153,35 @@ function Context(props) {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+  // Solo verificar si hay usuario logueado y no estamos verificando auth
+  if (!user || checkingAuth) return;
+
+  let active = true;
+
+  const check2FA = async () => {
+    try {
+      const res = await fetch(`/api/2fa/status?email=${encodeURIComponent(user.email)}`);
+      const data = await res.json();
+      if (!active) return;
+      // 🔹 Actualiza el estado global del 2FA
+      setTwoFAStatus(data.verified ? "ok" : data.enabled ? "unverified" : "disabled");
+    } catch (err) {
+      console.error("Error verificando estado 2FA:", err);
+      if (active) setTwoFAStatus("error");
+    }
+  };
+
+  check2FA();
+  // Re-verificar cada cierto tiempo por si expira
+  const interval = setInterval(check2FA, 60 * 1000); // cada 1 min
+
+  return () => {
+    active = false;
+    clearInterval(interval);
+  };
+}, [user, checkingAuth]);
+
   /* ==========================
      BLOGS: cache global
      ========================== */
@@ -239,7 +268,47 @@ const getBlogBySlug = async (slug, locale = "es") => {
 };
 
 
+const logout = async () => {
+  try {
+    console.log("🚪 Cerrando sesión global...");
 
+    // 🔹 1. Cerrar sesión de Firebase (tokens locales)
+    await signOut(auth);
+
+    // 🔹 2. Resetear el contexto (usuario, perfil, 2FA)
+    setUser(null);
+    setUserProfile(null);
+    setTwoFAStatus(null);
+
+    // 🔹 3. Borrar cookie de sesión segura del backend
+    try {
+      await fetch("/api/logout", { method: "POST" });
+    } catch {
+      console.warn("⚠️ No se pudo contactar /api/logout (probablemente local).");
+    }
+
+    // 🔹 4. Limpiar almacenamiento local
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+        indexedDB.deleteDatabase("firebaseLocalStorageDb");
+        document.cookie.split(";").forEach((c) => {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
+        });
+      } catch (err) {
+        console.warn("⚠️ Limpieza local falló:", err);
+      }
+    }
+
+    // 🔹 5. Redirigir al login
+    router.replace("/login");
+  } catch (err) {
+    console.error("❌ Error al cerrar sesión:", err);
+  }
+};
 
   
 
@@ -267,6 +336,8 @@ const getBlogBySlug = async (slug, locale = "es") => {
     blogs,
     blogsLoading,
     getBlogBySlug,
+
+    logout
   }}
 >
 

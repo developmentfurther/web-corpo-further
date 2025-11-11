@@ -13,17 +13,10 @@ const GRAD_TEXT =
   "bg-gradient-to-r from-[#EE7203] via-[#FF4D1F] to-[#FF3816] bg-clip-text text-transparent";
 
 function AdminDashboard() {
-  const { auth, user } = useContext(ContextGeneral);
+  const { user, logout } = useContext(ContextGeneral);
   const router = useRouter();
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      router.push("/login"); // redirige al login
-    } catch (err) {
-      console.error("❌ Error al cerrar sesión:", err);
-    }
-  };
+
 
   const modules = [
     {
@@ -72,7 +65,7 @@ function AdminDashboard() {
 
             {/* 🔹 Botón de logout */}
             <button
-              onClick={handleLogout}
+              onClick={logout}
               className="mt-6 sm:mt-0 px-5 py-2.5 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition text-sm font-medium"
             >
               Cerrar sesión
