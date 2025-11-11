@@ -106,7 +106,8 @@ if (isAdmin) {
     }
   };
 
-  
+
+
 return (
   <div className="min-h-screen relative overflow-hidden bg-[#0C212D]">
     {/* Fondo con gradientes suaves */}

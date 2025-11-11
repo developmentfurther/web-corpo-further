@@ -54,7 +54,7 @@ export default function TwoFA() {
     })();
   }, [user]);
 
-  const handleVerify = async (e) => {
+const handleVerify = async (e) => {
   e.preventDefault();
   setError("");
   setVerifying(true);
@@ -74,19 +74,28 @@ export default function TwoFA() {
       return;
     }
 
-    // ✅ Código correcto
-    await fetch("/api/2fa/confirm", { method: "POST" });
+    // ✅ Código correcto → confirmar 2FA y emitir cookie de sesión real
+    const confirmRes = await fetch("/api/2fa/confirm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: user.email }), // 👈 CLAVE
+    });
 
-    // 🔹 Refrescar estado global (revisar /api/2fa/status)
+    if (!confirmRes.ok) {
+      const err = await confirmRes.json();
+      throw new Error(err.error || "Error confirmando 2FA");
+    }
+
+    // 🔹 Refrescar estado global
     const resStatus = await fetch(`/api/2fa/status?email=${encodeURIComponent(user.email)}`);
     const st = await resStatus.json();
     setTwoFAStatus(st.verified ? "ok" : "unverified");
 
-    // 🔹 Esperar un poco a que el contexto se sincronice
+    // 🔹 Esperar a que la cookie se aplique y redirigir
     setSuccessMsg("✅ Verificación exitosa. Redirigiendo al panel…");
     setTimeout(() => {
-      router.replace("/admin");
-    }, 500);
+      window.location.href = "/admin"; // 👈 forzamos reload completo
+    }, 1000);
   } catch (err) {
     console.error(err);
     setError("Error al verificar el código");
@@ -94,6 +103,7 @@ export default function TwoFA() {
     setVerifying(false);
   }
 };
+
 
 
 
