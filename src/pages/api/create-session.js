@@ -1,9 +1,15 @@
 // /pages/api/create-session.js
 import { serialize } from "cookie";
 import { SignJWT } from "jose";
-import admin from "@/lib/firebaseAdmin"; // tu helper Node con firebase-admin inicializado
+import admin from "@/lib/firebaseAdmin";
 
-const ADMINS = ["sebas@gmail.com", "saabtian@gmail.com", "test@test.com", "dev@dev.com", "comunicacioncorporativafurther@gmail.com"];
+const ADMINS = [
+  "sebas@gmail.com",
+  "saabtian@gmail.com",
+  "test@test.com",
+  "dev@dev.com",
+  "comunicacioncorporativafurther@gmail.com",
+];
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
@@ -19,25 +25,41 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: "Not an admin" });
     }
 
+    // Firmar el JWT de sesión
     const secret = new TextEncoder().encode(process.env.SESSION_JWT_SECRET);
-    const sessionJwt = await new SignJWT({ sub: decoded.uid, email, admin: true })
+    const sessionJwt = await new SignJWT({
+      sub: decoded.uid,
+      email,
+      admin: true,
+    })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
-      .setExpirationTime("7d")
+      .setExpirationTime("8h") // duración del token (8 horas laborales)
       .sign(secret);
 
+    // 🔹 Duración real de la cookie (8h)
+    const maxAgeSeconds = 8 * 60 * 60;
+
+    // 🔹 Ajuste dinámico de dominio según entorno
+    const domain =
+      process.env.NODE_ENV === "production"
+        ? ".furthercorporate.com"
+        : "localhost";
+
+    // Crear cookie
     const cookie = serialize("session", sessionJwt, {
       path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 60 * 1,
+      maxAge: maxAgeSeconds,
+      domain: process.env.NODE_ENV === "production" ? domain : undefined,
     });
 
     res.setHeader("Set-Cookie", cookie);
     return res.status(200).json({ ok: true });
   } catch (err) {
-    console.error("create-session error:", err);
+    console.error("❌ create-session error:", err);
     return res.status(401).json({ error: "Invalid token" });
   }
 }

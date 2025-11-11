@@ -270,45 +270,38 @@ const getBlogBySlug = async (slug, locale = "es") => {
 
 const logout = async () => {
   try {
-    console.log("🚪 Cerrando sesión global...");
+    console.log("🚪 Cerrando sesión (API + Firebase)...");
 
-    // 🔹 1. Cerrar sesión de Firebase (tokens locales)
-    await signOut(auth);
+    // 1️⃣ Borrar cookie de sesión (backend)
+    await fetch("/api/logout", { method: "POST" });
 
-    // 🔹 2. Resetear el contexto (usuario, perfil, 2FA)
+    // 2️⃣ Cerrar sesión local de Firebase
+    await signOut(auth).catch(() => {});
+
+    // 3️⃣ Limpiar almacenamiento local
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+      sessionStorage.clear();
+      indexedDB.deleteDatabase("firebaseLocalStorageDb");
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
+      });
+    }
+
+    // 4️⃣ Resetear contexto
     setUser(null);
     setUserProfile(null);
     setTwoFAStatus(null);
 
-    // 🔹 3. Borrar cookie de sesión segura del backend
-    try {
-      await fetch("/api/logout", { method: "POST" });
-    } catch {
-      console.warn("⚠️ No se pudo contactar /api/logout (probablemente local).");
-    }
-
-    // 🔹 4. Limpiar almacenamiento local
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.clear();
-        sessionStorage.clear();
-        indexedDB.deleteDatabase("firebaseLocalStorageDb");
-        document.cookie.split(";").forEach((c) => {
-          document.cookie = c
-            .replace(/^ +/, "")
-            .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
-        });
-      } catch (err) {
-        console.warn("⚠️ Limpieza local falló:", err);
-      }
-    }
-
-    // 🔹 5. Redirigir al login
+    // 5️⃣ Redirigir
     router.replace("/login");
   } catch (err) {
     console.error("❌ Error al cerrar sesión:", err);
   }
 };
+
 
   
 
