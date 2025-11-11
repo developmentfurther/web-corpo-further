@@ -24,7 +24,7 @@ export default function HeroAcademy() {
       {/* 🖼 Imagen de fondo */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/academy/academy.JPG"
+          src="/images/academy/academy.png"
           alt="Further Academy background"
           fill
           priority

@@ -368,55 +368,73 @@ export default function FurtherMediaPage({ messages }) {
         </section>
 
         {/* === INTRO (blanco) === */}
-        <section
-          className="bg-white text-gray-900"
-          aria-labelledby="records-title"
-        >
-          <div className={`${SHELL} py-12`}>
-            <header className="mb-6">
-              <h2
-                id="records-title"
-                className={`${TITLE_LIGHT} text-3xl sm:text-4xl`}
+       <section
+  className="bg-white text-gray-900"
+  aria-labelledby="records-title"
+>
+  <div className={`${SHELL} py-12`}>
+    <header className="mb-6 text-center md:text-left">
+      <h2
+        id="records-title"
+        className={`${TITLE_LIGHT} text-3xl sm:text-4xl`}
+      >
+        {t?.records?.title ||
+          "Further Records: The podcast for English learners"}
+      </h2>
+      <p className={`${SUB_LIGHT} mt-2 max-w-3xl mx-auto md:mx-0`}>
+        {t?.records?.intro ||
+          "Our English podcast complements the #FurtherExperience. Learn topic-based English with tailored exercises to reinforce comprehension and pronunciation."}
+      </p>
+    </header>
+
+    <div className="grid md:grid-cols-12 gap-8 items-center">
+      {/* Texto */}
+      <div className="md:col-span-7 space-y-4">
+        <p className="text-gray-800 leading-relaxed">
+          {t?.records?.body ||
+            "Vocabulary breakdowns and short clips are available on our YouTube channel with engaging characters."}
+        </p>
+      </div>
+
+      {/* Imagen */}
+      <div className="md:col-span-5">
+        <div className={`${CARD_LIGHT} p-4 sm:p-6 relative overflow-hidden`}>
+          {/* Glow decorativo */}
+          <div
+            className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-25"
+            style={{
+              background:
+                "radial-gradient(circle, #EE7203 0%, transparent 70%)",
+            }}
+          />
+
+          {/* Imagen del podcast */}
+          <div className="relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition">
+            <img
+              src="/images/furtherrecords.png"
+              alt="Further Records Podcast"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+            {/* Overlay opcional */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            <div className="absolute bottom-3 left-3">
+              <span
+                className={`text-white font-bold text-lg drop-shadow ${GRAD_TEXT}`}
               >
-                {t?.records?.title ||
-                  "Further Records: The podcast for English learners"}
-              </h2>
-              <p className={`${SUB_LIGHT} mt-2 max-w-3xl`}>
-                {t?.records?.intro ||
-                  "Our English podcast complements the #FurtherExperience. Learn topic-based English with tailored exercises to reinforce comprehension and pronunciation."}
-              </p>
-            </header>
-
-            <div className="grid md:grid-cols-12 gap-8">
-              <div className="md:col-span-7 space-y-4">
-                <p className="text-gray-800">
-                  {t?.records?.body ||
-                    "Vocabulary breakdowns and short clips are available on our YouTube channel with engaging characters."}
-                </p>
-              </div>
-
-              <div className="md:col-span-5">
-                <div className={`${CARD_LIGHT} p-6 relative overflow-hidden`}>
-                  <div
-                    className="absolute -top-12 -right-12 h-56 w-56 rounded-full blur-3xl opacity-30"
-                    style={{
-                      background:
-                        "radial-gradient(circle, #EE7203 0%, transparent 60%)",
-                    }}
-                  />
-                  <div className="h-28 rounded-xl bg-gray-50 border border-gray-200 grid place-items-center">
-                    <span className={`text-sm font-semibold ${GRAD_TEXT}`}>
-                      Further Records
-                    </span>
-                  </div>
-                </div>
-              </div>
+                Further Records
+              </span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          {/* Sube a banda azul (PODCAST) — color Footer */}
-          <WaveToDark />
-        </section>
+  {/* Sube a banda azul (PODCAST) — color Footer */}
+  <WaveToDark />
+</section>
+
 
         {/* === PODCAST (Blubrry) — azul Footer, iframe limpio === */}
         <section

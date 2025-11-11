@@ -23,6 +23,7 @@ import {
   FiInstagram,
   FaStar
 } from "react-icons/fi";
+import { useState } from "react";
 
 import { loadMessages } from "@/lib/i18n";
 import TestimonialsCarousel from "@/componentes/ui/TestimonialsCarousel";
@@ -100,6 +101,69 @@ function WaveDivider({
     </div>
   );
 }
+
+function ExpandableVideo({ thumbnail, src, title }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      {/* Mini video */}
+      <motion.div
+        layoutId={`video-${title}`}
+        className="cursor-pointer overflow-hidden rounded-3xl relative group"
+        onClick={() => setOpen(true)}
+      >
+        <iframe
+          src={src}
+          title={title}
+          className="w-full aspect-[9/16] md:aspect-[16/9] rounded-3xl pointer-events-none"
+          allow="autoplay; fullscreen; picture-in-picture"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        <div className="absolute bottom-4 left-4 text-white">
+          <h3 className="font-bold text-lg">{title}</h3>
+        </div>
+      </motion.div>
+
+      {/* Overlay y video expandido */}
+      {/* Overlay y video expandido */}
+<AnimatePresence>
+  {open && (
+    <motion.div
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={() => setOpen(false)}
+    >
+      <motion.div
+        layoutId={`video-${title}`}
+        className="relative w-full max-w-[95vw] md:max-w-5xl aspect-[9/16] md:aspect-video rounded-3xl overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <iframe
+          src={src}
+          title={title}
+          className="w-full h-full top pt-12"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+        <button
+          onClick={() => setOpen(false)}
+          className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition"
+          aria-label="Cerrar video"
+        >
+          ✕
+        </button>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+    </>
+  );
+} 
 
 /* ===== Animaciones accesibles (ligeras) ===== */
 function useAnims() {
@@ -223,9 +287,73 @@ export default function FurtherSchoolPage({ messages }) {
         >
           {/* === HERO === */}
           <HeroSchool />
-          <WaveDivider from="dark" height={66} flip />
+          
 
+{/* === NUEVA SECCIÓN: NUESTRAS SEDES === */}
+<section
+  id="locations"
+  className="relative z-10 bg-[#0A1628] text-white overflow-hidden"
+  aria-labelledby="locations-title"
+>
+  {/* Fondo decorativo animado */}
+  
 
+  <div className={`${SHELL} py-24`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-16"
+    >
+      <h2
+        id="locations-title"
+        className="text-4xl sm:text-5xl font-extrabold mb-4"
+      >
+        <span className={GRAD_TEXT}>
+          {t?.locations?.title || "Conocé nuestras sedes"}
+        </span>
+      </h2>
+      <p className="text-white/70 max-w-2xl mx-auto text-lg">
+        {t?.locations?.intro ||
+          "Viví la experiencia Further en nuestras dos sedes: Parque Patricios y Saavedra. Dos espacios donde el idioma se vive todos los días."}
+      </p>
+    </motion.div>
+
+    {/* Grid de sedes */}
+    <div className="grid md:grid-cols-2 gap-10 items-center">
+      <ExpandableVideo
+  src="https://player.vimeo.com/video/1134646362?"
+  title="Parque Patricios"
+/>
+
+<ExpandableVideo
+  src="https://player.vimeo.com/video/1134605055?"
+  title="Saavedra"
+/>
+
+    </div>
+
+    {/* Llamado a la acción */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.3 }}
+      className="text-center mt-16"
+    >
+      <a
+        href="/contacto"
+        className={`${BTN_PRIMARY} text-gray-900 bg-white hover:bg-gray-100`}
+      >
+        <FiMapPin className="w-5 h-5" />
+        {t?.locations?.cta || "Encontrá tu sede más cercana"}
+      </a>
+    </motion.div>
+  </div>
+</section>
+
+{/* Separador hacia la sección “¿Por qué Further?” */}
+<WaveDivider from="dark" height={80} flip />
               {/* WHY FURTHER */}
 <section id="why" className="bg-gradient-to-br from-white via-gray-50 to-white text-gray-900" aria-labelledby="why-title">
   <div className={`${SHELL} py-20`}>
@@ -318,86 +446,7 @@ export default function FurtherSchoolPage({ messages }) {
       </div>
     </section>
 
-    {/* ================= SEDES ================= */}
-<motion.div variants={fadeUp} className="mt-24 text-center relative">
-  {/* Fondo decorativo */}
-  <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-gray-50 to-white" />
-  <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(238,114,3,0.08),transparent_70%)] blur-[100px]" />
-
-  <h3 className="text-3xl font-extrabold text-gray-900 mb-14">
-    {t?.why?.locationsTitle || "Conocé nuestras sedes"}
-  </h3>
-
-  <div className="grid gap-14 lg:grid-cols-2 max-w-6xl mx-auto">
-    {/* === PARQUE PATRICIOS === */}
-    <motion.div
-      whileInView={{ opacity: 1, y: 0 }}
-      initial={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.6 }}
-      className={`${CARD_LIGHT} p-6 sm:p-8 relative overflow-hidden group`}
-    >
-      {/* Fondo con glow sutil al hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#EE7203]/[0.03] to-[#FF3816]/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-      <h4 className="text-xl font-bold mb-2 text-gray-900 relative z-10">
-        {t?.why?.locations?.patricios?.title || "Parque Patricios"}
-      </h4>
-      <p className="text-gray-700 mb-4 relative z-10">
-        {t?.why?.locations?.patricios?.body ||
-          "Desde 1997, nuestro instituto te espera en el corazón de Parque Patricios."}
-      </p>
-
-      {/* Contenedor del video */}
-      <div className="aspect-[9/16] mx-auto w-full max-w-[360px] rounded-2xl overflow-hidden border border-gray-200 bg-black relative z-10 transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-[0_0_30px_rgba(255,56,22,0.25)]">
-        <iframe
-          src={t?.why?.locations?.patricios?.iframe || "https://player.vimeo.com/video/1134646362?"}
-          title="Video Parque Patricios"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          loading="lazy"
-          className="w-full h-full rounded-2xl"
-        />
-      </div>
-
-      {/* Pequeño acento visual */}
-      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-tr from-[#EE7203]/30 to-[#FF3816]/30 blur-3xl opacity-0 group-hover:opacity-80 transition-all duration-700" />
-    </motion.div>
-
-    {/* === SAAVEDRA === */}
-    <motion.div
-      whileInView={{ opacity: 1, y: 0 }}
-      initial={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className={`${CARD_LIGHT} p-6 sm:p-8 relative overflow-hidden group`}
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#EE7203]/[0.03] to-[#FF3816]/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-      <h4 className="text-xl font-bold mb-2 text-gray-900 relative z-10">
-        {t?.why?.locations?.saavedra?.title || "Saavedra"}
-      </h4>
-      <p className="text-gray-700 mb-4 relative z-10">
-        {t?.why?.locations?.saavedra?.body ||
-          "Ahora encontrá también la #ExperienciaFurther en el norte de Buenos Aires."}
-      </p>
-
-      <div className="aspect-[9/16] mx-auto w-full max-w-[360px] rounded-2xl overflow-hidden border border-gray-200 bg-black relative z-10 transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-[0_0_30px_rgba(255,56,22,0.25)]">
-        <iframe
-          src={
-            t?.why?.locations?.saavedra?.iframe ||
-            "https://player.vimeo.com/video/1134605055?" // ← reemplazá cuando tengas el link
-          }
-          title="Video Saavedra"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          loading="lazy"
-          className="w-full h-full rounded-2xl"
-        />
-      </div>
-
-      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-tr from-[#FF3816]/30 to-[#EE7203]/30 blur-3xl opacity-0 group-hover:opacity-80 transition-all duration-700" />
-    </motion.div>
-  </div>
-</motion.div>
+    
 
 
   </div>

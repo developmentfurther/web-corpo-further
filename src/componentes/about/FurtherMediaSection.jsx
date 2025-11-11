@@ -31,7 +31,7 @@ export default function FurtherMediaSection() {
       id: t("cards.tiktok.id"),
       title: t("cards.tiktok.title"),
       desc: t("cards.tiktok.desc"),
-      img: "/images/furthershorts.png",
+      img: "/images/furthertiktok.png",
       link: "/further-media#tiktok",
       platform: "tiktok"
     },
@@ -92,15 +92,15 @@ export default function FurtherMediaSection() {
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 bg-gradient-to-br from-[#EE7203]/20 via-[#FF3816]/25 to-transparent rounded-[2rem]" />
 
             {/* Imagen con blur al hover */}
-            <div className="relative h-56 w-full overflow-hidden">
-             <Link href={card.link}>
-  <Image
-    src={card.img}
-    alt={card.title}
-    fill
-    className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:blur-md cursor-pointer"
-  />
-</Link>
+            <div className="relative aspect-[4/3] w-full overflow-hidden">
+  <Link href={card.link}>
+    <Image
+      src={card.img}
+      alt={card.title}
+      fill
+      className="object-cover object-center transition-all duration-700 group-hover:scale-110 group-hover:blur-md cursor-pointer"
+    />
+  </Link>
 
               {/* Logo SVG centrado */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700">

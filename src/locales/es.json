@@ -579,6 +579,22 @@
     "title": "Further School: Instituto de Inglés en Parque Patricios y Saavedra",
     "description": "¡Clases de inglés desde los 3 años! Instituto con más de 25 años de excelencia en Parque Patricios y Saavedra. Metodología inmersiva, enfoque comunicacional y preparación para exámenes internacionales Cambridge."
   },
+  "locations": {
+  "title": "Conocé nuestras sedes",
+  "intro": "Viví la experiencia Further en nuestras dos sedes: Parque Patricios y Saavedra. Dos espacios donde el idioma se vive todos los días.",
+  "patricios": {
+    "title": "Parque Patricios",
+    "desc": "Nuestra sede histórica en el corazón de la ciudad.",
+    "iframe": "https://player.vimeo.com/video/1134646362?"
+  },
+  "saavedra": {
+    "title": "Saavedra",
+    "desc": "Nuestra nueva sede al norte de Buenos Aires, moderna y acogedora.",
+    "iframe": "https://player.vimeo.com/video/1134605055?"
+  },
+  "cta": "Encontrá tu sede más cercana"
+},
+
   "hero": {
     "title": "Further School:",
     "subtitle": "enseñando inglés desde 1997",

@@ -579,7 +579,22 @@
     "title": "Further School: English Institute in Parque Patricios and Saavedra",
     "description": "English classes from age 3 and up! Over 25 years of excellence in Parque Patricios and Saavedra. Immersive methodology, communicative focus, and Cambridge exam preparation."
   },
-  
+  "locations": {
+  "title": "Discover our campuses",
+  "intro": "Experience Further at our two campuses: Parque Patricios and Saavedra — two spaces where English comes to life every day.",
+  "patricios": {
+    "title": "Parque Patricios",
+    "desc": "Our historic campus located in the heart of Buenos Aires.",
+    "iframe": "https://player.vimeo.com/video/1134646362?"
+  },
+  "saavedra": {
+    "title": "Saavedra",
+    "desc": "Our new campus in the north of Buenos Aires, modern and welcoming.",
+    "iframe": "https://player.vimeo.com/video/1134605055?"
+  },
+  "cta": "Find your nearest campus"
+},
+
   "hero": {
     "title": "Further School:",
     "subtitle": "teaching English since 1997",
