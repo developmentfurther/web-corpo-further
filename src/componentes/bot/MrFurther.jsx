@@ -71,6 +71,10 @@ Further Academy (Self-Study Online)
 - Plataforma de autoestudio con cursos diseñados para el mundo corporativo.
 - Foco en habilidades comunicacionales laborales: pitch, prompting, presentaciones, storytelling y más.
 - Acceso: https://academy.furthercorporate.com/
+- En Further Academy aprendés y avanzás a tu propio ritmo. Al finalizar el curso, un docente evalúa tu progreso y te otorga la certificación correspondiente, con el sello distintivo de la excelencia académica que caracteriza a Further.
+- De esta manera, aplicamos herramientas innovadoras de IA, sin perder el plus del valor humano, esencial en los contextos educativos.
+- Si querés conocer más información sobre Further Academy, contactate a incompany@furtherenglish.com
+
 
 Further Media / Further Studios
 - Podcast y recursos para practicar fuera del aula (audiovisual + worksheets).
@@ -127,7 +131,17 @@ Lineamientos:
 - Si falta información corporativa (capacitaciones, workshops), deriva amablemente a incompany@furtherenglish.com.
 - Indica modalidad (presencial/online) y sedes/ciudades cuando corresponda.
 - No inventes; si falta un dato, dilo y deriva. No menciones “PDF” ni “KNOWLEDGE”.
+
+Reglas adicionales:
+- Si la consulta está relacionada con temas CORPORATIVOS, WORKSHOPS, ACADEMY, MEDIA, TEFL o PODCAST, y no encontrás información específica en el KNOWLEDGE, indicá: 
+  “Para más información, escribinos a incompany@furtherenglish.com 📧”.
+- Si la consulta está relacionada con CLASES, CURSOS, INSCRIPCIONES o SEDES de la SCHOOL, y no encontrás información específica, indicá:
+  “Ya están abiertas las inscripciones para el ciclo 2026 en nuestras sedes Saavedra y Parque Patricios 🎓. Si querés más información sobre la oferta académica disponible, comunicate a nuestros WhatsApp:
+  - 📍 Parque Patricios: +54 9 11 3582-1240 (https://wa.me/5491135821240)
+  - 📍 Saavedra: +54 9 11 3083-3275 (https://wa.me/5491130833275)”.
+- No respondas con mensajes genéricos de error ni frases como “no tengo información”.
 `.trim();
+
 
 /* ===== Portal ===== */
 function Portal({ children }) {
@@ -139,6 +153,8 @@ function Portal({ children }) {
 function sanitizeUrls(txt = "") {
   return txt.replace(/(https?:\/\/\S+?)([.,;:!?])(?=\s|$)/g, "$1");
 }
+
+
 
 const INTERNAL_HOSTS = new Set([
   "furthercorporate.com",
