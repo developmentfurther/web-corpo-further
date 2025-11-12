@@ -729,8 +729,10 @@ Tu tarea:
     ];
 
     // 🧩 retry automático una vez si falla
-   let out = "";
-for (let attempt = 0; attempt < 2; attempt++) {
+  let out = "";
+const maxRetries = 10;
+
+for (let attempt = 0; attempt < maxRetries; attempt++) {
   try {
     const result = await model.generateContent({ contents });
     out =
@@ -741,13 +743,24 @@ for (let attempt = 0; attempt < 2; attempt++) {
   } catch (err) {
     const isRetryable =
       err?.message?.includes("503") || // modelo saturado
-      err?.message?.includes("429") || // demasiadas peticiones
+      err?.message?.includes("429") || // rate limit
       err?.message?.includes("timeout");
+
     console.warn(`⚠️ Gemini intento ${attempt + 1} fallido:`, err.message);
 
-    if (!isRetryable || attempt === 1) break; // ❌ no reintentar si no es error temporal
-    await new Promise((r) => setTimeout(r, 1200)); // esperar 1.2s y reintentar
+    // Esperar antes del próximo intento, aumentando el tiempo progresivamente
+    const waitMs = 800 + attempt * 400; // 0.8s → 4.4s
+    await new Promise((r) => setTimeout(r, waitMs));
+
+    if (!isRetryable && attempt >= 2) break; // ⚠️ salir si no es error temporal
   }
+}
+
+// 🔸 Si no se obtuvo respuesta después de los 10 intentos, no mostrar error visible
+if (!out) {
+  console.warn("❌ No se obtuvo respuesta después de varios intentos.");
+  setLoading(false);
+  return; // simplemente termina sin mostrar nada al usuario
 }
 
 
