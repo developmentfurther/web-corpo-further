@@ -696,12 +696,14 @@ Tu tarea:
     }));
 
   async function sendText(text) {
-    const q = (text || "").trim();
-    if (!q) return;
+  const q = (text || "").trim();
+  if (!q) return;
 
-    setMessages((m) => [...m, { role: "user", text: q }]);
-    setShowFAQ(false);
+  setMessages((m) => [...m, { role: "user", text: q }]);
+  setShowFAQ(false);
+  setLoading(true);
 
+  try {
     const genAI = await ensureGenAI();
     if (!genAI) {
       setMessages((m) => [
@@ -709,51 +711,70 @@ Tu tarea:
         {
           role: "assistant",
           text: locale.startsWith("es")
-            ? "Falta API key. Podés contactarnos en incompany@furtherenglish.com o info@furtherenglish.com"
-            : "API key not configured. You can contact us at incompany@furtherenglish.com or info@furtherenglish.com",
+            ? "Falta la clave de Gemini. Podés contactarnos en incompany@furtherenglish.com."
+            : "Gemini API key is missing. Please contact support.",
         },
       ]);
       return;
     }
 
-    setLoading(true);
-    try {
-      const model = genAI.getGenerativeModel({
-  model: MODEL_ID,
-  systemInstruction: BOT_CONTEXT,
-});
+    const model = genAI.getGenerativeModel({
+      model: MODEL_ID,
+      systemInstruction: BOT_CONTEXT,
+    });
 
+    const contents = [
+      ...buildHistory(),
+      { role: "user", parts: [{ text: `${uiFinal.localeHint}\n\nQ: ${q}` }] },
+    ];
 
-      const contents = [
-        ...buildHistory(),
-        { role: "user", parts: [{ text: `${uiFinal.localeHint}\n\nQ: ${q}` }] },
-      ];
+    // 🧩 retry automático una vez si falla
+   let out = "";
+for (let attempt = 0; attempt < 2; attempt++) {
+  try {
+    const result = await model.generateContent({ contents });
+    out =
+      (await result?.response?.text?.()) ||
+      result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "";
+    if (out) break; // ✅ respuesta válida → salir
+  } catch (err) {
+    const isRetryable =
+      err?.message?.includes("503") || // modelo saturado
+      err?.message?.includes("429") || // demasiadas peticiones
+      err?.message?.includes("timeout");
+    console.warn(`⚠️ Gemini intento ${attempt + 1} fallido:`, err.message);
 
-      const result = await model.generateContent({ contents });
-      const out =
-        (typeof result?.response?.text === "function"
-          ? result.response.text()
-          : "") ||
-        (locale.startsWith("es")
-          ? "No pude generar respuesta."
-          : "I couldn’t generate a response.");
-
-      const cleaned = sanitizeUrls(out.trim());
-      setMessages((m) => [...m, { role: "assistant", text: cleaned }]);
-    } catch {
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          text: locale.startsWith("es")
-            ? "Ocurrió un error. Escribinos a incompany@furtherenglish.com o info@furtherenglish.com"
-            : "There was an error. You can reach us at incompany@furtherenglish.com or info@furtherenglish.com",
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
+    if (!isRetryable || attempt === 1) break; // ❌ no reintentar si no es error temporal
+    await new Promise((r) => setTimeout(r, 1200)); // esperar 1.2s y reintentar
   }
+}
+
+
+    const finalText =
+      out?.trim() ||
+      (locale.startsWith("es")
+        ? "No pude generar una respuesta. Intentalo de nuevo en unos segundos."
+        : "I couldn’t generate a response. Try again later.");
+
+    const cleaned = sanitizeUrls(finalText);
+    setMessages((m) => [...m, { role: "assistant", text: cleaned }]);
+  } catch (err) {
+    console.error("❌ Error inesperado en Gemini:", err);
+    setMessages((m) => [
+      ...m,
+      {
+        role: "assistant",
+        text: locale.startsWith("es")
+          ? "Hubo un problema temporal con el servicio. Intentalo de nuevo."
+          : "Temporary issue with the service. Please try again.",
+      },
+    ]);
+  } finally {
+    setLoading(false);
+  }
+}
+
 
   async function sendMessage(e) {
     e?.preventDefault?.();
