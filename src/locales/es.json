@@ -592,7 +592,8 @@
     "desc": "Nuestra nueva sede al norte de Buenos Aires, moderna y acogedora.",
     "iframe": "https://player.vimeo.com/video/1134605055?"
   },
-  "cta": "Encontrá tu sede más cercana"
+  "cta": "Encontrá tu sede más cercana",
+  "viewLocation": "Ver ubicación"
 },
 
   "hero": {

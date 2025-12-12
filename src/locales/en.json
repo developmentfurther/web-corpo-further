@@ -592,7 +592,9 @@
     "desc": "Our new campus in the north of Buenos Aires, modern and welcoming.",
     "iframe": "https://player.vimeo.com/video/1134605055?"
   },
-  "cta": "Find your nearest campus"
+  "cta": "Find your nearest campus",
+  "viewLocation": "View location"
+
 },
 
   "hero": {

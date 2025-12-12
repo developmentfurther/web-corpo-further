@@ -21,9 +21,12 @@ import {
   FiAward,
   FiGlobe,
   FiInstagram,
-  FaStar
+  FaStar,
+  FiMaximize2
 } from "react-icons/fi";
 import { useState } from "react";
+import { FiX } from "react-icons/fi";
+import LocationsSection from "@/componentes/school/Location";
 
 import { loadMessages } from "@/lib/i18n";
 import TestimonialsCarousel from "@/componentes/ui/TestimonialsCarousel";
@@ -102,68 +105,9 @@ function WaveDivider({
   );
 }
 
-function ExpandableVideo({ thumbnail, src, title }) {
-  const [open, setOpen] = useState(false);
 
-  return (
-    <>
-      {/* Mini video */}
-      <motion.div
-        layoutId={`video-${title}`}
-        className="cursor-pointer overflow-hidden rounded-3xl relative group"
-        onClick={() => setOpen(true)}
-      >
-        <iframe
-          src={src}
-          title={title}
-          className="w-full aspect-[9/16] md:aspect-[16/9] rounded-3xl pointer-events-none"
-          allow="autoplay; fullscreen; picture-in-picture"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-        <div className="absolute bottom-4 left-4 text-white">
-          <h3 className="font-bold text-lg">{title}</h3>
-        </div>
-      </motion.div>
 
-      {/* Overlay y video expandido */}
-      {/* Overlay y video expandido */}
-<AnimatePresence>
-  {open && (
-    <motion.div
-      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={() => setOpen(false)}
-    >
-      <motion.div
-        layoutId={`video-${title}`}
-        className="relative w-full max-w-[95vw] md:max-w-5xl aspect-[9/16] md:aspect-video rounded-3xl overflow-hidden shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <iframe
-          src={src}
-          title={title}
-          className="w-full h-full top pt-12"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
-        />
-        <button
-          onClick={() => setOpen(false)}
-          className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition"
-          aria-label="Cerrar video"
-        >
-          ✕
-        </button>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
 
-    </>
-  );
-} 
 
 /* ===== Animaciones accesibles (ligeras) ===== */
 function useAnims() {
@@ -289,68 +233,13 @@ export default function FurtherSchoolPage({ messages }) {
           <HeroSchool />
           
 
-{/* === NUEVA SECCIÓN: NUESTRAS SEDES === */}
-<section
-  id="locations"
-  className="relative z-10 bg-[#0A1628] text-white overflow-hidden"
-  aria-labelledby="locations-title"
->
-  {/* Fondo decorativo animado */}
-  
-
-  <div className={`${SHELL} py-24`}>
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6 }}
-      className="text-center mb-16"
-    >
-      <h2
-        id="locations-title"
-        className="text-4xl sm:text-5xl font-extrabold mb-4"
-      >
-        <span className={GRAD_TEXT}>
-          {t?.locations?.title || "Conocé nuestras sedes"}
-        </span>
-      </h2>
-      <p className="text-white/70 max-w-2xl mx-auto text-lg">
-        {t?.locations?.intro ||
-          "Viví la experiencia Further en nuestras dos sedes: Parque Patricios y Saavedra. Dos espacios donde el idioma se vive todos los días."}
-      </p>
-    </motion.div>
-
-    {/* Grid de sedes */}
-    <div className="grid md:grid-cols-2 gap-10 items-center">
-      <ExpandableVideo
-  src="https://player.vimeo.com/video/1134646362?"
-  title="Parque Patricios"
+<LocationsSection
+  t={t}
+  SHELL={SHELL}
+  GRAD_TEXT={GRAD_TEXT}
+  BTN_PRIMARY={BTN_PRIMARY}
 />
 
-<ExpandableVideo
-  src="https://player.vimeo.com/video/1134605055?"
-  title="Saavedra"
-/>
-
-    </div>
-
-    {/* Llamado a la acción */}
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.3 }}
-      className="text-center mt-16"
-    >
-      <a
-        href="/contacto"
-        className={`${BTN_PRIMARY} text-gray-900 bg-white hover:bg-gray-100`}
-      >
-        <FiMapPin className="w-5 h-5" />
-        {t?.locations?.cta || "Encontrá tu sede más cercana"}
-      </a>
-    </motion.div>
-  </div>
-</section>
 
 {/* Separador hacia la sección “¿Por qué Further?” */}
 <WaveDivider from="dark" height={80} flip />

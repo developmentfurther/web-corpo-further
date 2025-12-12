@@ -10,9 +10,7 @@ import { useContext } from "react";
 import ContextGeneral from "@/services/contextGeneral"; // arriba del archivo, en imports
 
 
-/* ===== ENV ===== */
-const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const MODEL_ID = process.env.NEXT_PUBLIC_GEMINI_MODEL || "gemini-2.5-flash";
+
 
 /* ===== Estilo (tokens) ===== */
 const BG_ALT = "bg-[#112C3E]";
@@ -118,28 +116,35 @@ Mapa de rutas (contenido de la web)
 
 /* ===== System Instruction ===== */
 const SYSTEM_INSTRUCTION = `
-Eres "Mr. Further". Respondes EXCLUSIVAMENTE con la información del KNOWLEDGE provisto.
-Si la consulta NO está relacionada con esos temas, responde exactamente:
-Solo puedo responder sobre Further y los servicios/recursos descritos en nuestro material institucional.
+Eres “Mr. Further”, un asistente que SOLO responde usando la información del KNOWLEDGE proporcionado. 
+Si la consulta NO está relacionada con Further, debés responder EXACTAMENTE:
+“Solo puedo responder sobre Further y los servicios/recursos descritos en nuestro material institucional.”
 
-Lineamientos:
-- Tono: amable, claro y corporativo.
-- Responde en el idioma indicado (es/en). Si no se indica, responde en inglés.
-- Respuestas breves (1–4 frases o bullets), claras y específicas.
-- Cuando pregunten por redes sociales (Instagram, YouTube, Spotify, LinkedIn, TikTok) o WhatsApp, incluye los enlaces DIRECTOS presentes en el KNOWLEDGE.
-- Si falta información sobre CLASES PARTICULARES, deriva amablemente a WhatsApp Parque Patricios (+54 9 11 3582-1240 — https://wa.me/5491135821240).
-- Si falta información corporativa (capacitaciones, workshops), deriva amablemente a incompany@furtherenglish.com.
-- Indica modalidad (presencial/online) y sedes/ciudades cuando corresponda.
-- No inventes; si falta un dato, dilo y deriva. No menciones “PDF” ni “KNOWLEDGE”.
+PRIORIDADES (en orden):
+1) Responder SOLO con información contenida en KNOWLEDGE.
+2) Mantener un tono amable, claro y corporativo.
+3) Responder en el idioma solicitado (es/en). Si no se indica, usar inglés.
+4) Mantener respuestas breves (1–4 frases o bullets).
+5) Si se mencionan redes sociales o WhatsApp, incluir los enlaces EXACTOS del KNOWLEDGE.
+6) Si falta información sobre CLASES PARTICULARES → derivar a WhatsApp Parque Patricios: +54 9 11 3582-1240 (https://wa.me/5491135821240)
+7) Si falta información sobre temas CORPORATIVOS, WORKSHOPS, ACADEMY, TEFL o MEDIA → derivar a incompany@furtherenglish.com.
+8) Indicar modalidad (presencial/online) y sedes cuando la información esté disponible.
+9) No inventar información. Si no existe en KNOWLEDGE → derivar siguiendo las reglas anteriores.
+10) No mencionar “KNOWLEDGE”, “PDF” ni “fuente de datos”.
 
-Reglas adicionales:
-- Si la consulta está relacionada con temas CORPORATIVOS, WORKSHOPS, ACADEMY, MEDIA, TEFL o PODCAST, y no encontrás información específica en el KNOWLEDGE, indicá: 
-  “Para más información, escribinos a incompany@furtherenglish.com 📧”.
-- Si la consulta está relacionada con CLASES, CURSOS, INSCRIPCIONES o SEDES de la SCHOOL, y no encontrás información específica, indicá:
-  “Ya están abiertas las inscripciones para el ciclo 2026 en nuestras sedes Saavedra y Parque Patricios 🎓. Si querés más información sobre la oferta académica disponible, comunicate a nuestros WhatsApp:
-  - 📍 Parque Patricios: +54 9 11 3582-1240 (https://wa.me/5491135821240)
-  - 📍 Saavedra: +54 9 11 3083-3275 (https://wa.me/5491130833275)”.
-- No respondas con mensajes genéricos de error ni frases como “no tengo información”.
+REGLAS DE FALTA DE INFORMACIÓN:
+— Consultas sobre servicios corporativos / workshops / academy / TEFL / media sin datos específicos:
+  → “Para más información, escribinos a incompany@furtherenglish.com 📧”
+— Consultas sobre SCHOOL / cursos / sedes / inscripciones sin datos específicos:
+  → “Ya están abiertas las inscripciones para el ciclo 2026 en nuestras sedes Saavedra y Parque Patricios 🎓. Para más info, comunicate a:
+     • Parque Patricios: +54 9 11 3582-1240 (https://wa.me/5491135821240)
+     • Saavedra: +54 9 11 3083-3275 (https://wa.me/5491130833275)”
+
+IMPORTANTE:
+— No generes contenido fuera de KNOWLEDGE.
+— No respondas como modelo de IA: respondé como un asistente corporativo humano.
+— Mantener estilo sobrio, profesional y directo.
+
 `.trim();
 
 
@@ -620,7 +625,6 @@ const [messages, setMessages] = useState([
 
 const bottomRef = useRef(null);
 const textareaRef = useRef(null);
-const genAIRef = useRef(null);
 
 // --- CONTEXTO GEMINI SEGÚN RUTA ---
 const BOT_CONTEXT = isAdminMode
@@ -691,118 +695,59 @@ Tu tarea:
   }, []);
   useEffect(() => autoResize(), [input, open, autoResize]);
 
-  /* Lazy Gemini */
-  async function ensureGenAI() {
-    if (!API_KEY) return null;
-    if (genAIRef.current) return genAIRef.current;
-    try {
-      const mod = await import("@google/generative-ai");
-      const { GoogleGenerativeAI } = mod;
-      genAIRef.current = new GoogleGenerativeAI(API_KEY);
-      return genAIRef.current;
-    } catch {
-      return null;
-    }
-  }
-
-  const buildHistory = () =>
-    messages.slice(-15).map((m) => ({
-      role: m.role === "user" ? "user" : "model",
-      parts: [{ text: m.text }],
-    }));
-
+ 
+  const lastTimeRef = useRef(0);
   async function sendText(text) {
-  const q = (text || "").trim();
-  if (!q) return;
 
+  const now = Date.now();
+  if (now - lastTimeRef.current < 1200) return; // Anti-spam 1.2s
+  lastTimeRef.current = now;
+
+  const q = text.trim();
+  if (!q) return;
   setMessages((m) => [...m, { role: "user", text: q }]);
   setShowFAQ(false);
   setLoading(true);
 
   try {
-    const genAI = await ensureGenAI();
-    if (!genAI) {
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          text: locale.startsWith("es")
-            ? "Falta la clave de Gemini. Podés contactarnos en incompany@furtherenglish.com."
-            : "Gemini API key is missing. Please contact support.",
-        },
-      ]);
-      return;
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: MODEL_ID,
-      systemInstruction: BOT_CONTEXT,
+    const response = await fetch("/api/mrfurther", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        system: BOT_CONTEXT,
+        messages: [
+          ...messages.slice(-12).map((m) => ({
+            role: m.role,
+            content: m.text,
+          })),
+          { role: "user", content: `${uiFinal.localeHint}\n\n${q}` },
+        ],
+        maxTokens: 250,
+      }),
     });
 
-    const contents = [
-      ...buildHistory(),
-      { role: "user", parts: [{ text: `${uiFinal.localeHint}\n\nQ: ${q}` }] },
-    ];
+    const data = await response.json();
+    if (!data.output) throw new Error("No output from server");
 
-    // 🧩 retry automático una vez si falla
-  let out = "";
-const maxRetries = 10;
-
-for (let attempt = 0; attempt < maxRetries; attempt++) {
-  try {
-    const result = await model.generateContent({ contents });
-    out =
-      (await result?.response?.text?.()) ||
-      result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "";
-    if (out) break; // ✅ respuesta válida → salir
-  } catch (err) {
-    const isRetryable =
-      err?.message?.includes("503") || // modelo saturado
-      err?.message?.includes("429") || // rate limit
-      err?.message?.includes("timeout");
-
-    console.warn(`⚠️ Gemini intento ${attempt + 1} fallido:`, err.message);
-
-    // Esperar antes del próximo intento, aumentando el tiempo progresivamente
-    const waitMs = 800 + attempt * 400; // 0.8s → 4.4s
-    await new Promise((r) => setTimeout(r, waitMs));
-
-    if (!isRetryable && attempt >= 2) break; // ⚠️ salir si no es error temporal
-  }
-}
-
-// 🔸 Si no se obtuvo respuesta después de los 10 intentos, no mostrar error visible
-if (!out) {
-  console.warn("❌ No se obtuvo respuesta después de varios intentos.");
-  setLoading(false);
-  return; // simplemente termina sin mostrar nada al usuario
-}
-
-
-    const finalText =
-      out?.trim() ||
-      (locale.startsWith("es")
-        ? "No pude generar una respuesta. Intentalo de nuevo en unos segundos."
-        : "I couldn’t generate a response. Try again later.");
-
-    const cleaned = sanitizeUrls(finalText);
+    const cleaned = sanitizeUrls(data.output);
     setMessages((m) => [...m, { role: "assistant", text: cleaned }]);
   } catch (err) {
-    console.error("❌ Error inesperado en Gemini:", err);
+    console.error(err);
+
     setMessages((m) => [
       ...m,
       {
         role: "assistant",
         text: locale.startsWith("es")
-          ? "Hubo un problema temporal con el servicio. Intentalo de nuevo."
-          : "Temporary issue with the service. Please try again.",
+          ? "Hubo un problema temporal. Por favor, volvé a intentar."
+          : "Temporary issue. Please try again.",
       },
     ]);
   } finally {
     setLoading(false);
   }
 }
+
 
 
   async function sendMessage(e) {
@@ -1430,18 +1375,14 @@ useEffect(() => {
 
                 {/* Footer */}
                 <footer className="flex items-center justify-between px-5 py-3 text-[10px] text-white/60 border-t border-white/10">
-                  <div className="flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 rounded-full bg-[#EE7203] animate-pulse" />
-                    <span className="font-medium">
-                      {uiFinal.poweredBy} Google {MODEL_ID.split("-")[0]}
-                    </span>
-                  </div>
-                  {!API_KEY && (
-                    <span className="text-rose-400 font-medium animate-pulse">
-                      {uiFinal.apiMissing}
-                    </span>
-                  )}
-                </footer>
+  <div className="flex items-center gap-2">
+    <div className="h-1.5 w-1.5 rounded-full bg-[#EE7203] animate-pulse" />
+    <span className="font-medium">
+      {uiFinal.poweredBy} OpenAI GPT-5o mini
+    </span>
+  </div>
+</footer>
+
 
                 {/* Resize handlers */}
                 <div
