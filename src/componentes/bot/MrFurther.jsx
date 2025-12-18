@@ -911,15 +911,16 @@ useEffect(() => {
           <AnimatePresence>
             {open && (
               <motion.div
-                key="mr-overlay"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.18 }}
-                style={{ position: "fixed", inset: 0, zIndex: 120 }}
-                className="bg-black/30 backdrop-blur-[2px]"
-                aria-hidden
-              />
+  key="mr-overlay"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
+  transition={{ duration: 0.12 }} // 👈 reducido de 0.18
+  style={{ position: "fixed", inset: 0, zIndex: 120 }}
+  className="bg-black/40" // 👈 sin backdrop-blur
+  aria-hidden
+  onClick={() => setOpen(false)} // 👈 cierra al tocar afuera
+/>
             )}
           </AnimatePresence>
 
@@ -1090,6 +1091,7 @@ useEffect(() => {
                 key="mr-panel"
                 role="dialog"
                 aria-label="Mr. Further chat"
+                onClick={(e) => e.stopPropagation()} // 👈 AGREGAR ESTA LÍNEA
                 style={{
                   position: "fixed",
                   right: fabPos.right,
