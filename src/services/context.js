@@ -204,6 +204,8 @@ function Context(props) {
             coverUrl: meta?.coverUrl || b.coverUrl || "",
             title: meta?.title || b.title || b.slug,
             summary: meta?.summary || "",
+            featured: meta?.featured || b.featured || false, // 👈 AGREGAR ESTA LÍNEA
+            date: meta?.date || b.date || null,
           };
         })
       );

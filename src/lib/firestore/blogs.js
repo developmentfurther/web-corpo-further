@@ -24,57 +24,142 @@ async function ensureUniqueSlug(base) {
   }
 }
 
-// -------- CREATE/UPDATE META (root) --------
-export async function saveBlogMeta({ title, summary, coverUrl, status="private", locale="es", slug }) {
-  const baseSlug = slug ? slug : slugify(title || "post");
-  const finalSlug = slug ? slug : await ensureUniqueSlug(baseSlug);
+// ✅ Función para limpiar undefined recursivamente
+function cleanUndefined(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(item => cleanUndefined(item)).filter(item => item !== undefined);
+  }
+  
+  if (obj !== null && typeof obj === 'object') {
+    const cleaned = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (value !== undefined) {
+        cleaned[key] = cleanUndefined(value);
+      }
+    }
+    return cleaned;
+  }
+  
+  return obj;
+}
+
+// ============================================
+// saveBlogLocale
+// ============================================
+
+export async function saveBlogLocale({ slug, locale, title, summary, html="", blocks=[] }) {
+  if (!slug || !locale) throw new Error("slug y locale son obligatorios");
+  
+  console.log("🟢 saveBlogLocale recibió:", { slug, locale, title, summary, blocks: blocks?.length });
+  
+  const ref = doc(db, "blogs", slug);
+  const now = serverTimestamp();
+  
+  // ✅ LIMPIAR BLOCKS RECURSIVAMENTE
+  const cleanedBlocks = cleanUndefined(blocks);
+  
+  console.log("🟢 blocks originales:", blocks.length, "items");
+  console.log("🟢 blocks limpiados:", cleanedBlocks.length, "items");
+  console.log("🟢 Primer block original:", JSON.stringify(blocks[0], null, 2));
+  console.log("🟢 Primer block limpiado:", JSON.stringify(cleanedBlocks[0], null, 2));
+  
+  // ✅ Construir el objeto locale
+  const localeData = {
+    title: title || "",
+    summary: summary || "",
+    html: html || "",
+    blocks: Array.isArray(cleanedBlocks) ? cleanedBlocks : []
+  };
+
+  const updatePayload = {
+    locales: {
+      [locale]: localeData
+    },
+    updatedAt: now
+  };
+
+  try {
+    await setDoc(ref, updatePayload, { merge: true });
+    console.log("✅ saveBlogLocale exitoso");
+  } catch (error) {
+    console.error("❌ Error en saveBlogLocale setDoc:", error);
+    console.error("❌ updatePayload que falló:", JSON.stringify(updatePayload, null, 2).substring(0, 500));
+    throw error;
+  }
+
+  return { ok: true };
+}
+
+// ============================================
+// saveBlogMeta
+// ============================================
+
+export async function saveBlogMeta({ 
+  title, 
+  summary, 
+  coverUrl, 
+  coverKitId,
+  status, 
+  locale, 
+  slug,
+  featured
+}) {
+  const baseSlug = slug || slugify(title || "post");
+  const finalSlug = slug || await ensureUniqueSlug(baseSlug);
   const ref = doc(db, "blogs", finalSlug);
   const snap = await getDoc(ref);
 
   const now = serverTimestamp();
-  const rootPatch = {
-    status,
-    coverUrl: coverUrl || "",
-    updatedAt: now,
-  };
 
   if (!snap.exists()) {
-    await setDoc(ref, {
-      ...rootPatch,
+    // ✅ CREAR NUEVO DOCUMENTO
+    const newDoc = {
+      status: status || "private",
+      coverUrl: coverUrl || "",
+      featured: featured || false, // ✅ AGREGADO
       createdAt: now,
-      locales: { [locale]: { title: title || "", summary: summary || "", html: "", blocks: [], updatedAt: now } }
-    });
-  } else {
-    // no tocamos locales acá; solo meta raíz
-    await setDoc(ref, rootPatch, { merge: true });
-  }
-  return { slug: finalSlug, status, coverUrl };
-}
+      updatedAt: now,
+    };
 
-// -------- SAVE LOCALE (title/summary/html/blocks) --------
-export async function saveBlogLocale({ slug, locale, title, summary, html="", blocks=[] }) {
-  if (!slug || !locale) throw new Error("slug y locale son obligatorios");
-  const ref = doc(db, "blogs", slug);
-  const now = serverTimestamp();
-  // Guardamos SOLO la rama del locale; no pisamos otros idiomas
-  await setDoc(ref, {
-    locales: {
+    if (coverKitId && String(coverKitId).trim()) {
+      newDoc.coverKitId = String(coverKitId).trim();
+    }
+
+    newDoc.locales = {
       [locale]: {
         title: title || "",
         summary: summary || "",
-        html: html || "",
-        blocks: Array.isArray(blocks) ? blocks : [],
-        updatedAt: now,
+        html: "",
+        blocks: []
       }
-    },
-    updatedAt: now,
-  }, { merge: true });
-  return { ok: true };
+    };
+    
+    await setDoc(ref, newDoc);
+  } else {
+    // ✅ ACTUALIZAR DOCUMENTO EXISTENTE
+    const updateData = {
+      status: status || "private",
+      coverUrl: coverUrl || "",
+      featured: featured || false, // ✅ AGREGADO
+      updatedAt: now,
+    };
+
+    if (coverKitId && String(coverKitId).trim()) {
+      updateData.coverKitId = String(coverKitId).trim();
+    }
+
+    await setDoc(ref, updateData, { merge: true });
+  }
+  
+  return { slug: finalSlug, status: status || "private", coverUrl: coverUrl || "" };
 }
 
-// -------- READ (meta + un locale) --------
+// ============================================
+// READ (meta + un locale)
+// ============================================
+
 export async function getBlog(slug, locale="es") {
-    if (!slug) {
+  if (!slug) {
     console.error("getBlog: slug indefinido");
     return null;
   }
@@ -82,13 +167,16 @@ export async function getBlog(slug, locale="es") {
   const ref = doc(db, "blogs", String(slug));
   const snap = await getDoc(ref);
   if (!snap.exists()) return null;
+  
   const data = snap.data();
-
   const l = data.locales?.[locale] || {};
+  
   return {
     slug,
     status: data.status || "private",
     coverUrl: data.coverUrl || "",
+    coverKitId: data.coverKitId || "",
+    featured: data.featured || false, // ✅ AGREGADO
     title: l.title || "",
     summary: l.summary || "",
     locale,
@@ -105,7 +193,10 @@ export async function getBlogContent(slug, locale="es") {
   };
 }
 
-// -------- LIST --------
+// ============================================
+// LIST
+// ============================================
+
 export async function listBlogs({ status } = {}) {
   const col = collection(db, "blogs");
   const q = status
@@ -118,13 +209,18 @@ export async function listBlogs({ status } = {}) {
       slug: d.id,
       status: v.status,
       coverUrl: v.coverUrl,
+      coverKitId: v.coverKitId || "",
+      featured: v.featured || false, // ✅ AGREGADO
       locales: v.locales ? Object.keys(v.locales) : [],
       updatedAt: v.updatedAt,
     };
   });
 }
 
-// -------- DELETE --------
+// ============================================
+// DELETE
+// ============================================
+
 export async function deleteBlog(slug) {
   await deleteDoc(doc(db, "blogs", slug));
   return { ok: true };

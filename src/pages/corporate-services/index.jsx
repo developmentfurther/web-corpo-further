@@ -1,20 +1,18 @@
 // /pages/corporate-services/index.jsx
-// Corporate Services — diseño alineado con “Nosotros” (ondas invertidas verticalmente)
+// Corporate Services — OPTIMIZADO para mejor rendimiento
 
-import React, { useMemo, useState, useRef, useEffect } from "react";
+import React, { useMemo, useState, useRef, useEffect, memo } from "react";
 import Head from "next/head";
 import {
   motion,
   MotionConfig,
   useReducedMotion,
-  animate,
   useInView,
-  useMotionValue,
 } from "framer-motion";
 import { loadMessages } from "@/lib/i18n";
 import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
 import { useTranslations } from "next-intl";
-import { FiAward, FiUsers, FiTarget, FiBookOpen  } from "react-icons/fi";
+import { FiAward, FiUsers, FiTarget, FiBookOpen } from "react-icons/fi";
 import Ecosistema from "@/componentes/home/Ecosistema";
 import StatsCorporate from "@/componentes/home/StatsCorporate";
 import HeroCorporate from "@/componentes/hero/HeroCorporate";
@@ -25,121 +23,109 @@ import { ArrowUpRight } from "lucide-react";
 /* ==============================
    Design Tokens (dark + light)
    ============================== */
-/* Azul unificado:
-   - Base deep:   #0C212D
-   - Alterno (footer-like): #0A1628
-*/
-const BG =
-  "bg-gradient-to-b from-[#0A1628] via-[#0C212D] to-[#0C212D] text-white";
+const BG = "bg-gradient-to-b from-[#0A1628] via-[#0C212D] to-[#0C212D] text-white";
 const BG_ALT = "bg-[#0A1628]/80";
 const GRAD = "bg-gradient-to-br from-[#EE7203] via-[#FF5A1F] to-[#FF3816]";
-const GRAD_SUBTLE =
-  "bg-gradient-to-br from-[#EE7203]/20 via-[#FF5A1F]/10 to-[#FF3816]/20";
-const GRAD_TEXT =
-  "bg-gradient-to-r from-[#EE7203] via-[#FF5A1F] to-[#FF3816] bg-clip-text text-transparent";
-const CARD =
-  "relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl shadow-2xl shadow-black/40";
-const CARD_HOVER =
-  "hover:border-white/25 hover:shadow-[0_20px_70px_rgba(238,114,3,0.15)] transition-all duration-500";
-const LINK =
-  "inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-medium outline-none focus-visible:ring-2 focus-visible:ring-[#FF3816]/60 transition-all duration-300";
+const GRAD_SUBTLE = "bg-gradient-to-br from-[#EE7203]/20 via-[#FF5A1F]/10 to-[#FF3816]/20";
+const GRAD_TEXT = "bg-gradient-to-r from-[#EE7203] via-[#FF5A1F] to-[#FF3816] bg-clip-text text-transparent";
+const CARD = "relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl shadow-2xl shadow-black/40";
+const CARD_HOVER = "hover:border-white/25 hover:shadow-[0_20px_70px_rgba(238,114,3,0.15)] transition-all duration-500";
+const LINK = "inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-medium outline-none focus-visible:ring-2 focus-visible:ring-[#FF3816]/60 transition-all duration-300";
 const TITLE = "text-white font-black tracking-tight";
 const SUB = "text-white/70 leading-relaxed";
 const TEXT = "text-white/85 leading-relaxed";
 const SHELL = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
 
-/* Light section tokens */
-const LIGHT_WRAP = "bg-gradient-to-br from-white via-gray-50 to-white";
-
 /* ==============================
-   Animation Variants
+   Animation Variants - OPTIMIZADAS
    ============================== */
 const containerStagger = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      duration: 0.4,
+      duration: 0.3, // ✅ Reducido de 0.4
       when: "beforeChildren",
-      staggerChildren: 0.12,
+      staggerChildren: 0.08, // ✅ Reducido de 0.12
     },
   },
 };
+
 const itemFade = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 }, // ✅ Reducido de 30
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }, // ✅ Reducido de 0.6
   },
 };
+
 const itemScale = {
-  hidden: { opacity: 0, scale: 0.95 },
+  hidden: { opacity: 0, scale: 0.97 }, // ✅ Menos dramático
   show: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }, // ✅ Reducido de 0.5
   },
 };
-const floatingAnimation = {
-  y: [-10, 10, -10],
-  transition: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-};
-
 
 /* ==============================
-   Floating Orbs + Grid
+   Floating Orbs - OPTIMIZADOS
    ============================== */
-function FloatingOrbs() {
+// ✅ Memoizado para evitar re-renders
+const FloatingOrbs = memo(function FloatingOrbs() {
+  const prefersReducedMotion = useReducedMotion();
+  
+  // ✅ Si el usuario prefiere menos movimiento, no animar
+  if (prefersReducedMotion) {
+    return (
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <div
+          className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[120px] opacity-15"
+          style={{ background: "radial-gradient(circle, #EE7203 0%, transparent 70%)" }}
+        />
+        <div
+          className="absolute top-1/3 -right-40 w-[400px] h-[400px] rounded-full blur-[100px] opacity-10"
+          style={{ background: "radial-gradient(circle, #FF3816 0%, transparent 70%)" }}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-      aria-hidden
-    >
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
       <motion.div
-        className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[120px] opacity-20"
+        className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full blur-[120px] opacity-15"
         style={{
           background: "radial-gradient(circle, #EE7203 0%, transparent 70%)",
+          willChange: "transform", // ✅ GPU hint
         }}
-        animate={floatingAnimation}
+        animate={{ y: [-10, 10, -10] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} // ✅ Más lento
       />
       <motion.div
-        className="absolute top-1/3 -right-40 w-[400px] h-[400px] rounded-full blur-[100px] opacity-15"
+        className="absolute top-1/3 -right-40 w-[400px] h-[400px] rounded-full blur-[100px] opacity-10"
         style={{
           background: "radial-gradient(circle, #FF3816 0%, transparent 70%)",
+          willChange: "transform",
         }}
-        animate={{
-          y: [10, -10, 10],
-          transition: { duration: 8, repeat: Infinity, ease: "easeInOut" },
-        }}
+        animate={{ y: [10, -10, 10] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute bottom-20 left-1/4 w-[300px] h-[300px] rounded-full blur-[80px] opacity-10"
-        style={{
-          background: "radial-gradient(circle, #FF5A1F 0%, transparent 70%)",
-        }}
-        animate={{
-          y: [-15, 15, -15],
-          transition: { duration: 10, repeat: Infinity, ease: "easeInOut" },
-        }}
-      />
+      {/* ✅ Eliminado el tercer orb para mejor rendimiento */}
     </div>
   );
-}
-function GridPattern() {
+});
+
+/* ==============================
+   Grid Pattern - OPTIMIZADO
+   ============================== */
+const GridPattern = memo(function GridPattern() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-30" aria-hidden>
-      <svg
-        className="absolute w-full h-full"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+    <div className="absolute inset-0 overflow-hidden opacity-20" aria-hidden> {/* ✅ Reducida opacidad */}
+      <svg className="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <pattern
-            id="grid"
-            width="40"
-            height="40"
-            patternUnits="userSpaceOnUse"
-          >
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
             <path
               d="M 40 0 L 0 0 0 40"
               fill="none"
@@ -152,9 +138,98 @@ function GridPattern() {
       </svg>
     </div>
   );
-}
+});
 
+/* ==============================
+   Service Card - MEMOIZADO
+   ============================== */
+const ServiceCard = memo(function ServiceCard({ service }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
+  return (
+    <motion.article
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.4 }}
+      className={`${CARD} ${CARD_HOVER} p-8 group overflow-hidden relative`}
+      style={{ willChange: "transform" }}
+    >
+      {/* Fondo sutil al hover */}
+      <div
+        className={`absolute inset-0 ${GRAD_SUBTLE} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+      />
+
+      <div className="relative">
+        {/* Ícono */}
+        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center mb-6 ring-1 ring-white/10 group-hover:ring-white/30 transition-all duration-300 group-hover:scale-110">
+          {service.icon}
+        </div>
+
+        {/* Título */}
+        <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#EE7203] group-hover:to-[#FF3816] transition-all duration-300">
+          {service.title}
+        </h3>
+
+        {/* Descripción */}
+        <p className={`${TEXT} text-base`}>{service.body}</p>
+      </div>
+    </motion.article>
+  );
+});
+
+/* ==============================
+   Language Flag - MEMOIZADO
+   ============================== */
+const LanguageFlag = memo(function LanguageFlag({ id, name, Component }) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.1, y: -4 }}
+      transition={{ duration: 0.25 }}
+      className="relative flex flex-col items-center group"
+    >
+      <div className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all shadow-md ring-1 ring-white/10 hover:ring-[#EE7203]/50">
+        <Component className="h-10 w-14" />
+      </div>
+      <span className="text-sm text-white/80 mt-2 font-medium tracking-wide">
+        {name}
+      </span>
+    </motion.div>
+  );
+});
+
+/* ==============================
+   Testimonial Card - MEMOIZADO
+   ============================== */
+const TestimonialCard = memo(function TestimonialCard({ testimonial, index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+  return (
+    <motion.blockquote
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      className={`${CARD} ${CARD_HOVER} p-8 relative group`}
+      whileHover={{ y: -6 }}
+    >
+      <div className="absolute -top-2 left-8 h-1 w-20 bg-gradient-to-r from-[#EE7203] to-[#FF3816] rounded-full" />
+      <p className={`${TEXT} text-lg leading-relaxed italic mb-6`}>
+        "{testimonial?.quote}"
+      </p>
+      <footer className="border-t border-white/10 pt-4">
+        {testimonial?.name && (
+          <div className="font-bold text-white text-lg">{testimonial.name}</div>
+        )}
+        {testimonial?.role && (
+          <div className="text-sm text-white/60 mt-1">{testimonial.role}</div>
+        )}
+      </footer>
+    </motion.blockquote>
+  );
+});
 
 /* ==============================
    Main Page
@@ -167,12 +242,11 @@ export default function CorporateIndex({ messages }) {
   const statsRaw = t.raw("corporate.stats");
 
   const stats = [
-  { ...statsRaw.yearsInBusiness, icon: FiAward },
-  { ...statsRaw.corporatePartners, icon: FiUsers },
-  { ...statsRaw.corporateStudents, icon: FiTarget },
-  { ...statsRaw.privateStudents, icon: FiBookOpen },
-];
-
+    { ...statsRaw.yearsInBusiness, icon: FiAward },
+    { ...statsRaw.corporatePartners, icon: FiUsers },
+    { ...statsRaw.corporateStudents, icon: FiTarget },
+    { ...statsRaw.privateStudents, icon: FiBookOpen },
+  ];
 
   const metaHome = messages?.meta?.home ?? {};
   const metaTitle =
@@ -184,10 +258,7 @@ export default function CorporateIndex({ messages }) {
     metaHome?.description ??
     "Corporate language training with CEFR-aligned assessment and measurable outcomes.";
 
-  
-
-  const serviceCardsRaw =
-    tCorp?.services?.cards ?? [];
+  const serviceCardsRaw = tCorp?.services?.cards ?? [];
   const serviceCards = Array.isArray(serviceCardsRaw) ? serviceCardsRaw : [];
   const defaultServices = [
     {
@@ -206,9 +277,9 @@ export default function CorporateIndex({ messages }) {
         "Comprehensive exam preparation for globally recognized language certifications.",
     },
   ];
-  const servicesSource =
-    serviceCards.length > 0 ? serviceCards : defaultServices;
+  const servicesSource = serviceCards.length > 0 ? serviceCards : defaultServices;
 
+  // ✅ Memoizar services para evitar recálculos
   const services = useMemo(
     () =>
       servicesSource.slice(0, 3).map((c, i) => ({
@@ -217,66 +288,25 @@ export default function CorporateIndex({ messages }) {
         icon:
           i === 0 ? (
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-              <rect
-                x="3"
-                y="5"
-                width="18"
-                height="12"
-                rx="2"
-                fill="currentColor"
-                className="text-white/10"
-              />
-              <path
-                d="M3 16h18M10 19h4"
-                stroke="#FF6A1F"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <rect x="3" y="5" width="18" height="12" rx="2" fill="currentColor" className="text-white/10" />
+              <path d="M3 16h18M10 19h4" stroke="#FF6A1F" strokeWidth="2" strokeLinecap="round" />
               <circle cx="12" cy="11" r="2" fill="#EE7203" />
             </svg>
           ) : i === 1 ? (
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M4 20v-8l8-4 8 4v8"
-                fill="none"
-                stroke="#FF6A1F"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <path d="M4 20v-8l8-4 8 4v8" fill="none" stroke="#FF6A1F" strokeWidth="2" strokeLinecap="round" />
               <circle cx="12" cy="8" r="2.5" fill="#EE7203" />
-              <path
-                d="M8 20v-6m8 6v-6"
-                stroke="currentColor"
-                strokeOpacity=".3"
-                strokeWidth="2"
-              />
+              <path d="M8 20v-6m8 6v-6" stroke="currentColor" strokeOpacity=".3" strokeWidth="2" />
             </svg>
           ) : (
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-              <rect
-                x="4"
-                y="4"
-                width="16"
-                height="16"
-                rx="2"
-                fill="none"
-                stroke="currentColor"
-                strokeOpacity=".4"
-                strokeWidth="2"
-              />
-              <path
-                d="M8 16v-4m4 4v-7m4 7V9"
-                stroke="#FF6A1F"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
+              <rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" strokeOpacity=".4" strokeWidth="2" />
+              <path d="M8 16v-4m4 4v-7m4 7V9" stroke="#FF6A1F" strokeWidth="2.5" strokeLinecap="round" />
             </svg>
           ),
       })),
     [servicesSource]
   );
-
-
 
   const cefr = {
     title: tCorp?.cefr?.title ?? "CEFR Placement",
@@ -288,32 +318,20 @@ export default function CorporateIndex({ messages }) {
       tCorp?.cefr?.p2 ??
       "From A1 (beginner) to C2 (mastery), with consistent, measurable evaluation.",
     blogLabel: tCommon?.cta?.learnMore ?? "Learn More",
-    blogHref:
-      tCorp?.cefr?.blogHref ?? "/blog/evaluando-la-fluidez-que-es-el-cefr",
+    blogHref: tCorp?.cefr?.blogHref ?? "/blog/evaluando-la-fluidez-que-es-el-cefr",
     bullets:
       Array.isArray(tCorp?.cefr?.bullets) && tCorp.cefr.bullets.length
         ? tCorp.cefr.bullets
-        : [
-            "Transparent levels",
-            "International comparability",
-            "Measurable progress",
-          ],
+        : ["Transparent levels", "International comparability", "Measurable progress"],
   };
 
-  const testimonialsNS =
-    tCorp?.testimonials 
-    messages?.about?.testimonials ??
-    {};
-  const testimonials = Array.isArray(testimonialsNS?.items)
-    ? testimonialsNS.items
-    : [];
+  const testimonialsNS = tCorp?.testimonials ?? messages?.about?.testimonials ?? {};
+  const testimonials = Array.isArray(testimonialsNS?.items) ? testimonialsNS.items : [];
 
   const forms = {
     emailPH: tCommon?.forms?.emailPlaceholder ?? "you@company.com",
-    invalidEmail:
-      tCommon?.forms?.invalidEmail ?? "Please enter a valid email address.",
-    thanks:
-      tCommon?.forms?.thanks ?? "Thanks! Please check your inbox to confirm.",
+    invalidEmail: tCommon?.forms?.invalidEmail ?? "Please enter a valid email address.",
+    thanks: tCommon?.forms?.thanks ?? "Thanks! Please check your inbox to confirm.",
     error: tCommon?.forms?.error ?? "Something went wrong. Please try again.",
     sending: tCommon?.forms?.sending ?? "Sending...",
     ctaSend: tCommon?.cta?.send ?? "Send",
@@ -326,51 +344,63 @@ export default function CorporateIndex({ messages }) {
     message: "",
   });
   const [status, setStatus] = useState({ state: "idle", error: "" });
-  const onChange = (e) =>
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  
+  const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  // dentro del componente CorporateIndex()
-const onSubmit = async (e) => {
-  e.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!form.name.trim())
-    return setStatus({ state: "error", error: "Please enter your full name." });
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-    return setStatus({ state: "error", error: forms.invalidEmail });
-  if (form.message.trim().length < 10)
-    return setStatus({
-      state: "error",
-      error: "Please provide more details (10+ characters).",
-    });
+    if (!form.name.trim())
+      return setStatus({ state: "error", error: "Please enter your full name." });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      return setStatus({ state: "error", error: forms.invalidEmail });
+    if (form.message.trim().length < 10)
+      return setStatus({
+        state: "error",
+        error: "Please provide more details (10+ characters).",
+      });
 
-  try {
-    setStatus({ state: "sending", error: "" });
+    try {
+      setStatus({ state: "sending", error: "" });
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...form,
-        origin: "Further Corporate", // 👈 aquí definís el origen
-      }),
-    });
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          origin: "Further Corporate",
+        }),
+      });
 
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.error || "Mail send failed");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Mail send failed");
+      }
+
+      setStatus({ state: "ok", error: "" });
+      setForm({ name: "", email: "", phone: "", message: "" });
+    } catch (err) {
+      console.error("❌ Error sending contact:", err);
+      setStatus({
+        state: "error",
+        error: forms.error || "Something went wrong. Please try again.",
+      });
     }
+  };
 
-    setStatus({ state: "ok", error: "" });
-    setForm({ name: "", email: "", phone: "", message: "" });
-  } catch (err) {
-    console.error("❌ Error sending contact:", err);
-    setStatus({
-      state: "error",
-      error: forms.error || "Something went wrong. Please try again.",
-    });
-  }
-};
-
+  // ✅ Memoizar flags para evitar re-renders
+  const languageFlags = useMemo(
+    () => [
+      { id: "en", name: "English (US)", Component: FlagUS },
+      { id: "uk", name: "English (UK)", Component: FlagUK },
+      { id: "pt", name: "Português", Component: FlagBR },
+      { id: "fr", name: "Français", Component: FlagFR },
+      { id: "de", name: "Deutsch", Component: FlagDE },
+      { id: "it", name: "Italiano", Component: FlagIT },
+      { id: "es", name: "Español", Component: FlagAR },
+    ],
+    []
+  );
 
   return (
     <>
@@ -382,184 +412,105 @@ const onSubmit = async (e) => {
       </Head>
 
       <MotionConfig reducedMotion="user">
-        <main className={`min-h-screen relative overflow-hidden`}>
+        <main className="min-h-screen relative overflow-hidden">
           <FloatingOrbs />
           <GridPattern />
 
           {/* HERO */}
           <HeroCorporate />
-        
-        {/* STATS */}
-          <StatsCorporate />
-                
 
-        {/* EMPRESAS CARROUSEL */}
+          {/* STATS */}
+          <StatsCorporate />
 
           {/* SERVICES */}
           <section id="servicios" className="relative py-24">
-  <div className={SHELL}>
-    {/* 🧠 Título de sección */}
-    <div className="text-center mb-16">
-      <h2 className={`${TITLE} text-4xl sm:text-5xl lg:text-6xl`}>
-        {tCorp.sections?.servicesTitle?.prefix}{" "}
-        <span className={GRAD_TEXT}>
-          {tCorp.sections?.servicesTitle?.highlight}
-        </span>
-      </h2>
-    </div>
+            <div className={SHELL}>
+              {/* Título */}
+              <div className="text-center mb-16">
+                <h2 className={`${TITLE} text-4xl sm:text-5xl lg:text-6xl`}>
+                  {tCorp.sections?.servicesTitle?.prefix}{" "}
+                  <span className={GRAD_TEXT}>
+                    {tCorp.sections?.servicesTitle?.highlight}
+                  </span>
+                </h2>
+              </div>
 
-    {/* 💼 Grid de servicios (solo efecto hover) */}
-    <div className="grid gap-8 md:grid-cols-3">
-      {services.map((svc) => (
-        <article
-  key={svc.title}
-  className={`${CARD} ${CARD_HOVER} p-8 group overflow-hidden relative transition-transform duration-300 ease-out hover:scale-[1.03] hover:shadow-2xl`}
->
-  {/* Fondo sutil al hover */}
-  <div
-    className={`absolute inset-0 ${GRAD_SUBTLE} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-  />
-
-  <div className="relative">
-    {/* Ícono sin rotación ni motion */}
-    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center mb-6 ring-1 ring-white/10 group-hover:ring-white/30 transition-all duration-300 group-hover:scale-110">
-      {svc.icon}
-    </div>
-
-    {/* Título con gradiente en hover */}
-    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#EE7203] group-hover:to-[#FF3816] transition-all duration-300">
-      {svc.title}
-    </h3>
-
-    {/* Descripción */}
-    <p className={`${TEXT} text-base`}>{svc.body}</p>
-  </div>
-</article>
-
-      ))}
-    </div>
-  </div>
-</section>
+              {/* Grid de servicios */}
+              <div className="grid gap-8 md:grid-cols-3">
+                {services.map((svc) => (
+                  <ServiceCard key={svc.title} service={svc} />
+                ))}
+              </div>
+            </div>
+          </section>
 
           <Ecosistema />
 
-          {/* 🌍 LANGUAGES + CEFR */}
-<section className={`${BG_ALT} backdrop-blur-xl border-y border-white/10 py-24`}>
-  <div className={SHELL}>
-    <div className="grid gap-12 lg:grid-cols-2 items-center">
-      {/* 🏳️ Idiomas con banderas reutilizando tu componente */}
-      <div className="flex flex-col items-center lg:items-start">
-        <h2 className={`${TITLE} text-3xl sm:text-4xl mb-10 text-center lg:text-left`}>
-          {tCorp.sections?.languagesTitle?.prefix}{" "}
-          <span className={GRAD_TEXT}>
-            {tCorp.sections?.languagesTitle?.highlight}
-          </span>
-        </h2>
+          {/* LANGUAGES + CEFR */}
+          <section className={`${BG_ALT} backdrop-blur-xl border-y border-white/10 py-24`}>
+            <div className={SHELL}>
+              <div className="grid gap-12 lg:grid-cols-2 items-center">
+                {/* Idiomas */}
+                <div className="flex flex-col items-center lg:items-start">
+                  <h2 className={`${TITLE} text-3xl sm:text-4xl mb-10 text-center lg:text-left`}>
+                    {tCorp.sections?.languagesTitle?.prefix}{" "}
+                    <span className={GRAD_TEXT}>
+                      {tCorp.sections?.languagesTitle?.highlight}
+                    </span>
+                  </h2>
 
-        <div className="w-full flex justify-center lg:justify-start">
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-8">
-            {[
-              { id: "en", name: "English (US)", Component: FlagUS },
-              { id: "uk", name: "English (UK)", Component: FlagUK },
-              { id: "pt", name: "Português", Component: FlagBR },
-              { id: "fr", name: "Français", Component: FlagFR },
-              { id: "de", name: "Deutsch", Component: FlagDE },
-              { id: "it", name: "Italiano", Component: FlagIT },
-              { id: "es", name: "Español", Component: FlagAR },
-            ].map(({ id, name, Component }) => (
-              <motion.div
-                key={id}
-                whileHover={{ scale: 1.1, y: -4 }}
-                transition={{ duration: 0.25 }}
-                className="relative flex flex-col items-center group"
-              >
-                <div className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all shadow-md ring-1 ring-white/10 hover:ring-[#EE7203]/50">
-                  <Component className="h-10 w-14" />
+                  <div className="w-full flex justify-center lg:justify-start">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-8">
+                      {languageFlags.map(({ id, name, Component }) => (
+                        <LanguageFlag key={id} id={id} name={name} Component={Component} />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <span className="text-sm text-white/80 mt-2 font-medium tracking-wide">
-                  {name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
 
-      {/* 📈 CEFR Card */}
-      <div
-        className={`${CARD} ${CARD_HOVER} p-8 bg-gradient-to-b from-[#112C3E]/80 to-[#0A1628]/90 text-white`}
-      >
-        <h3 className="text-2xl font-bold mb-4">{cefr.title}</h3>
-        <p className={`${SUB} mb-3`}>{cefr.p1}</p>
-        <p className={`${SUB} mb-6`}>{cefr.p2}</p>
-        <ul className="space-y-2 mb-6">
-          {cefr.bullets.map((b, i) => (
-            <li key={i} className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
-              <span className={TEXT}>{b}</span>
-            </li>
-          ))}
-        </ul>
-        <motion.a
-          href={cefr.blogHref}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#EE7203] to-[#FF3816] hover:gap-3 transition-all"
-          whileHover={{ x: 4 }}
-        >
-          {cefr.blogLabel} <span>↗</span>
-        </motion.a>
-      </div>
-    </div>
-  </div>
-</section>
-
+                {/* CEFR Card */}
+                <div
+                  className={`${CARD} ${CARD_HOVER} p-8 bg-gradient-to-b from-[#112C3E]/80 to-[#0A1628]/90 text-white`}
+                >
+                  <h3 className="text-2xl font-bold mb-4">{cefr.title}</h3>
+                  <p className={`${SUB} mb-3`}>{cefr.p1}</p>
+                  <p className={`${SUB} mb-6`}>{cefr.p2}</p>
+                  <ul className="space-y-2 mb-6">
+                    {cefr.bullets.map((b, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
+                        <span className={TEXT}>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <motion.a
+                    href={cefr.blogHref}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#EE7203] to-[#FF3816] hover:gap-3 transition-all"
+                    whileHover={{ x: 4 }}
+                  >
+                    {cefr.blogLabel} <span>↗</span>
+                  </motion.a>
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* TESTIMONIALS */}
           {testimonials.length > 0 && (
             <section className="relative py-24">
               <div className={SHELL}>
-               <motion.h2
-  className={`${TITLE} text-4xl sm:text-5xl text-center mb-16`}
->
-  {tCorp.sections?.testimonialsTitle?.prefix}{" "}
-  <span className={GRAD_TEXT}>{tCorp.sections?.testimonialsTitle?.highlight}</span>
-</motion.h2>
+                <motion.h2 className={`${TITLE} text-4xl sm:text-5xl text-center mb-16`}>
+                  {tCorp.sections?.testimonialsTitle?.prefix}{" "}
+                  <span className={GRAD_TEXT}>
+                    {tCorp.sections?.testimonialsTitle?.highlight}
+                  </span>
+                </motion.h2>
 
-
-                <motion.div
-                  className="grid gap-8 md:grid-cols-2"
-                  variants={containerStagger}
-                  initial="hidden"
-                  animate="show"
-                  viewport={{ once: true, amount: 0.2 }}
-                >
+                <div className="grid gap-8 md:grid-cols-2">
                   {testimonials.map((t, i) => (
-                    <motion.blockquote
-                      key={i}
-                      variants={itemScale}
-                      className={`${CARD} ${CARD_HOVER} p-8 relative group`}
-                      whileHover={{ y: -6 }}
-                    >
-                      <div className="absolute -top-2 left-8 h-1 w-20 bg-gradient-to-r from-[#EE7203] to-[#FF3816] rounded-full" />
-                      <p
-                        className={`${TEXT} text-lg leading-relaxed italic mb-6`}
-                      >
-                        "{t?.quote}"
-                      </p>
-                      <footer className="border-t border-white/10 pt-4">
-                        {t?.name && (
-                          <div className="font-bold text-white text-lg">
-                            {t.name}
-                          </div>
-                        )}
-                        {t?.role && (
-                          <div className="text-sm text-white/60 mt-1">
-                            {t.role}
-                          </div>
-                        )}
-                      </footer>
-                    </motion.blockquote>
+                    <TestimonialCard key={i} testimonial={t} index={i} />
                   ))}
-                </motion.div>
+                </div>
               </div>
             </section>
           )}
@@ -573,13 +524,13 @@ const onSubmit = async (e) => {
               <motion.div
                 variants={itemFade}
                 initial="hidden"
-                animate="show"
-                viewport={{ once: true }}
+                whileInView="show"
+                viewport={{ once: true, amount: 0.3 }}
                 className="max-w-3xl mx-auto"
               >
-               <h2 className={`${TITLE} text-4xl sm:text-5xl text-center mb-4`}>
-  {tCorp.form.title}
-</h2>
+                <h2 className={`${TITLE} text-4xl sm:text-5xl text-center mb-4`}>
+                  {tCorp.form.title}
+                </h2>
                 <p className={`${SUB} text-center mb-12`}>{tCorp.form.subtitle}</p>
 
                 <motion.form
@@ -590,10 +541,7 @@ const onSubmit = async (e) => {
                 >
                   <div className="grid gap-6 md:grid-cols-2">
                     <div className="space-y-2">
-                      <label
-                        htmlFor="name"
-                        className="text-sm font-medium text-white/80"
-                      >
+                      <label htmlFor="name" className="text-sm font-medium text-white/80">
                         {tCorp.form.fields.name.label}
                       </label>
                       <input
@@ -608,10 +556,7 @@ const onSubmit = async (e) => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label
-                        htmlFor="email"
-                        className="text-sm font-medium text-white/80"
-                      >
+                      <label htmlFor="email" className="text-sm font-medium text-white/80">
                         {tCorp.form.fields.email.label}
                       </label>
                       <input
@@ -628,10 +573,7 @@ const onSubmit = async (e) => {
                   </div>
 
                   <div className="space-y-2">
-                    <label
-                      htmlFor="phone"
-                      className="text-sm font-medium text-white/80"
-                    >
+                    <label htmlFor="phone" className="text-sm font-medium text-white/80">
                       {tCorp.form.fields.phone.label}
                     </label>
                     <input
@@ -647,16 +589,10 @@ const onSubmit = async (e) => {
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <label
-                        htmlFor="message"
-                        className="text-sm font-medium text-white/80"
-                      >
+                      <label htmlFor="message" className="text-sm font-medium text-white/80">
                         {tCorp.form.fields.message.label}
                       </label>
-                      <span
-                        className="text-xs text-white/50"
-                        aria-live="polite"
-                      >
+                      <span className="text-xs text-white/50" aria-live="polite">
                         {form.message.length} / 500
                       </span>
                     </div>

@@ -32,6 +32,7 @@ function NewBlog() {
     coverKitId: "",    // ID del archivo en ImageKit
     locale: "es",
     status: "public",
+    featured: false,
   });
 
   const [blocks, setBlocks] = useState({ blocks: [] });
@@ -98,102 +99,111 @@ function NewBlog() {
   // ============================
   // Guardar blog
   // ============================
-  const onSave = async (e) => {
-    e.preventDefault();
+const onSave = async (e) => {
+  e.preventDefault();
 
-    if (!blocks?.blocks || blocks.blocks.length === 0) {
-      alert("El contenido del blog está vacío.");
-      return;
+  if (!blocks?.blocks || blocks.blocks.length === 0) {
+    alert("El contenido del blog está vacío.");
+    return;
+  }
+
+  if (!form.coverUrl) {
+    alert("Por favor, subí una imagen de portada antes de guardar.");
+    return;
+  }
+
+  setSaving(true);
+  try {
+    const html = renderBlocksToHtml(blocks.blocks || []);
+
+    // 1️⃣ Construir metaData LIMPIO - sin spreads ni nada raro
+    const metaData = {};
+    
+    metaData.title = form.title || "";
+    metaData.summary = form.summary || "";
+    metaData.coverUrl = form.coverUrl || "";
+    metaData.status = form.status || "public";
+    metaData.locale = form.locale || "es";
+    metaData.featured = form.featured || false;
+    
+    // Solo agregar coverKitId si existe
+    if (form.coverKitId && String(form.coverKitId).trim()) {
+      metaData.coverKitId = String(form.coverKitId).trim();
     }
 
-    if (!form.coverUrl) {
-      alert("Por favor, subí una imagen de portada antes de guardar.");
-      return;
-    }
+    // ✅ DEBUG COMPLETO
+    console.log("📤 metaData COMPLETO:", JSON.stringify(metaData, null, 2));
+    console.log("📤 form.coverKitId original:", form.coverKitId);
+    console.log("📤 Todas las keys de metaData:", Object.keys(metaData));
+    console.log("📤 Valores undefined?", Object.entries(metaData).filter(([k,v]) => v === undefined));
 
-    setSaving(true);
-    try {
-      const html = renderBlocksToHtml(blocks.blocks || []);
+    const meta = await saveBlogMeta(metaData);
 
-      // 1️⃣ Guardar meta raíz
-      const meta = await saveBlogMeta({
-        title: form.title,
-        summary: form.summary,
-        coverUrl: form.coverUrl,
-        coverKitId: form.coverKitId, // ✅ nuevo campo
-        status: form.status,
-        locale: form.locale,
-      });
+    // 2️⃣ Guardar contenido del idioma base
+    await saveBlogLocale({
+      slug: meta.slug,
+      locale: metaData.locale,
+      title: metaData.title,
+      summary: metaData.summary,
+      html,
+      blocks: blocks.blocks || [],
+    });
 
-      // 2️⃣ Guardar contenido del idioma base
-      await saveBlogLocale({
-        slug: meta.slug,
-        locale: form.locale,
-        title: form.title,
-        summary: form.summary,
-        html,
-        blocks: blocks.blocks || [],
-      });
-
-      // 3️⃣ Auto-traducción si idioma base = "es"
-      if (form.locale === "es") {
-        for (const to of ["en", "pt"]) {
-          try {
-            const res = await fetch("/api/translate-blog", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                from: "es",
-                to,
-                html,
-                blocks: blocks.blocks || [],
-                title: form.title,
-                summary: form.summary,
-              }),
-            });
-
-            const data = await res.json();
-
-            const translatedTitle = data?.translatedTitle || form.title;
-            const translatedSummary = data?.translatedSummary || form.summary;
-            const translatedHtml = data?.translatedHtml || html;
-            const translatedBlocks = Array.isArray(data?.translatedBlocks)
-              ? data.translatedBlocks
-              : blocks.blocks || [];
-
-            await saveBlogLocale({
-              slug: meta.slug,
-              locale: to,
-              title: translatedTitle,
-              summary: translatedSummary,
-              html: translatedHtml,
-              blocks: translatedBlocks,
-            });
-
-            console.log(`✅ ${to.toUpperCase()} traducido correctamente`);
-          } catch (err) {
-            console.error(`❌ Error al traducir ${to}:`, err);
-            await saveBlogLocale({
-              slug: meta.slug,
-              locale: to,
-              title: form.title,
-              summary: form.summary,
+    // 3️⃣ Auto-traducción si idioma base = "es"
+    if (metaData.locale === "es") {
+      for (const to of ["en", "pt"]) {
+        try {
+          const res = await fetch("/api/translate-blog", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              from: "es",
+              to,
               html,
               blocks: blocks.blocks || [],
-            });
-          }
+              title: metaData.title,
+              summary: metaData.summary,
+            }),
+          });
+
+          const data = await res.json();
+
+          await saveBlogLocale({
+            slug: meta.slug,
+            locale: to,
+            title: data?.translatedTitle || metaData.title,
+            summary: data?.translatedSummary || metaData.summary,
+            html: data?.translatedHtml || html,
+            blocks: Array.isArray(data?.translatedBlocks) 
+              ? data.translatedBlocks 
+              : blocks.blocks || [],
+          });
+
+          console.log(`✅ ${to.toUpperCase()} traducido correctamente`);
+        } catch (err) {
+          console.error(`❌ Error al traducir ${to}:`, err);
+          await saveBlogLocale({
+            slug: meta.slug,
+            locale: to,
+            title: metaData.title,
+            summary: metaData.summary,
+            html,
+            blocks: blocks.blocks || [],
+          });
         }
       }
-
-      alert("✅ Blog creado con éxito.");
-      router.push(`/admin/blogs/${meta.slug}?locale=${form.locale}`);
-    } catch (err) {
-      console.error("❌ Error al crear blog:", err);
-      alert("❌ Error al crear el blog.");
-    } finally {
-      setSaving(false);
     }
-  };
+
+    alert("✅ Blog creado con éxito.");
+    router.push(`/admin/blogs/${meta.slug}?locale=${metaData.locale}`);
+  } catch (err) {
+    console.error("❌ Error al crear blog:", err);
+    console.error("❌ Stack completo:", err.stack);
+    alert(`❌ Error al crear el blog: ${err.message}`);
+  } finally {
+    setSaving(false);
+  }
+};
 
   // ============================
   // Render
@@ -316,6 +326,19 @@ function NewBlog() {
                 </select>
               </div>
             </div>
+            {/* ⭐ Destacado */}
+<div className="flex items-center gap-3">
+  <input
+    type="checkbox"
+    id="featured"
+    checked={form.featured}
+    onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+    className="w-5 h-5 rounded border-white/20 bg-[#112C3E] text-[#FF3816] focus:ring-2 focus:ring-[#FF3816]"
+  />
+  <label htmlFor="featured" className={LABEL}>
+    Marcar como destacado
+  </label>
+</div>
 
             {/* 🧩 Editor visual */}
             <div>

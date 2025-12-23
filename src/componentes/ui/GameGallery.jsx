@@ -50,7 +50,7 @@ export default function GamesGallery({messages}) {
     <AnimatePresence>
       {active && (
         <motion.div
-          className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-hidden"
+          className="fixed inset-0 z-[999] bg-black/80  flex items-center justify-center p-2 sm:p-4 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

@@ -6,6 +6,21 @@
       "description": "Over 25 years leading B2B training. In-Company Classes (onsite or online) and Workshops for professional success. 50,000 students have already trained with Further."
     }
   },
+  
+  "blog": {
+    "loading": "Loading post...",
+    "backToNews": "Back to News",
+    "headerTitle": "Further Insights",
+    "defaultCategory": "Article",
+    "readTime": "min read",
+    "author": "Author",
+    "teamName": "Further Team",
+    "shareTitle": "Enjoyed this article?",
+    "continueReading": "Continue reading",
+    "recommended": "Recommended",
+    "linkCopied": "Link copied to clipboard"
+  },
+
   "common": {
     "brand": "Further Corporate",
     "cta": {
@@ -1089,15 +1104,19 @@
   "a11y": { "skip": "Skip to main content" }
 },
 
-"news": {
-  "title": "News",
-  "subtitle": "Latest updates and stories from Further",
-  "readMore": "Read more",
-  "otherArticles": "Other articles",
-  "noPosts": "No posts available.",
-  "publishedOn": "Published on",
-  "backToNews": "Back to News"
-},
+
+  "news": {
+    "title": "News",
+    "subtitle": "Discover our latest posts and insights",
+    "topStory": "Top Story",
+    "featured": "Featured",
+    "latestNews": "Latest News",
+    "readMore": "Read full article",
+    "readStory": "Read story",
+    "noSummary": "No summary available",
+    "noPosts": "No news available.",
+    "minRead": "min read"
+  },
 
 
  

@@ -1,3 +1,4 @@
+// /componentes/Editor.jsx
 import { useEffect, useRef } from "react";
 
 export default function Editor({ data, onChange, holder }) {
@@ -12,6 +13,7 @@ export default function Editor({ data, onChange, holder }) {
       const { default: List } = await import("@editorjs/list");
       const { default: Quote } = await import("@editorjs/quote");
       const { default: Paragraph } = await import("@editorjs/paragraph");
+      const { default: ImageTool } = await import("@editorjs/image");
 
       if (ref.current) return;
 
@@ -24,6 +26,60 @@ export default function Editor({ data, onChange, holder }) {
           header: { class: Header, inlineToolbar: true },
           list: { class: List, inlineToolbar: true },
           quote: { class: Quote, inlineToolbar: true },
+          
+          // ✅ Herramienta de imagen con ImageKit
+          image: {
+            class: ImageTool,
+            config: {
+              uploader: {
+                /**
+                 * Subir imagen por archivo
+                 */
+                async uploadByFile(file) {
+                  try {
+                    const formData = new FormData();
+                    formData.append("file", file);
+
+                    const response = await fetch("/api/upload-imagekit", {
+                      method: "POST",
+                      body: formData,
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data?.url) {
+                      throw new Error(data.error || "Error al subir imagen");
+                    }
+
+                    return {
+                      success: 1,
+                      file: {
+                        url: data.optimizedUrl || data.url,
+                      },
+                    };
+                  } catch (error) {
+                    console.error("Error uploading image:", error);
+                    return {
+                      success: 0,
+                      message: error.message || "Error al subir la imagen",
+                    };
+                  }
+                },
+
+                /**
+                 * Subir imagen por URL (opcional)
+                 */
+                async uploadByUrl(url) {
+                  return {
+                    success: 1,
+                    file: {
+                      url: url,
+                    },
+                  };
+                },
+              },
+            },
+          },
         },
         async onChange(api) {
           const content = await api.saver.save();
@@ -43,7 +99,7 @@ export default function Editor({ data, onChange, holder }) {
   return (
     <div
       id={holder}
-      className="prose prose-invert max-w-none [&_h1]:text-3xl [&_h2]:text-2xl [&_p]:text-base"
+      className="prose prose-invert max-w-none [&_h1]:text-3xl [&_h2]:text-2xl [&_p]:text-base [&_img]:rounded-lg [&_img]:my-4"
     />
   );
 }

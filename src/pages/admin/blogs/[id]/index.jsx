@@ -18,6 +18,8 @@ import {
   TITLE,
 } from "@/styles/adminStyles";
 import { renderBlocksToHtml } from "@/lib/renderEditor";
+import imageCompression from "browser-image-compression";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import AdminBackButton from "@/componentes/ui/AdminBackButton";
 
@@ -36,10 +38,21 @@ function EditBlog() {
     title: "",
     summary: "",
     coverUrl: "",
+    coverKitId: "",
+    locale: "es",
     status: "private",
+    featured: false,
   });
 
   const [blocks, setBlocks] = useState({ blocks: [] });
+
+  // ============================
+  // Estados para subir imagen
+  // ============================
+  const [preview, setPreview] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [sizes, setSizes] = useState({ beforeMB: 0, afterMB: 0 });
 
   // Cargar meta + contenido por idioma
   useEffect(() => {
@@ -56,7 +69,10 @@ function EditBlog() {
           title: meta?.title || "",
           summary: meta?.summary || "",
           coverUrl: meta?.coverUrl || "",
+          coverKitId: meta?.coverKitId || "",
           status: meta?.status || "private",
+          locale: meta?.locale || locale,
+          featured: meta?.featured || false,
         });
         setBlocks({ blocks: content?.blocks || [] });
       } finally {
@@ -68,43 +84,112 @@ function EditBlog() {
     };
   }, [id, locale]);
 
-  const onSave = async (e) => {
-    e.preventDefault();
-    if (!blocks?.blocks || blocks.blocks.length === 0) {
-      alert("El contenido del blog está vacío.");
-      return;
-    }
+  // ============================
+  // Subida de imagen a ImageKit
+  // ============================
+  async function handleCoverFile(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    setSaving(true);
+    setPreview(URL.createObjectURL(file));
+
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1600,
+      useWebWorker: true,
+      onProgress: (p) => setProgress(Math.round(p)),
+    };
+
     try {
-      const html = renderBlocksToHtml(blocks.blocks || []);
+      setUploading(true);
+      const beforeMB = file.size / 1024 / 1024;
+      const compressed = await imageCompression(file, options);
+      const afterMB = compressed.size / 1024 / 1024;
+      setSizes({ beforeMB, afterMB });
 
-      // 1) Meta raíz (status/cover). No pasamos title/summary aquí porque viven por-locale.
-      await saveBlogMeta({
-        slug: id,
-        status: form.status,
-        coverUrl: form.coverUrl,
-        locale, // por si el doc aún no tenía este locale en 'locales'
+      const formData = new FormData();
+      formData.append("file", compressed, compressed.name || file.name);
+
+      const res = await fetch("/api/upload-imagekit", {
+        method: "POST",
+        body: formData,
       });
 
-      // 2) Contenido por-locale (edición humana, sin IA)
-      await saveBlogLocale({
-        slug: id,
-        locale,
-        title: form.title,
-        summary: form.summary,
-        html,
-        blocks: blocks.blocks || [],
-      });
+      const data = await res.json();
+      if (!res.ok || !data?.url)
+        throw new Error(data.error || "Error al subir");
 
-      alert(`Guardado (${locale.toUpperCase()}) ✅`);
+      setForm((f) => ({
+        ...f,
+        coverUrl: data.optimizedUrl || data.url,
+        coverKitId: data.fileId || "",
+      }));
+
+      alert("✅ Imagen subida correctamente a ImageKit");
     } catch (err) {
-      console.error("❌ Error al guardar:", err);
-      alert("❌ Error al guardar.");
+      console.error(err);
+      alert("❌ Error al subir la imagen");
     } finally {
-      setSaving(false);
+      setUploading(false);
     }
-  };
+  }
+
+
+const onSave = async (e) => {
+  e.preventDefault();
+
+  if (!blocks?.blocks || blocks.blocks.length === 0) {
+    alert("El contenido del blog está vacío.");
+    return;
+  }
+
+  if (!form.coverUrl) {
+    alert("Por favor, subí una imagen de portada antes de guardar.");
+    return;
+  }
+
+  setSaving(true);
+  try {
+    const html = renderBlocksToHtml(blocks.blocks || []);
+
+    // 1️⃣ Actualizar meta (usando el slug existente 'id')
+    const metaData = {
+      slug: id, // ✅ Usar el slug existente
+      title: form.title,
+      summary: form.summary,
+      coverUrl: form.coverUrl,
+      status: form.status,
+      locale: form.locale,
+      featured: form.featured || false,
+    };
+    
+    if (form.coverKitId) {
+      metaData.coverKitId = form.coverKitId;
+    }
+
+    await saveBlogMeta(metaData);
+
+    // 2️⃣ Guardar solo el contenido del idioma actual (sin auto-traducción)
+    await saveBlogLocale({
+      slug: id,
+      locale: locale, // ✅ Usar el locale del tab actual
+      title: form.title,
+      summary: form.summary,
+      html,
+      blocks: blocks.blocks || [],
+    });
+
+    alert(`✅ ${locale.toUpperCase()} guardado correctamente.`);
+    
+    // Recargar para mostrar cambios
+    router.replace(router.asPath);
+  } catch (err) {
+    console.error("❌ Error al guardar:", err);
+    alert(`❌ Error al guardar: ${err.message}`);
+  } finally {
+    setSaving(false);
+  }
+};
 
   if (!id || loading) {
     return <div className="p-6 text-white/70">Cargando…</div>;
@@ -115,7 +200,7 @@ function EditBlog() {
   return (
     <main className="min-h-screen bg-[#0A1628] text-white py-10 pt-28">
       <div className={SHELL}>
-        <AdminBackButton / >
+        <AdminBackButton />
 
         <div className={CARD}>
           <h1 className={TITLE}>Editar blog: {id}</h1>
@@ -148,17 +233,6 @@ function EditBlog() {
                 />
               </div>
 
-              <div>
-                <label className={LABEL}>Cover URL</label>
-                <input
-                  className={INPUT}
-                  value={form.coverUrl}
-                  onChange={(e) =>
-                    setForm({ ...form, coverUrl: e.target.value })
-                  }
-                />
-              </div>
-
               <div className="md:col-span-2">
                 <label className={LABEL}>Resumen</label>
                 <textarea
@@ -170,18 +244,94 @@ function EditBlog() {
                 />
               </div>
 
+              {/* 🖼️ Imagen de portada */}
+              <div className="md:col-span-2">
+                <label className={LABEL}>Imagen de portada</label>
+
+                {!form.coverUrl ? (
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleCoverFile}
+                    className="w-full bg-white/10 rounded px-3 py-2 outline-none cursor-pointer file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-gradient-to-r file:from-[#EE7203] file:to-[#FF3816] file:text-white hover:file:opacity-90"
+                  />
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-4">
+                      <div className="relative w-40 h-28 rounded-lg overflow-hidden border border-white/10 shadow-md">
+                        <Image
+                          src={form.coverUrl}
+                          alt="cover preview"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        {sizes.beforeMB > 0 && (
+                          <p className="text-xs text-white/60">
+                            {sizes.beforeMB.toFixed(2)} MB → {sizes.afterMB.toFixed(2)} MB
+                          </p>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setForm((f) => ({
+                              ...f,
+                              coverUrl: "",
+                              coverKitId: "",
+                            }))
+                          }
+                          className="bg-red-600/90 text-white px-3 py-1 rounded-md text-sm hover:bg-red-700 transition"
+                        >
+                          Eliminar imagen
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleCoverFile}
+                        className="w-full bg-white/10 rounded px-3 py-2 outline-none cursor-pointer file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-gradient-to-r file:from-[#EE7203] file:to-[#FF3816] file:text-white hover:file:opacity-90"
+                      />
+                      <p className="text-xs text-white/50 mt-1">
+                        Selecciona una nueva imagen para reemplazar la actual
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {uploading && (
+                  <p className="text-sm text-white/70 mt-2">
+                    Subiendo... {progress}%
+                  </p>
+                )}
+              </div>
+
               <div>
                 <label className={LABEL}>Estado</label>
                 <select
-  className="w-full bg-[#112C3E] text-white border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF3816]"
-  value={form.status}
-  onChange={(e) => setForm({ ...form, status: e.target.value })}
->
-  <option value="public">public</option>
-  <option value="unlisted">unlisted</option>
-</select>
-
+                  className="w-full bg-[#112C3E] text-white border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF3816]"
+                  value={form.status}
+                  onChange={(e) => setForm({ ...form, status: e.target.value })}
+                >
+                  <option value="public">public</option>
+                  <option value="unlisted">unlisted</option>
+                </select>
               </div>
+              <div className="flex items-center gap-3">
+  <input
+    type="checkbox"
+    id="featured"
+    checked={form.featured}
+    onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+    className="w-5 h-5 rounded border-white/20 bg-[#112C3E] text-[#FF3816] focus:ring-2 focus:ring-[#FF3816]"
+  />
+  <label htmlFor="featured" className={LABEL}>
+    Marcar como destacado
+  </label>
+</div>
             </div>
 
             {/* Editor */}

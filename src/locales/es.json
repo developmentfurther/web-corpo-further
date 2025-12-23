@@ -6,6 +6,19 @@
       "description": "Más de 25 años liderando la capacitación B2B. Clases In-Company (presencial u online) y Talleres para el éxito profesional. 50.000 alumnos ya se capacitaron con Further."
     }
   },
+  "blog": {
+    "loading": "Cargando publicación...",
+    "backToNews": "Volver a Noticias",
+    "headerTitle": "Further Insights",
+    "defaultCategory": "Artículo",
+    "readTime": "min lectura",
+    "author": "Autor",
+    "teamName": "Equipo Further",
+    "shareTitle": "¿Te gustó este artículo?",
+    "continueReading": "Continúa leyendo",
+    "recommended": "Recomendado",
+    "linkCopied": "Enlace copiado al portapapeles"
+  },
   "common": {
     "brand": "Further Corporate",
     "cta": {
@@ -1103,14 +1116,17 @@
   "a11y": { "skip": "Saltar al contenido principal" }
 },
 
-  "news": {
+"news": {
     "title": "Noticias",
-    "subtitle": "Últimas novedades, artículos y casos de éxito de Further Corporate",
-    "readMore": "Ver más",
-    "otherArticles": "Otros artículos",
-    "noPosts": "No hay publicaciones disponibles por el momento.",
-    "publishedOn": "Publicado el",
-    "backToNews": "Volver a Noticias"
+    "subtitle": "Descubre nuestras últimas publicaciones e insights",
+    "topStory": "Historia Principal",
+    "featured": "Destacado",
+    "latestNews": "Más Recientes",
+    "readMore": "Leer artículo completo",
+    "readStory": "Leer historia",
+    "noSummary": "Sin resumen disponible",
+    "noPosts": "No hay noticias.",
+    "minRead": "min lectura"
   }
 
 
