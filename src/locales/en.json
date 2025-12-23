@@ -577,11 +577,12 @@
       "calls": {
         "title": "Ace Online Calls",
         "desc": "Learn to communicate confidently in online meetings and presentations across digital platforms.",
-        "level": "Available soon",
-        "duration": "—",
-        "price": "Coming soon",
+        "level": "Intermediate",
+        "duration": "20 h",
+        "price": "USD $54.99",
+        "oldPrice":"USD $69.99",
         "image": "/images/academy/online.avif",
-        "link": "https://academy.furthercorporate.com/"
+        "link": "https://academy.furthercorporate.com/all-courses/r9VZnr3cHIHDjfzFFTzq"
       }
     }
   }

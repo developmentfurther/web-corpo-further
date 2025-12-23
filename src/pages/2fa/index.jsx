@@ -16,6 +16,7 @@ export default function TwoFA() {
   const [error, setError] = useState("");
   const [has2FA, setHas2FA] = useState(false);
   const [justCreated, setJustCreated] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   // 🧩 Paso 1: revisar estado del 2FA
   useEffect(() => {
@@ -54,59 +55,76 @@ export default function TwoFA() {
     })();
   }, [user]);
 
-const handleVerify = async (e) => {
-  e.preventDefault();
-  setError("");
-  setVerifying(true);
-  setSuccessMsg("");
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    setError("");
+    setVerifying(true);
+    setSuccessMsg("");
 
-  try {
-    const res = await fetch("/api/2fa/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: user.email, code }),
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch("/api/2fa/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, code }),
+      });
+      const data = await res.json();
 
-    if (!data.ok) {
-      setError(data.error || "Código incorrecto");
+      if (!data.ok) {
+        setError(data.error || "Código incorrecto");
+        setVerifying(false);
+        return;
+      }
+
+      // ✅ Código correcto → confirmar 2FA y emitir cookie de sesión real
+      const confirmRes = await fetch("/api/2fa/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email }),
+      });
+
+      if (!confirmRes.ok) {
+        const err = await confirmRes.json();
+        throw new Error(err.error || "Error confirmando 2FA");
+      }
+
+      // 🔹 Refrescar estado global
+      const resStatus = await fetch(`/api/2fa/status?email=${encodeURIComponent(user.email)}`);
+      const st = await resStatus.json();
+      setTwoFAStatus(st.verified ? "ok" : "unverified");
+
+      // 🔹 Esperar a que la cookie se aplique y redirigir
+      setSuccessMsg("✅ Verificación exitosa. Redirigiendo al panel…");
+      setTimeout(() => {
+        window.location.href = "/admin";
+      }, 1000);
+    } catch (err) {
+      console.error(err);
+      setError("Error al verificar el código");
+    } finally {
       setVerifying(false);
-      return;
     }
+  };
 
-    // ✅ Código correcto → confirmar 2FA y emitir cookie de sesión real
-    const confirmRes = await fetch("/api/2fa/confirm", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: user.email }), // 👈 CLAVE
-    });
-
-    if (!confirmRes.ok) {
-      const err = await confirmRes.json();
-      throw new Error(err.error || "Error confirmando 2FA");
+  // 🔥 Nueva función para volver al login con logout
+  const handleBackToLogin = async () => {
+    setLoggingOut(true);
+    try {
+      // Llamar al endpoint de logout
+      await fetch("/api/logout", { method: "POST" });
+      
+      // Llamar al logout del contexto (Firebase signOut)
+      await logout();
+      
+      // Redirigir al login
+      router.replace("/login");
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+      // Aún así redirigir al login
+      router.replace("/login");
+    } finally {
+      setLoggingOut(false);
     }
-
-    // 🔹 Refrescar estado global
-    const resStatus = await fetch(`/api/2fa/status?email=${encodeURIComponent(user.email)}`);
-    const st = await resStatus.json();
-    setTwoFAStatus(st.verified ? "ok" : "unverified");
-
-    // 🔹 Esperar a que la cookie se aplique y redirigir
-    setSuccessMsg("✅ Verificación exitosa. Redirigiendo al panel…");
-    setTimeout(() => {
-      window.location.href = "/admin"; // 👈 forzamos reload completo
-    }, 1000);
-  } catch (err) {
-    console.error(err);
-    setError("Error al verificar el código");
-  } finally {
-    setVerifying(false);
-  }
-};
-
-
-
-
+  };
 
   if (loading)
     return (
@@ -205,10 +223,18 @@ const handleVerify = async (e) => {
           <div className="flex flex-col gap-2 mt-4">
             <button
               type="button"
-              onClick={() => router.replace("/login")}
-              className="w-full py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white/80 text-sm"
+              onClick={handleBackToLogin}
+              disabled={loggingOut}
+              className="w-full py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white/80 text-sm disabled:opacity-60"
             >
-              ← Volver al login
+              {loggingOut ? (
+                <div className="inline-flex items-center justify-center gap-2">
+                  <span className="w-3 h-3 border-2 border-white/70 border-t-transparent rounded-full animate-spin" />
+                  Cerrando sesión…
+                </div>
+              ) : (
+                "← Volver al login"
+              )}
             </button>
 
             <button

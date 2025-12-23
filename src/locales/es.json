@@ -577,11 +577,12 @@
       "calls": {
         "title": "Ace Online Calls",
         "desc": "Aprendé a comunicarte con confianza en reuniones y presentaciones online en distintos entornos profesionales.",
-        "level": "Próximamente disponible",
-        "duration": "—",
-        "price": "Próximamente",
+        "level": "Intermedio",
+        "duration": "80h",
+        "price": "$80.000",
+        "oldPrice": "$100.000",
         "image": "/images/academy/online.avif",
-        "link": "https://academy.furthercorporate.com/"
+        "link": "https://academy.furthercorporate.com/all-courses/r9VZnr3cHIHDjfzFFTzq"
       }
     }
   }

@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
-      .setExpirationTime("8h") // duración del token (8 horas laborales)
+      .setExpirationTime("7d") // duración del token (8 horas laborales)
       .sign(secret);
 
     // 🔹 Duración real de la cookie (8h)

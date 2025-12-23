@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion, MotionConfig, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/router";
 import { loadMessages } from "@/lib/i18n";
-import CarouselInfinitePause from "@/componentes/ui/CarrouselInfinitePause";
 import HeroAcademy from "@/componentes/hero/HeroAcademy";
 
 /* === TOKENS === */
@@ -174,7 +173,7 @@ export default function AcademyPage({ messages }) {
                   <h3 className="text-3xl font-bold text-gray-900">
                     🎓 {t("academy.featured.section")}
                   </h3>
-                  <Link href="#latest" className={LINK_LIGHT}>
+                  <Link href="#all-courses" className={LINK_LIGHT}>
                     {t("academy.featured.browseAll")} →
                   </Link>
                 </div>
