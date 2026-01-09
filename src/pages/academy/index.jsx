@@ -6,6 +6,7 @@ import { motion, MotionConfig, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/router";
 import { loadMessages } from "@/lib/i18n";
 import HeroAcademy from "@/componentes/hero/HeroAcademy";
+import { ArrowRight, PlayCircle, Clock, ChevronRight } from "lucide-react";
 
 /* === TOKENS === */
 const BG_DARK = "bg-[#0A1628] text-white";
@@ -159,237 +160,265 @@ export default function AcademyPage({ messages }) {
             </div>
           </motion.section>
 
-          {/* === FEATURED COURSE === */}
-          <section id="featured" className="relative py-24 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#FFF5EE] via-white to-[#FFEFE7]" />
-            <div className="relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className={`${WRAP}`}
-              >
-                <div className="flex justify-between items-center mb-10">
-                  <h3 className="text-3xl font-bold text-gray-900">
-                    🎓 {t("academy.featured.section")}
-                  </h3>
-                  <Link href="#all-courses" className={LINK_LIGHT}>
-                    {t("academy.featured.browseAll")} →
-                  </Link>
-                </div>
+ <section id="featured" className="relative py-24 overflow-hidden">
+  {/* OPTIMIZACIÓN: Usar un div estático simple para el fondo, evitar repaints complejos */}
+  <div className="absolute inset-0 bg-[#FFF5EE]" />
+  
+  {/* Decorative subtle gradient - Opcional, si sigue lento, sacá esta línea */}
+  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/50 to-[#FFEFE7]" />
 
-                {/* CARD */}
-                <div className="grid lg:grid-cols-2 gap-12 items-center rounded-3xl backdrop-blur-xl bg-white/80 border border-white/50 shadow-[0_8px_40px_rgba(238,114,3,0.08)] overflow-hidden">
-                  {/* Text */}
-                  <div className="p-10 space-y-6">
-                    <div className="flex gap-2">
-                      <Badge>{t("academy.featured.badgeOffer")}</Badge>
-                      <Badge>{t("academy.featured.badgeHot")}</Badge>
-                    </div>
-                    <p className="text-xs uppercase tracking-widest text-gray-500">
-                      {t("academy.featured.kicker")}
-                    </p>
-                    <h4 className="text-3xl font-extrabold text-gray-900">
-                      {t("academy.featured.title")}
-                    </h4>
-                    <p className="text-gray-700 leading-relaxed">
-                      {t("academy.featured.desc")}
-                    </p>
-                    <div className="bg-white/70 border border-orange-100 rounded-2xl p-5">
-                      <h5 className="text-[#EE7203] font-semibold mb-2">
-                        Practical. Interactive. Real Results.
-                      </h5>
-                      <ul className="grid sm:grid-cols-2 gap-2 text-gray-800 text-sm">
-                        <li>🎬 Short, focused video lessons</li>
-                        <li>🧩 Guided exercises & templates</li>
-                        <li>🎥 “Video as a Mirror” self-recordings</li>
-                        <li>🏁 Expert final pitch feedback</li>
-                      </ul>
-                    </div>
-                    <div className="flex gap-4 pt-4">
-                      <Link
-                        href="https://academy.furthercorporate.com/all-courses/0TQTPo4jpzpjU4xo66Gp"
-                        className={CTA_SOLID}
-                      >
-                        <span className={`${BRAND_GRAD} absolute inset-0`} />
-                        <span className="relative text-white font-semibold">
-                          {t("academy.featured.startCourse")}
-                        </span>
-                      </Link>
-                      <Link
-                        href="https://academy.furthercorporate.com/all-courses/0TQTPo4jpzpjU4xo66Gp"
-                        className={LINK_LIGHT}
-                      >
-                        {t("academy.featured.goCourse")}
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Visual */}
-                  <div className="relative h-[420px]">
-                    <Image
-                      src="/images/academy/pitch.avif"
-                      alt="Pitch Mastery cover"
-                      fill
-                      className="object-cover rounded-3xl lg:rounded-l-none"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/80 via-transparent to-transparent" />
-                    <div className="absolute bottom-6 left-6 text-white">
-                      <p className="text-sm opacity-80">
-                        {t("academy.featured.limited")}
-                      </p>
-                      <div className="flex items-baseline gap-3 mt-1">
-                        <span className="text-4xl font-bold">
-                          {t("academy.featured.price.sale")}
-                        </span>
-                        <span className="line-through text-white/70">
-                          {t("academy.featured.price.original")}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-        </section>
-
-        {/* === ALL COURSES / LIGHT VERSION === */}
-<section id="all-courses" className="relative bg-white text-gray-900 py-20 overflow-hidden">
-  <div className={WRAP}>
+  <div className="relative z-10">
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7 }}
-      className="text-center mb-14"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }} // Carga un poco antes de llegar
+      transition={{ duration: 0.6, ease: "easeOut" }} // Duración un poco más corta se siente más ágil
+      className={`${WRAP} will-change-transform`} // Habilita aceleración de hardware
     >
-      <h3 className="text-3xl sm:text-4xl font-extrabold">
-        {t("academy.latest.title") || "Our Courses"}
-      </h3>
-      <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
-        {t("academy.latest.subtitle") ||
-          "Discover our self-paced, business-focused English programs."}
-      </p>
-    </motion.div>
-
-    {/* Grid of cards */}
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {courses.map((c, i) => (
- 
-  <motion.article
-    key={i}
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.2 }}
-    whileHover={{
-      y: -6,
-      scale: 1.02,
-      boxShadow: "0 12px 40px rgba(238,114,3,0.15)",
-    }}
-    className="group relative rounded-3xl border border-gray-200 bg-white shadow-sm transition-all duration-500 overflow-hidden flex flex-col cursor-pointer"
-  >
-    {/* Imagen con overlay */}
-<div className="relative h-48 w-full overflow-hidden rounded-t-3xl">
-  {/* Imagen principal */}
-  {c.image ? (
-    <Image
-      src={c.image}
-      alt={c.title}
-      fill
-      sizes="(max-width: 768px) 100vw, 33vw"
-      className="object-cover transition-transform duration-700 group-hover:scale-110"
-      priority={false}
-    />
-  ) : (
-    <div className="h-full w-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-      + Add Image
-    </div>
-  )}
-
-  {/* Overlay en hover */}
-  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[1]" />
-  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[2]">
-    
-  </div>
-</div>
-
-
-    {/* Contenido */}
-    <div className="flex-1 p-6 flex flex-col justify-between">
-      <div>
-        <h4 className="text-xl font-bold text-gray-900 group-hover:text-[#EE7203] transition-colors">
-          {c.title}
-        </h4>
-        <p className="mt-2 text-gray-600 text-sm leading-relaxed line-clamp-4">
-          {c.desc}
-        </p>
-
-        {/* Info */}
-        <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
-          <span className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.8}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
-            </svg>
-            {c.level}
-          </span>
-          <span className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.8}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" />
-            </svg>
-            {c.duration}
-          </span>
-        </div>
-
-        {/* Precio */}
-        <div className="mt-4 flex items-baseline gap-2">
-          <span className="text-2xl font-extrabold text-[#EE7203]">
-            {c.price}
-          </span>
-          {c.oldPrice && (
-            <span className="text-gray-400 line-through">{c.oldPrice}</span>
-          )}
-          {c.tag && (
-            <span className="text-xs uppercase font-semibold text-[#EE7203] ml-auto">
-              {c.tag}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div className="mt-6 flex">
-        <Link
-          href={c.link || "#"} target="_blank"
-          className="relative inline-flex items-center justify-center w-full rounded-xl px-5 py-3 font-semibold text-white overflow-hidden shadow-md hover:shadow-lg transition-transform hover:scale-[1.03]"
-        >
-          <span className="absolute inset-0 bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
-          <span className="relative z-10">View Details</span>
+      {/* Header */}
+      <div className="flex justify-between items-center mb-12">
+        <h2 className="text-4xl font-bold text-gray-900">
+          {t("academy.featured.section")}
+        </h2>
+        <Link href="#all-courses" className={LINK_LIGHT}>
+          {t("academy.featured.browseAll")}
+          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
-    </div>
-  </motion.article>
-))}
 
-     
-    </div>
+      {/* Featured Card */}
+      {/* OPTIMIZACIÓN: 
+          1. Saqué 'backdrop-blur-xl'.
+          2. Cambié bg-white/80 a bg-white/95 (casi sólido, mucho más rápido).
+          3. Reduje el spread de la sombra de 40px a 25px.
+      */}
+      <div className="grid lg:grid-cols-2 gap-0 rounded-3xl bg-white/95 border border-white/50 shadow-[0_4px_25px_rgba(238,114,3,0.06)] overflow-hidden">
+        
+        {/* Content */}
+        <div className="p-12 space-y-6 flex flex-col justify-center">
+          <div className="flex gap-2">
+            <Badge>{t("academy.featured.badgeOffer")}</Badge>
+            <Badge>{t("academy.featured.badgeHot")}</Badge>
+          </div>
+          
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-widest text-gray-500 font-semibold">
+              {t("academy.featured.kicker")}
+            </p>
+            <h3 className="text-4xl font-extrabold text-gray-900 leading-tight">
+              {t("academy.featured.title")}
+            </h3>
+          </div>
+          
+          <p className="text-gray-700 leading-relaxed text-lg">
+            {t("academy.featured.desc")}
+          </p>
+
+          {/* Features Box */}
+          {/* Mantenemos el gradiente aquí porque es pequeño y no afecta tanto */}
+          <div className="bg-gradient-to-br from-white to-orange-50/50 border border-orange-100 rounded-2xl p-6 space-y-4">
+            <h4 className="text-[#EE7203] font-semibold text-lg">
+              Practical. Interactive. Real Results.
+            </h4>
+            <ul className="grid sm:grid-cols-2 gap-3 text-gray-800 text-sm">
+              <li className="flex items-start gap-2">
+                <PlayCircle className="w-4 h-4 text-[#EE7203] mt-0.5 flex-shrink-0" />
+                <span>Short, focused video lessons</span>
+              </li>
+              <li className="flex items-start gap-2">
+                {/* SVG simplificado inline está bien */}
+                <svg className="w-4 h-4 text-[#EE7203] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                </svg>
+                <span>Guided exercises & templates</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-[#EE7203] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span>Video as a Mirror self-recordings</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-[#EE7203] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Expert final pitch feedback</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-4 pt-2">
+            <Link
+              href="https://academy.furthercorporate.com/all-courses/0TQTPo4jpzpjU4xo66Gp"
+              className={CTA_SOLID}
+            >
+              <span className={`${BRAND_GRAD} absolute inset-0`} />
+              <span className="relative text-white font-semibold">
+                {t("academy.featured.startCourse")}
+              </span>
+            </Link>
+            <Link
+              href="https://academy.furthercorporate.com/all-courses/0TQTPo4jpzpjU4xo66Gp"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-gray-700 bg-white border border-gray-200 hover:border-[#EE7203] hover:text-[#EE7203] transition-colors duration-300" // Cambiado transition-all por transition-colors para performance
+            >
+              {t("academy.featured.goCourse")}
+            </Link>
+          </div>
+        </div>
+
+        {/* Image */}
+        <div className="relative h-full min-h-[420px]">
+          <Image
+            src="/images/academy/pitch.avif"
+            alt="Pitch Mastery cover"
+            fill
+            priority // IMPORTANTE: Carga prioritaria para el LCP (Largest Contentful Paint)
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            quality={85} // Reducir un poco la calidad (default es 75, pero 85 es buen balance)
+          />
+          {/* Overlay simplificado: evitar gradientes complejos si no son necesarios */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/90 via-[#0A1628]/10 to-transparent" />
+          
+          {/* Price Badge */}
+          <div className="absolute bottom-8 left-8 right-8">
+            {/* Aquí sí dejamos el backdrop-blur porque es un área chica, no mata la PC */}
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+              <p className="text-sm text-white/80 mb-2">
+                {t("academy.featured.limited")}
+              </p>
+              <div className="flex items-baseline gap-3">
+                <span className="text-5xl font-bold text-white">
+                  {t("academy.featured.price.sale")}
+                </span>
+                <span className="text-xl line-through text-white/60">
+                  {t("academy.featured.price.original")}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   </div>
 </section>
+
+      {/* All Courses Section */}
+      <section id="all-courses" className="relative bg-white py-24 overflow-hidden">
+        <div className={WRAP}>
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">
+              {t("academy.latest.title") || "Our Courses"}
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {t("academy.latest.subtitle") || "Discover our self-paced, business-focused English programs."}
+            </p>
+          </motion.div>
+
+          {/* Courses Grid */}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {courses.map((course, index) => (
+              <motion.article
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group relative rounded-3xl border border-gray-200 bg-white shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden flex flex-col"
+              >
+                {/* Image Container */}
+                <div className="relative h-56 w-full overflow-hidden">
+                  {course.image ? (
+                    <Image
+                      src={course.image}
+                      alt={course.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <span className="text-gray-400 text-sm font-medium">Add Image</span>
+                    </div>
+                  )}
+                  
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Tag */}
+                  {course.tag && (
+                    <div className="absolute top-4 right-4">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#EE7203] text-white shadow-lg">
+                        {course.tag}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 p-6 flex flex-col">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#EE7203] transition-colors">
+                      {course.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
+                      {course.desc}
+                    </p>
+
+                    {/* Meta Info */}
+                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                      <span className="inline-flex items-center gap-1.5">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        {course.level}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <Clock className="w-4 h-4" />
+                        {course.duration}
+                      </span>
+                    </div>
+
+                    {/* Price */}
+                    <div className="flex items-baseline gap-2 mb-6">
+                      <span className="text-3xl font-extrabold text-[#EE7203]">
+                        {course.price}
+                      </span>
+                      {course.oldPrice && (
+                        <span className="text-lg text-gray-400 line-through">
+                          {course.oldPrice}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* CTA Button */}
+                  <Link
+                    href={course.link || "#"}
+                    target="_blank"
+                    className="relative inline-flex items-center justify-center w-full rounded-xl px-6 py-3.5 font-semibold text-white overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group/btn"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-[#EE7203] to-[#FF3816] transition-transform duration-300 group-hover/btn:scale-105" />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      View Details
+                      <ChevronRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                    </span>
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+      </section>
 
 
         <WaveToDark className="-mb-[1px]" />

@@ -2,24 +2,30 @@ import { useEffect, useState } from "react";
 import withAdminGuard from "@/lib/guards/withAdminGuard";
 import Link from "next/link";
 import { listBlogs, deleteBlog } from "@/lib/firestore/blogs";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import firebaseApp from "@/services/firebase";
-import { useRouter } from "next/router";
 import AdminBackButton from "@/componentes/ui/AdminBackButton";
-import { FiPlus, FiEye, FiEdit2, FiTrash2, FiGlobe, FiCheckCircle, FiClock } from "react-icons/fi";
-import { motion } from "framer-motion";
+import { 
+  FiPlus, FiEye, FiEdit2, FiTrash2, FiGlobe, 
+  FiCheckCircle, FiClock, FiSearch, FiFilter, FiX 
+} from "react-icons/fi";
 
 function AdminBlogsList() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loggingOut, setLoggingOut] = useState(false);
-  const router = useRouter();
+  
+  // === NUEVOS ESTADOS PARA FILTROS ===
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("newest"); // 'newest', 'oldest', 'az'
+
+  // eslint-disable-next-line no-unused-vars
   const auth = getAuth(firebaseApp);
 
   const load = async () => {
     setLoading(true);
     try {
       const items = await listBlogs();
+      // Asumimos que items trae 'createdAt' o 'date'. Si no, el orden será por defecto.
       setRows(items);
     } finally {
       setLoading(false);
@@ -36,54 +42,63 @@ function AdminBlogsList() {
     await load();
   };
 
+  // === LÓGICA DE FILTRADO Y ORDENAMIENTO ===
+  const filteredRows = rows
+    .filter((row) => {
+      // Filtra por slug (y título si tu objeto row lo tiene)
+      const term = searchTerm.toLowerCase();
+      const slugMatch = row.slug?.toLowerCase().includes(term);
+      // const titleMatch = row.title?.toLowerCase().includes(term); // Descomentar si tienes título
+      return slugMatch; // || titleMatch
+    })
+    .sort((a, b) => {
+      if (sortBy === 'az') {
+        return a.slug.localeCompare(b.slug);
+      }
+      // Asumiendo que tienes un campo de fecha 'createdAt' o similar. 
+      // Si no existe, usa 0 para evitar errores.
+      const dateA = new Date(a.createdAt || a.date || 0).getTime();
+      const dateB = new Date(b.createdAt || b.date || 0).getTime();
+
+      if (sortBy === 'oldest') {
+        return dateA - dateB;
+      }
+      // Default: newest
+      return dateB - dateA;
+    });
+
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-[#0A1628] via-[#0C212D] to-[#0A1628] flex items-center justify-center">
+      <main className="min-h-screen bg-[#0A1628] flex items-center justify-center">
         <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-16 h-16 border-4 border-[#EE7203] border-t-transparent rounded-full mx-auto mb-4"
-          />
-          <p className="text-white/70 text-lg font-medium">Cargando blogs...</p>
+          <div className="w-12 h-12 border-4 border-[#EE7203] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-white/60 text-sm font-medium">Cargando...</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#0A1628] via-[#0C212D] to-[#0A1628] text-white pt-28 pb-12 px-6">
-      {/* Decorative background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#EE7203]/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#FF3816]/5 rounded-full blur-[100px]" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto">
+    <main className="min-h-screen bg-[#0A1628] text-gray-200 pt-28 pb-12 px-6">
+      
+      <div className="relative max-w-7xl mx-auto space-y-8">
         <AdminBackButton />
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-4xl font-black text-white mb-2">
-                Gestión de{" "}
-                <span className="bg-gradient-to-r from-[#EE7203] to-[#FF3816] bg-clip-text text-transparent">
-                  Blogs
-                </span>
+              <h1 className="text-3xl font-bold text-white mb-1">
+                Gestión de Blogs
               </h1>
-              <p className="text-white/60">
-                {rows.length} {rows.length === 1 ? 'artículo' : 'artículos'} publicados
+              <p className="text-gray-400 text-sm">
+                {rows.length} {rows.length === 1 ? 'artículo' : 'artículos'} en total
               </p>
             </div>
 
             <Link
               href="/admin/blogs/new"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#EE7203] to-[#FF3816] text-white font-bold shadow-xl shadow-orange-500/25 hover:shadow-2xl hover:shadow-orange-500/40 transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#EE7203] hover:bg-[#d66602] text-white font-medium transition-colors shadow-lg shadow-orange-900/20"
             >
               <FiPlus className="w-5 h-5" />
               Nuevo Blog
@@ -91,168 +106,126 @@ function AdminBlogsList() {
           </div>
 
           {/* Stats cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white/60 text-sm font-medium mb-1">Total</p>
-                  <p className="text-3xl font-bold text-white">{rows.length}</p>
-                </div>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#EE7203]/20 to-[#FF3816]/20 flex items-center justify-center">
-                  <FiGlobe className="w-6 h-6 text-[#EE7203]" />
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <StatCard 
+              label="Total" 
+              value={rows.length} 
+              icon={<FiGlobe className="w-5 h-5 text-[#EE7203]" />} 
+              bgIcon="bg-[#EE7203]/10"
+            />
+            <StatCard 
+              label="Públicos" 
+              value={rows.filter(r => r.status === 'public').length} 
+              icon={<FiCheckCircle className="w-5 h-5 text-green-400" />} 
+              bgIcon="bg-green-500/10"
+            />
+            <StatCard 
+              label="No listados" 
+              value={rows.filter(r => r.status === 'unlisted').length} 
+              icon={<FiClock className="w-5 h-5 text-yellow-400" />} 
+              bgIcon="bg-yellow-500/10"
+            />
+          </div>
+
+          {/* === BARRA DE FILTROS (NUEVA) === */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            {/* Buscador */}
+            <div className="relative flex-1">
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+              <input 
+                type="text" 
+                placeholder="Buscar por slug..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-[#0f1d33] border border-gray-800 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#EE7203] focus:ring-1 focus:ring-[#EE7203] transition-all"
+              />
+              {searchTerm && (
+                <button 
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
+                >
+                  <FiX />
+                </button>
+              )}
             </div>
 
-            <div className="bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white/60 text-sm font-medium mb-1">Públicos</p>
-                  <p className="text-3xl font-bold text-white">
-                    {rows.filter(r => r.status === 'public').length}
-                  </p>
-                </div>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
-                  <FiCheckCircle className="w-6 h-6 text-green-400" />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white/60 text-sm font-medium mb-1">No listados</p>
-                  <p className="text-3xl font-bold text-white">
-                    {rows.filter(r => r.status === 'unlisted').length}
-                  </p>
-                </div>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500/20 to-amber-500/20 flex items-center justify-center">
-                  <FiClock className="w-6 h-6 text-yellow-400" />
-                </div>
+            {/* Selector de Orden */}
+            <div className="relative min-w-[200px]">
+              <FiFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full bg-[#0f1d33] border border-gray-800 rounded-lg pl-10 pr-8 py-3 text-white appearance-none focus:outline-none focus:border-[#EE7203] cursor-pointer"
+              >
+                <option value="newest">Más recientes</option>
+                <option value="az">Alfabético (A-Z)</option>
+              </select>
+              {/* Flechita custom para el select */}
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-2xl"
-        >
+        {/* Table Container */}
+        <div className="bg-[#0f1d33] rounded-xl border border-gray-800 overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left px-6 py-4 text-sm font-bold text-white/80 uppercase tracking-wider">
-                    Slug
-                  </th>
-                  <th className="text-left px-6 py-4 text-sm font-bold text-white/80 uppercase tracking-wider">
-                    Estado
-                  </th>
-                  <th className="text-left px-6 py-4 text-sm font-bold text-white/80 uppercase tracking-wider">
-                    Idiomas
-                  </th>
-                  <th className="text-right px-6 py-4 text-sm font-bold text-white/80 uppercase tracking-wider">
-                    Acciones
-                  </th>
+                <tr className="border-b border-gray-800 bg-[#14243e]">
+                  <th className="px-6 py-4 font-semibold text-gray-300">Slug</th>
+                  <th className="px-6 py-4 font-semibold text-gray-300">Estado</th>
+                  <th className="px-6 py-4 font-semibold text-gray-300">Idiomas</th>
+                  <th className="px-6 py-4 font-semibold text-gray-300 text-right">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
-                {rows.map((r, i) => (
-                  <motion.tr
-                    key={r.slug}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="hover:bg-white/[0.03] transition-colors"
+              <tbody className="divide-y divide-gray-800">
+                {filteredRows.map((r) => (
+                  <tr 
+                    key={r.slug} 
+                    className="hover:bg-white/[0.02] transition-colors group"
                   >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
-                        <span className="font-medium text-white">{r.slug}</span>
-                      </div>
+                    <td className="px-6 py-4 text-white font-medium group-hover:text-[#EE7203] transition-colors">
+                      {r.slug}
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
                           r.status === 'public'
-                            ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                            : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                            ? 'bg-green-500/10 text-green-400 border-green-500/20'
+                            : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
                         }`}
                       >
-                        {r.status === 'public' ? (
-                          <>
-                            <FiCheckCircle className="w-3 h-3" />
-                            Público
-                          </>
-                        ) : (
-                          <>
-                            <FiClock className="w-3 h-3" />
-                            No listado
-                          </>
-                        )}
+                        {r.status === 'public' ? 'Público' : 'No listado'}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <FiGlobe className="w-4 h-4 text-[#EE7203]" />
-                        <span className="text-white/70 text-sm">
-                          {Array.isArray(r.locales) ? r.locales.join(", ") : "-"}
-                        </span>
-                      </div>
+                    <td className="px-6 py-4 text-gray-400">
+                      {Array.isArray(r.locales) ? r.locales.join(", ").toUpperCase() : "-"}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link
-                          href={`/news/${r.slug}`}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/15 text-white text-sm font-medium transition-all hover:scale-105"
-                          title="Ver artículo"
-                        >
-                          <FiEye className="w-4 h-4" />
-                          Ver
-                        </Link>
-                        <Link
-                          href={`/admin/blogs/${r.slug}`}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#EE7203]/20 hover:bg-[#EE7203]/30 text-[#EE7203] text-sm font-medium transition-all hover:scale-105 border border-[#EE7203]/30"
-                          title="Editar artículo"
-                        >
-                          <FiEdit2 className="w-4 h-4" />
-                          Editar
-                        </Link>
+                        <ActionButton href={`/news/${r.slug}`} icon={<FiEye />} title="Ver" />
+                        <ActionButton href={`/admin/blogs/${r.slug}`} icon={<FiEdit2 />} title="Editar" isEdit />
                         <button
                           onClick={() => onDelete(r.slug)}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 text-sm font-medium transition-all hover:scale-105 border border-red-500/30"
-                          title="Eliminar artículo"
+                          className="p-2 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-colors"
+                          title="Eliminar"
                         >
                           <FiTrash2 className="w-4 h-4" />
-                          Eliminar
                         </button>
                       </div>
                     </td>
-                  </motion.tr>
+                  </tr>
                 ))}
-                {rows.length === 0 && (
+
+                {filteredRows.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center">
-                      <div className="flex flex-col items-center justify-center">
-                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
-                          <FiGlobe className="w-8 h-8 text-white/30" />
-                        </div>
-                        <p className="text-white/60 text-lg font-medium mb-2">
-                          No hay blogs aún
-                        </p>
-                        <p className="text-white/40 text-sm mb-6">
-                          Comienza creando tu primer artículo
-                        </p>
-                        <Link
-                          href="/admin/blogs/new"
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#EE7203] to-[#FF3816] text-white font-semibold hover:scale-105 transition-transform"
-                        >
-                          <FiPlus className="w-4 h-4" />
-                          Crear primer blog
-                        </Link>
+                    <td colSpan={4} className="px-6 py-16 text-center">
+                      <div className="flex flex-col items-center justify-center opacity-50">
+                        <FiSearch className="w-8 h-8 mb-2" />
+                        <p className="text-gray-300 font-medium">No se encontraron resultados</p>
+                        <p className="text-sm text-gray-500">Prueba con otro término de búsqueda</p>
                       </div>
                     </td>
                   </tr>
@@ -260,40 +233,46 @@ function AdminBlogsList() {
               </tbody>
             </table>
           </div>
-
-          {/* Footer with pagination placeholder */}
-          {rows.length > 0 && (
-            <div className="px-6 py-4 border-t border-white/10 bg-white/[0.02]">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-white/60">
-                  Mostrando <span className="font-semibold text-white">{rows.length}</span> artículos
-                </p>
-                {/* Aquí podrías agregar paginación en el futuro */}
-              </div>
-            </div>
-          )}
-        </motion.div>
+          
+          {/* Footer de la tabla (Contador de resultados filtrados) */}
+          <div className="bg-[#14243e] px-6 py-3 border-t border-gray-800 text-xs text-gray-400 flex justify-between items-center">
+             <span>Viendo {filteredRows.length} de {rows.length} registros</span>
+          </div>
+        </div>
       </div>
     </main>
   );
 }
 
-export default withAdminGuard(AdminBlogsList);
-
-/* === Ícono de logout === */
-function LogoutIcon() {
+// === Componentes Auxiliares (Sin cambios, solo reutilizados) ===
+function StatCard({ label, value, icon, bgIcon }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="w-4 h-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      aria-hidden="true"
-    >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h4" />
-      <path d="M16 17l5-5-5-5" />
-      <path d="M21 12H9" />
-    </svg>
+    <div className="bg-[#0f1d33] border border-gray-800 rounded-xl p-5 flex items-center justify-between shadow-lg">
+      <div>
+        <p className="text-gray-400 text-xs uppercase tracking-wider font-semibold mb-1">{label}</p>
+        <p className="text-2xl font-bold text-white">{value}</p>
+      </div>
+      <div className={`w-10 h-10 rounded-lg ${bgIcon} flex items-center justify-center`}>
+        {icon}
+      </div>
+    </div>
   );
 }
+
+function ActionButton({ href, icon, title, isEdit }) {
+  return (
+    <Link
+      href={href}
+      className={`p-2 rounded-lg transition-colors ${
+        isEdit 
+        ? "text-gray-400 hover:text-[#EE7203] hover:bg-[#EE7203]/10" 
+        : "text-gray-400 hover:text-white hover:bg-white/10"
+      }`}
+      title={title}
+    >
+      <span className="w-4 h-4 block">{icon}</span>
+    </Link>
+  );
+}
+
+export default withAdminGuard(AdminBlogsList);

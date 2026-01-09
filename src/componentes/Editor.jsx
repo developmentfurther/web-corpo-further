@@ -15,6 +15,7 @@ export default function Editor({ data, onChange, holder }) {
       const { default: Paragraph } = await import("@editorjs/paragraph");
       const { default: ImageTool } = await import("@editorjs/image");
 
+
       if (ref.current) return;
 
       const editor = new EditorJS({
@@ -26,15 +27,14 @@ export default function Editor({ data, onChange, holder }) {
           header: { class: Header, inlineToolbar: true },
           list: { class: List, inlineToolbar: true },
           quote: { class: Quote, inlineToolbar: true },
+        
+
+            
           
-          // ✅ Herramienta de imagen con ImageKit
           image: {
             class: ImageTool,
             config: {
               uploader: {
-                /**
-                 * Subir imagen por archivo
-                 */
                 async uploadByFile(file) {
                   try {
                     const formData = new FormData();
@@ -66,9 +66,6 @@ export default function Editor({ data, onChange, holder }) {
                   }
                 },
 
-                /**
-                 * Subir imagen por URL (opcional)
-                 */
                 async uploadByUrl(url) {
                   return {
                     success: 1,

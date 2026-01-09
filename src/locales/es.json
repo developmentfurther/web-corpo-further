@@ -65,6 +65,9 @@
 },
 
 "footer": {
+  "contactTitle": "Contáctanos",
+    "whatsappCopy": "¿Tenés dudas? Chateá con nosotros por WhatsApp para información sobre cursos e inscripciones.",
+    "whatsappButton": "Chatear por WhatsApp",
   "newsletterTitle": "Suscríbete al boletín",
   "newsletterCopy": "Recibe novedades y noticias de Further Corporate.",
   "a11y": {
@@ -253,6 +256,11 @@
     "meta": {
       "title": "Further Corporate: Consultora de idiomas líder en el mercado",
       "description": "Somos Further Corporate: Más de 25 años y 50.000 alumnos formados avalan nuestra trayectoria. Conocé nuestra misión, visión y propuestas únicas para el aprendizaje de idiomas."
+    },
+    "video": {
+      "badge": "Experiencia 360°",
+    "title": "Potenciamos tu talento.",
+    "subtitle": "La IA nos da las herramientas, la conexión humana les da sentido."
     },
     "hero": {
       "badge": "25+ años de experiencia en la enseñanza de idiomas",
@@ -552,17 +560,6 @@
     "title": "Cursos disponibles",
     "subtitle": "Descubrí nuestros programas de inglés online, prácticos y enfocados en el mundo corporativo.",
     "items": {
-      "pitch": {
-        "title": "Pitch Mastery",
-        "desc": "Transformá la forma en la que presentás tus ideas en inglés a través de 10 clases prácticas centradas en la confianza y la claridad.",
-        "level": "Intermedio",
-        "duration": "20 h",
-        "price": "$75.000",
-        "oldPrice": "$100.000",
-        "tag": "Tiempo limitado",
-        "image": "/images/academy/pitch.avif",
-        "link": "https://academy.furthercorporate.com/all-courses/0TQTPo4jpzpjU4xo66Gp"
-      },
       "job": {
         "title": "Job Search Chess",
         "desc": "Dominá el arte de destacarte en entrevistas laborales en inglés, desde la optimización de tu perfil hasta la estrategia comunicacional.",
@@ -583,6 +580,17 @@
         "oldPrice": "$100.000",
         "image": "/images/academy/online.avif",
         "link": "https://academy.furthercorporate.com/all-courses/r9VZnr3cHIHDjfzFFTzq"
+      },
+      "survival": {
+        "title": "Survival English",
+        "desc": "Olvidate de los libros y aprendé a desenvolverte en el mundo real. Ganá confianza para resolver imprevistos y pasá de turista a Navegador Global con total autonomía en tus viajes",
+        "level": "Intermedio",
+        "duration": "20 h",
+        "price": "$75.000",
+        "oldPrice": "$100.000",
+        "tag": "Tiempo limitado",
+        "image": "/images/academy/survival.avif",
+        "link": "https://academy.furthercorporate.com/all-courses/S5Npstk4yJ3M2yRMP8yo"
       }
     }
   }
@@ -695,7 +703,7 @@
     "href": "https://www.instagram.com/furtherlanguages/"
   },
   "testimonials": {
-    "title": "Únete a la #FurtherCommunity",
+    "title": "Unite a la #ComunidadFurther",
     "subtitle": "Lo que dicen nuestros alumnos: resultados reales y progreso constante.",
     "items": [
       {

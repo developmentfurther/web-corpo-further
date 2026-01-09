@@ -237,6 +237,11 @@
       "title": "Further Corporate: Leading Language Consultancy",
       "description": "We are Further Corporate: Over 25 years and 50,000 trained students back our experience. Discover our mission, vision, and unique proposals for language learning."
     },
+    "video": {
+      "badge": "360° Experience",
+    "title": "Empowering your talent.",
+    "subtitle": "AI provides the tools, human connection gives them meaning."
+    },
     "hero": {
       "badge": "25+ Years of Experience in Language Teaching",
       "title": { "prefix": "25+ Years of Experience in", "highlight": "Language Teaching" },
@@ -552,23 +557,12 @@
     "title": "Our Courses",
     "subtitle": "Discover our business-focused English programs designed for real-world impact.",
     "items": {
-      "pitch": {
-        "title": "Pitch Mastery",
-        "desc": "Transform how you present your ideas in English through 10 practical lessons focused on clarity, confidence, and delivery.",
-        "level": "Intermediate",
-        "duration": "20 h",
-        "price": "USD $52.99",
-        "oldPrice": "USD $69.99",
-        "tag": "Limited time",
-        "image": "/images/academy/pitch.avif",
-        "link": "https://academy.furthercorporate.com/all-courses/0TQTPo4jpzpjU4xo66Gp"
-      },
       "job": {
         "title": "Job Search Chess",
         "desc": "Master the art of standing out in English interviews — from profile optimization to communication strategy and confidence.",
         "level": "Intermediate",
         "duration": "20 h",
-        "price": "USD $55.99",
+        "price": "USD $54.99",
         "oldPrice": "USD $69.99",
         "tag": "Limited time",
         "image": "/images/academy/job.avif",
@@ -583,7 +577,18 @@
         "oldPrice":"USD $69.99",
         "image": "/images/academy/online.avif",
         "link": "https://academy.furthercorporate.com/all-courses/r9VZnr3cHIHDjfzFFTzq"
-      }
+      },
+      "survival": {
+    "title": "Survival English",
+    "desc": "Forget the textbooks and learn to navigate the real world. Gain confidence to handle the unexpected and go from tourist to Global Navigator with full independence on your travels.",
+    "level": "Intermediate",
+    "duration": "20 h",
+    "price": "USD $52.99",
+    "oldPrice": "USD $69.99",
+    "tag": "Limited time",
+    "image": "/images/academy/survival.avif",
+    "link": "https://academy.furthercorporate.com/all-courses/S5Npstk4yJ3M2yRMP8yo"
+}
     }
   }
 },
@@ -1122,6 +1127,9 @@
 
  
   "footer": {
+    "contactTitle": "Contact Us",
+    "whatsappCopy": "Have questions? Chat with us on WhatsApp for information about courses and enrollment.",
+    "whatsappButton": "Chat on WhatsApp",
     "newsletterTitle": "Newsletter",
     "newsletterCopy": "Stay up to date with our news and insights.",
     "a11y": {

@@ -15,6 +15,7 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
+  AnimatePresence
 } from "framer-motion";
 import { loadMessages } from "@/lib/i18n";
 import HeroAbout from "@/componentes/hero/HeroAbout";
@@ -25,11 +26,14 @@ import {
   Headphones,
   PlayCircle,
   Clapperboard,
+  Play,
   ArrowUpRight,
 } from "lucide-react";
 import { WaveToDark, WaveToLight } from "@/componentes/ui/Waves";
 import Link from "next/link";
 import FurtherMediaSection from "@/componentes/about/FurtherMediaSection";
+import { useState } from "react"; 
+
 
 /* ====== Tokens ====== */
 const BG_DARK = "bg-[#0A1628]";
@@ -84,11 +88,15 @@ export default function AboutIndex({ messages }) {
   const media = t?.media ?? {};
   const testimonials = t?.testimonials ?? {};
   const cta = t?.cta ?? {};
+  const video = t?.video ?? {};
 
   const { fadeUp, fadeIn, stagger } = useVariants();
   const { scrollYProgress } = useScroll();
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
   const videoY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const VIDEO_ID = "9a6Q6QCwuZs";
 
   return (
     <>
@@ -187,6 +195,9 @@ export default function AboutIndex({ messages }) {
   </section>
 )}
 
+
+
+
 {/* ====================================== */}
 {/* MISIÓN / VISIÓN / STAFF DOCENTE (light interactivo) */}
 {/* ====================================== */}
@@ -252,12 +263,100 @@ export default function AboutIndex({ messages }) {
 
     </div>
 
-    {/* 🌊 Onda hacia dark para entrar a Further Media */}
    
   </section>
 )}
 
+{/* ====================================================== */}
+    {/* VIDEO BREAK: Brand Experience / Manifesto */}
+    {/* ====================================================== */}
+    <section className="relative py-12 lg:py-20 px-4 sm:px-6">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="mx-auto max-w-7xl relative h-[500px] lg:h-[600px] rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group isolate"
+      >
+        <AnimatePresence mode="wait">
+          {!isPlaying ? (
+            /* 1. PORTADA CUSTOM (Estética Pura) */
+            <motion.div
+              key="cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+              className="absolute inset-0 z-10"
+            >
+              {/* Imagen de fondo */}
+              <div className="absolute inset-0">
+                <Image
+                  src={`https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`}
+                  alt="Further Experience Cover"
+                  fill
+                  className="object-cover transition-transform duration-[2s] group-hover:scale-105"
+                />
+              </div>
 
+              {/* Overlay Corporativo */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/90 via-[#0A1628]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-[#EE7203]/40 mix-blend-overlay" />
+
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 z-20">
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: 0.2, duration: 0.6 }}
+    className="max-w-3xl space-y-6 flex flex-col items-center" // <--- AGREGÁ ESTO: flex flex-col items-center
+  >
+    <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-widest uppercase mb-2">
+      {video?.badge || "Experiencia 360°"}
+    </span>
+
+    <h2 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight drop-shadow-lg">
+      {video?.title || "Potenciamos tu talento."}
+    </h2>
+
+    <p className="text-lg text-gray-200 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
+      {video?.subtitle ||
+        "La IA nos da las herramientas, la conexión humana les da sentido."}
+    </p>
+
+    {/* Botón de Play Centrado */}
+    <motion.button
+      onClick={() => setIsPlaying(true)}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      // 👇 Asegurate que tenga 'mx-auto' si no usaste flex arriba, pero con el flex de arriba ya queda.
+      // Por las dudas dejale el 'mx-auto' también, no rompe nada.
+      className="mx-auto mt-8 w-20 h-20 rounded-full bg-[#EE7203] flex items-center justify-center shadow-[0_0_30px_rgba(238,114,3,0.6)] group/btn hover:bg-white hover:text-[#EE7203] text-white transition-all duration-300"
+    >
+      <Play className="w-8 h-8 ml-1 fill-current" />
+    </motion.button>
+  </motion.div>
+</div>
+            </motion.div>
+          ) : (
+            /* 2. VIDEO YOUTUBE */
+            <motion.div
+              key="video"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 w-full h-full z-20 bg-black"
+            >
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`}
+                title="Further Experience"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </section>
 
   {/* ================================== */}
 {/* FURTHER MEDIA (nueva versión estilo Service360) */}
