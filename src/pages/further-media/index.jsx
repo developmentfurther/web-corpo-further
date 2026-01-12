@@ -102,28 +102,77 @@ function ApplePodcastsIcon(props) {
 }
 
 
-function YouTubePlaylistPlayer({ t }) {
-  const videos = t?.shorts?.videos || [];
-  const channel = t?.shorts?.channel || "Further Corporate";
+// 2. Componente actualizado con fetch automático
+// Reemplaza tu YouTubePlaylistPlayer actual con esto:
+
+function YouTubePlaylistPlayer({ t, locale }) {
+  const [videos, setVideos] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
   const [active, setActive] = React.useState(null);
+
+  // Fetch automático al montar
+  React.useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const response = await fetch('/api/youtube-shorts');
+        if (!response.ok) throw new Error('Failed to fetch videos');
+        
+        const data = await response.json();
+        setVideos(data.videos);
+      } catch (err) {
+        console.error('Error loading videos:', err);
+        setError(err.message);
+        // Fallback a datos estáticos si falla
+        setVideos(t?.shorts?.videos || []);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchVideos();
+  }, [t?.shorts?.videos]);
+
+  const channel = t?.shorts?.channel || "Further Corporate";
+
+  if (loading) {
+    return (
+      <div className="mt-10 w-full rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-md shadow-lg p-8">
+        <div className="flex items-center justify-center gap-3">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+          <p className="text-white/70">Loading videos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && videos.length === 0) {
+    return (
+      <div className="mt-10 w-full rounded-2xl border border-red-500/20 bg-red-500/5 backdrop-blur-md p-6">
+        <p className="text-red-400">Unable to load videos. Please try again later.</p>
+      </div>
+    );
+  }
 
   return (
     <motion.div
       layout
       transition={{ layout: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } }}
       className="relative mt-10 w-full rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-md shadow-lg overflow-hidden"
-
     >
-      {/* Header (traducible) */}
+      {/* Header */}
       <div className="p-5 border-b border-white/10">
         <h4 className="text-lg font-semibold text-white mb-1">
           {t?.shorts?.title || "Further Shorts"}
         </h4>
         <p className="text-white/60 text-sm">{channel}</p>
+        <p className="text-white/40 text-xs mt-1">
+          {videos.length} videos available
+        </p>
       </div>
 
       {/* Lista de vídeos */}
-      <div className="divide-y divide-white/10">
+      <div className="divide-y divide-white/10 max-h-[500px] overflow-y-auto">
         {videos.map((v, i) => (
           <button
             key={v.id}
@@ -134,9 +183,10 @@ function YouTubePlaylistPlayer({ t }) {
           >
             <div className="relative h-12 w-12 rounded-md overflow-hidden flex-shrink-0">
               <img
-                src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                src={v.thumbnail || `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
                 alt={v.title}
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </div>
             <div className="flex-1 min-w-0">
@@ -150,6 +200,7 @@ function YouTubePlaylistPlayer({ t }) {
                   className="h-5 w-5 text-white"
                   viewBox="0 0 24 24"
                   fill="currentColor"
+                  aria-label="Pause"
                 >
                   <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                 </svg>
@@ -159,6 +210,7 @@ function YouTubePlaylistPlayer({ t }) {
                   className="h-5 w-5 text-white"
                   viewBox="0 0 24 24"
                   fill="currentColor"
+                  aria-label="Play"
                 >
                   <path d="M8 5v14l11-7z" />
                 </svg>

@@ -26,14 +26,66 @@ export default function NewsPage() {
   const title = t("news.title", "Noticias");
   const subtitle = t("news.subtitle", "Descubre nuestras últimas publicaciones e insights");
 
-  // === LÓGICA DE FILTRADO ===
-  const featuredRaw = blogs.filter(b => b.featured === true || b.featured === "true");
-  const featuredPosts = featuredRaw.slice(0, 3);
-  
-  const regularPosts = [
-    ...blogs.filter(b => !b.featured && b.featured !== "true"),
-    ...featuredRaw.slice(3)
-  ].sort((a, b) => new Date(b.date) - new Date(a.date));
+ // === LÓGICA DE FILTRADO (ORDEN PODCASTS + SHORTS) ===
+
+// Extrae número inicial (podcasts: "12-foo" → 12)
+const getPodcastNumber = (slug = "") => {
+  const match = slug.match(/^(\d+)/);
+  return match ? Number(match[1]) : null;
+};
+
+// Extrae número de shorts ("further-shorts-4-foo" → 4)
+const getShortNumber = (slug = "") => {
+  const match = slug.match(/further-shorts-(\d+)/i);
+  return match ? Number(match[1]) : null;
+};
+
+const orderedBlogs = [...blogs].sort((a, b) => {
+  const aPodcast = getPodcastNumber(a.slug);
+  const bPodcast = getPodcastNumber(b.slug);
+
+  // 1️⃣ Ambos son podcasts
+  if (aPodcast !== null && bPodcast !== null) {
+    return aPodcast - bPodcast;
+  }
+
+  // 2️⃣ Solo A es podcast
+  if (aPodcast !== null) return -1;
+  if (bPodcast !== null) return 1;
+
+  const aShort = getShortNumber(a.slug);
+  const bShort = getShortNumber(b.slug);
+
+  // 3️⃣ Ambos son shorts
+if (aShort !== null && bShort !== null) {
+  // Si tienen el mismo número, ordenar por slug
+  if (aShort === bShort) {
+    return a.slug.localeCompare(b.slug);
+  }
+  return aShort - bShort;
+}
+
+
+  // 4️⃣ Solo A es short
+  if (aShort !== null) return -1;
+  if (bShort !== null) return 1;
+
+  // 5️⃣ Otros contenidos → mantener orden
+  return 0;
+});
+
+// Destacados (ya ordenados)
+const featuredRaw = orderedBlogs.filter(
+  b => b.featured === true || b.featured === "true"
+);
+
+const featuredPosts = featuredRaw.slice(0, 3);
+
+// Resto
+const regularPosts = [
+  ...orderedBlogs.filter(b => b.featured !== true && b.featured !== "true"),
+  ...featuredRaw.slice(3)
+];
 
   if (blogsLoading) {
     return (

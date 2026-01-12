@@ -21,7 +21,7 @@ import { renderBlocksToHtml } from "@/lib/renderEditor";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import AdminBackButton from "@/componentes/ui/AdminBackButton";
+
 
 const Editor = dynamic(() => import("@/componentes/Editor"), { ssr: false });
 const LOCALES = ["es", "en", "pt"];
@@ -54,6 +54,13 @@ function EditBlog() {
   const [progress, setProgress] = useState(0);
   const [sizes, setSizes] = useState({ beforeMB: 0, afterMB: 0 });
 
+  // ============================
+  // Estados para botón flotante draggable
+  // ============================
+  const [position, setPosition] = useState({ x: 20, y: 20 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
   // Cargar meta + contenido por idioma
   useEffect(() => {
     if (!id) return;
@@ -83,6 +90,49 @@ function EditBlog() {
       alive = false;
     };
   }, [id, locale]);
+
+  // ============================
+  // Drag handlers para el botón flotante
+  // ============================
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    
+    const newX = e.clientX - dragStart.x;
+    const newY = e.clientY - dragStart.y;
+    
+    // Limitar el botón dentro del viewport
+    const maxX = window.innerWidth - 60; // 60px es el ancho aproximado del botón
+    const maxY = window.innerHeight - 60;
+    
+    setPosition({
+      x: Math.max(0, Math.min(newX, maxX)),
+      y: Math.max(0, Math.min(newY, maxY)),
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragStart, position]);
 
   // ============================
   // Subida de imagen a ImageKit
@@ -135,61 +185,61 @@ function EditBlog() {
   }
 
 
-const onSave = async (e) => {
-  e.preventDefault();
+  const onSave = async (e) => {
+    e.preventDefault();
 
-  if (!blocks?.blocks || blocks.blocks.length === 0) {
-    alert("El contenido del blog está vacío.");
-    return;
-  }
-
-  if (!form.coverUrl) {
-    alert("Por favor, subí una imagen de portada antes de guardar.");
-    return;
-  }
-
-  setSaving(true);
-  try {
-    const html = renderBlocksToHtml(blocks.blocks || []);
-
-    // 1️⃣ Actualizar meta (usando el slug existente 'id')
-    const metaData = {
-      slug: id, // ✅ Usar el slug existente
-      title: form.title,
-      summary: form.summary,
-      coverUrl: form.coverUrl,
-      status: form.status,
-      locale: form.locale,
-      featured: form.featured || false,
-    };
-    
-    if (form.coverKitId) {
-      metaData.coverKitId = form.coverKitId;
+    if (!blocks?.blocks || blocks.blocks.length === 0) {
+      alert("El contenido del blog está vacío.");
+      return;
     }
 
-    await saveBlogMeta(metaData);
+    if (!form.coverUrl) {
+      alert("Por favor, subí una imagen de portada antes de guardar.");
+      return;
+    }
 
-    // 2️⃣ Guardar solo el contenido del idioma actual (sin auto-traducción)
-    await saveBlogLocale({
-      slug: id,
-      locale: locale, // ✅ Usar el locale del tab actual
-      title: form.title,
-      summary: form.summary,
-      html,
-      blocks: blocks.blocks || [],
-    });
+    setSaving(true);
+    try {
+      const html = renderBlocksToHtml(blocks.blocks || []);
 
-    alert(`✅ ${locale.toUpperCase()} guardado correctamente.`);
-    
-    // Recargar para mostrar cambios
-    router.replace(router.asPath);
-  } catch (err) {
-    console.error("❌ Error al guardar:", err);
-    alert(`❌ Error al guardar: ${err.message}`);
-  } finally {
-    setSaving(false);
-  }
-};
+      // 1️⃣ Actualizar meta (usando el slug existente 'id')
+      const metaData = {
+        slug: id, // ✅ Usar el slug existente
+        title: form.title,
+        summary: form.summary,
+        coverUrl: form.coverUrl,
+        status: form.status,
+        locale: form.locale,
+        featured: form.featured || false,
+      };
+      
+      if (form.coverKitId) {
+        metaData.coverKitId = form.coverKitId;
+      }
+
+      await saveBlogMeta(metaData);
+
+      // 2️⃣ Guardar solo el contenido del idioma actual (sin auto-traducción)
+      await saveBlogLocale({
+        slug: id,
+        locale: locale, // ✅ Usar el locale del tab actual
+        title: form.title,
+        summary: form.summary,
+        html,
+        blocks: blocks.blocks || [],
+      });
+
+      alert(`✅ ${locale.toUpperCase()} guardado correctamente.`);
+      
+      // Recargar para mostrar cambios
+      router.replace(router.asPath);
+    } catch (err) {
+      console.error("❌ Error al guardar:", err);
+      alert(`❌ Error al guardar: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   if (!id || loading) {
     return <div className="p-6 text-white/70">Cargando…</div>;
@@ -200,7 +250,13 @@ const onSave = async (e) => {
   return (
     <main className="min-h-screen bg-[#0A1628] text-white py-10 pt-28">
       <div className={SHELL}>
-        <AdminBackButton />
+        <button
+          type="button"
+          onClick={() => router.push("/admin/blogs")}
+          className={BTN_SECONDARY}
+        >
+          Volver a Blogs
+        </button>
 
         <div className={CARD}>
           <h1 className={TITLE}>Editar blog: {id}</h1>
@@ -321,17 +377,17 @@ const onSave = async (e) => {
                 </select>
               </div>
               <div className="flex items-center gap-3">
-  <input
-    type="checkbox"
-    id="featured"
-    checked={form.featured}
-    onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-    className="w-5 h-5 rounded border-white/20 bg-[#112C3E] text-[#FF3816] focus:ring-2 focus:ring-[#FF3816]"
-  />
-  <label htmlFor="featured" className={LABEL}>
-    Marcar como destacado
-  </label>
-</div>
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={form.featured}
+                  onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+                  className="w-5 h-5 rounded border-white/20 bg-[#112C3E] text-[#FF3816] focus:ring-2 focus:ring-[#FF3816]"
+                />
+                <label htmlFor="featured" className={LABEL}>
+                  Marcar como destacado
+                </label>
+              </div>
             </div>
 
             {/* Editor */}
@@ -364,15 +420,54 @@ const onSave = async (e) => {
               </button>
               <button
                 type="button"
-                onClick={() => router.push("/admin")}
+                onClick={() => router.push("/admin/blogs")}
                 className={BTN_SECONDARY}
               >
-                Volver
+                Volver a Blogs
               </button>
             </div>
           </form>
         </div>
       </div>
+
+      {/* ============================
+          BOTÓN FLOTANTE DRAGGABLE
+          ============================ */}
+      <button
+        type="button"
+        onClick={onSave}
+        disabled={saving}
+        onMouseDown={handleMouseDown}
+        style={{
+          position: 'fixed',
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+          zIndex: 9999,
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}
+        className="w-14 h-14 rounded-full bg-gradient-to-r from-[#EE7203] to-[#FF3816] text-white shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {saving ? (
+          <svg className="animate-spin h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        ) : (
+          <svg 
+            className="w-6 h-6" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" 
+            />
+          </svg>
+        )}
+      </button>
     </main>
   );
 }

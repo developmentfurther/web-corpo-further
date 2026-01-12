@@ -1023,46 +1023,167 @@
 },
 
   "faq": {
-  "meta": {
-    "title": "Preguntas Frecuentes | Further Corporate",
-    "description": "Encontrá respuestas sobre nuestras clases, programas corporativos, certificaciones, pagos y más.",
-    "canonical": "https://furthercorporate.com/faq"
-  },
-  "hero": {
-    "title": "Preguntas Frecuentes",
-    "subtitle": "Todo lo que necesitás saber sobre nuestros programas",
-    "body": "¿No encontrás lo que buscás? Contactanos y nuestro equipo te ayudará a resolver tus dudas."
-  },
-  "toc": { "title": "En esta página" },
-  "items": [
-    {
-      "id": "que-es-further",
-      "q": "¿Qué es Further Corporate?",
-      "a": "Somos una consultora de idiomas con más de 25 años de experiencia en capacitación profesional, comunicación corporativa y desarrollo de habilidades lingüísticas para empresas y equipos internacionales."
+    "meta": {
+      "title": "Preguntas Frecuentes | Further",
+      "description": "Encuentra respuestas sobre Further: idiomas, servicios corporativos, Further School, Academy, Media y más.",
+      "ogTitle": "Preguntas Frecuentes | Further",
+      "ogDescription": "Encuentra respuestas sobre Further: idiomas, servicios corporativos, Further School, Academy, Media y más.",
+      "twitterTitle": "Preguntas Frecuentes | Further",
+      "twitterDescription": "Encuentra respuestas sobre Further: idiomas, servicios corporativos, Further School, Academy, Media y más."
     },
-    {
-      "id": "como-funcionan-las-clases",
-      "q": "¿Cómo funcionan las clases?",
-      "a": "Ofrecemos clases presenciales, online o combinadas. Cada programa se adapta a tus objetivos y nivel, con materiales originales, métricas medibles y metodologías alineadas al Marco Común Europeo de Referencia (MCER)."
+    "breadcrumb": {
+      "home": "Inicio",
+      "current": "Preguntas Frecuentes"
     },
-    {
-      "id": "pagos",
-      "q": "¿Qué métodos de pago aceptan?",
-      "a": "Aceptamos facturación corporativa, transferencias bancarias y planes personalizados de acuerdo con la duración y modalidad del programa."
+    "hero": {
+      "title": "Preguntas Frecuentes",
+      "subtitle": "Todo lo que necesitás saber",
+      "description": "¿No encontrás la respuesta que buscás? Contactanos y te ayudamos.",
+      "skipLink": "Ir al contenido"
     },
-    {
-      "id": "certificados",
-      "q": "¿Entregan certificados?",
-      "a": "Sí. Todos nuestros programas incluyen certificados de finalización y la opción de preparación para exámenes internacionales como Cambridge o TOEFL."
+    "toc": {
+      "title": "En esta página"
+    },
+    "sections": [
+      {
+        "id": "general",
+        "title": "General",
+        "items": [
+          {
+            "q": "¿Qué es Further?",
+            "a": "Further es una empresa dedicada a la enseñanza de idiomas y a brindar soluciones comunicacionales, con más de 25 años de trayectoria en Buenos Aires. Trabajamos con personas (B2C) y empresas (B2B) bajo un enfoque 100% comunicacional e inmersivo."
+          },
+          {
+            "q": "¿Qué idiomas ofrece Further?",
+            "a": "Ofrecemos clases de Inglés, Portugués, Italiano, Francés, Alemán y Español para Extranjeros, tanto en formatos presenciales como online, según el servicio."
+          },
+          {
+            "q": "¿Cuál es el enfoque de enseñanza?",
+            "a": "Nuestro enfoque es práctico, comunicacional e inmersivo. Buscamos que los alumnos ganen seguridad para comunicarse en contextos reales, laborales y culturales, priorizando la fluidez y el uso auténtico del idioma."
+          }
+        ]
+      },
+      {
+        "id": "corporativo",
+        "title": "Servicios Corporativos",
+        "items": [
+          {
+            "q": "¿Further ofrece capacitación para empresas?",
+            "a": "Sí. Diseñamos programas de capacitación corporativa personalizados para mejorar la comunicación interna y externa de las organizaciones en otros idiomas."
+          },
+          {
+            "q": "¿Las capacitaciones corporativas son presenciales u online?",
+            "a": "Ofrecemos ambas modalidades: clases presenciales y capacitaciones online, según las necesidades de cada empresa."
+          },
+          {
+            "q": "¿En qué ciudades brindan clases presenciales para empresas?",
+            "a": "Actualmente dictamos clases presenciales en CABA, Mar del Plata, Rosario, Córdoba, Mendoza y Salta."
+          },
+          {
+            "q": "¿Cómo se evalúa el nivel de los alumnos?",
+            "a": "Realizamos una nivelación basada en el CEFR (Marco Común Europeo de Referencia para las Lenguas), lo que garantiza un proceso de aprendizaje transparente y confiable."
+          },
+          {
+            "q": "¿Qué tipo de workshops ofrecen?",
+            "a": "Ofrecemos workshops prácticos de todo tipo, customizados según los intereses particulares de cada cliente, como por ejemplo: How to Make a Killer Presentation, HR for Success, Help Desk, Finance Programme. También contamos con un Conversational Club y propuestas especiales que combinan idioma y actividades de Team Building. Contactanos para conocer más sobre estas propuestas."
+          },
+          {
+            "q": "¿Cómo puedo contratar un servicio corporativo?",
+            "a": "Podés escribirnos a incompany@furtherenglish.com o completar el formulario de contacto en nuestra web para recibir una propuesta a medida."
+          }
+        ]
+      },
+      {
+        "id": "further-school",
+        "title": "Further School",
+        "items": [
+          {
+            "q": "¿Qué es Further School?",
+            "a": "Further School es nuestro proyecto educativo presencial para niños, adolescentes y adultos, con clases de inglés desde los 3 años. Contamos con más de 25 años de trayectoria que avalan nuestra excelencia académica y nuestro compromiso con la educación."
+          },
+          {
+            "q": "¿Dónde están ubicadas las sedes?",
+            "a": "Tenemos sedes en Parque Patricios (La Rioja 1775) y Saavedra (García del Río 2866)."
+          },
+          {
+            "q": "¿Qué tipo de cursos ofrecen?",
+            "a": "Ofrecemos cursos grupales por nivel, Private Tuitions personalizadas (presenciales u online), y preparación para exámenes internacionales: Cambridge (FCE, CAE, CPE, IELTS) y exámenes estadounidenses como TOEFL, GMAT, GRE, SAT, entre otros."
+          },
+          {
+            "q": "¿Cómo puedo solicitar información?",
+            "a": "Podés contactarnos por email a info@furtherenglish.com, por WhatsApp Parque Patricios al +54 9 11 3582-1240 o por WhatsApp Saavedra al +54 9 11 3083-3275."
+          }
+        ]
+      },
+      {
+        "id": "furthermore",
+        "title": "Furthermore – Juegos Educativos",
+        "items": [
+          {
+            "q": "¿Qué es FURTHERMORE?",
+            "a": "FURTHERMORE es nuestra línea de juegos educativos pensados para aprender inglés de forma lúdica, dentro y fuera del aula."
+          },
+          {
+            "q": "¿Qué juegos están disponibles?",
+            "a": "Actualmente contamos con The Old Maid y Go Pig."
+          },
+          {
+            "q": "¿Dónde puedo conseguirlos?",
+            "a": "Podés adquirirlos en el Front Desk de nuestras sedes o contactándonos a través de Instagram @furtherlanguages."
+          }
+        ]
+      },
+      {
+        "id": "academy",
+        "title": "Further Academy",
+        "items": [
+          {
+            "q": "¿Qué es Further Academy?",
+            "a": "Further Academy es nuestra plataforma online de self-study, diseñada para quienes buscan una experiencia flexible y autónoma, especialmente orientada al mundo corporativo."
+          },
+          {
+            "q": "¿Qué tipo de cursos ofrece?",
+            "a": "Ofrecemos cursos enfocados en skills comunicacionales en inglés, como presentaciones efectivas, pitching, storytelling, prompting y más."
+          },
+          {
+            "q": "¿Dónde puedo conocer los cursos disponibles?",
+            "a": "Podés ver toda la oferta en academy.furthercorporate.com"
+          }
+        ]
+      },
+      {
+        "id": "media",
+        "title": "Further Media",
+        "items": [
+          {
+            "q": "¿Further tiene recursos para practicar fuera del aula?",
+            "a": "Sí. A través de Further Media ofrecemos un podcast, recursos audiovisuales y worksheets interactivas para seguir practicando."
+          },
+          {
+            "q": "¿Dónde puedo escuchar el podcast?",
+            "a": "Nuestro podcast Further Records está disponible en Spotify y YouTube."
+          }
+        ]
+      },
+      {
+        "id": "contacto",
+        "title": "Contacto y Redes",
+        "items": [
+          {
+            "q": "¿Dónde puedo seguir a Further en redes sociales?",
+            "a": "Podés seguirnos en Instagram Further School (@FurtherLanguages), Instagram Further Corporate (@FurtherCorporate), LinkedIn (FurtherCorporate) y TikTok (@Further_Corporate)."
+          }
+        ]
+      }
+    ],
+    "cta": {
+      "title": "¿Todavía tenés dudas?",
+      "description": "Estamos acá para ayudarte a elegir el mejor camino para vos o tu equipo.",
+      "contactButton": "Contactanos",
+      "mediaButton": "Explorá Further Media"
     }
-  ],
-  "cta": {
-    "title": "¿Tenés más preguntas?",
-    "body": "Nuestro equipo está disponible para ayudarte a elegir el programa ideal para vos o tu empresa.",
-    "primary": "Contactanos",
-    "secondary": "Explorar Further Media"
-  }
-},
+  },
+
 
 
   "contact": {

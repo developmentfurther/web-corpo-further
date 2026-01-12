@@ -14,7 +14,7 @@ export default function Editor({ data, onChange, holder }) {
       const { default: Quote } = await import("@editorjs/quote");
       const { default: Paragraph } = await import("@editorjs/paragraph");
       const { default: ImageTool } = await import("@editorjs/image");
-
+      
 
       if (ref.current) return;
 
