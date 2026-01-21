@@ -15,10 +15,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const result = await resend.emails.send({
-      from: "Further Contact <no-reply@further.com>", // o onboarding@resend.dev
-      to: [process.env.MAIL_RECEIVER || "contacto@further.com"],
-      replyTo: email, // 👈 clave para que respondan al usuario
+    const { data, error } = await resend.emails.send({
+      from: "Further Contact <contacto@furthercorporate.com>",
+to: ["nataliaandrea.garcia@gmail.com"],
+ // 👈 TU EMAIL (única opción en sandbox)
+      replyTo: email,
       subject: `Nuevo mensaje desde ${origin || "Formulario General"}`,
       html: `
         <div style="font-family:Arial,sans-serif;">
@@ -36,8 +37,13 @@ export default async function handler(req, res) {
       `,
     });
 
-    console.log("✅ Mail enviado:", result.id);
-    return res.status(200).json({ success: true });
+    if (error) {
+      console.error("❌ Error de Resend:", error);
+      return res.status(500).json({ error: error.message || "Error al enviar el mail." });
+    }
+
+    console.log("✅ Mail enviado:", data.id);
+    return res.status(200).json({ success: true, id: data.id });
   } catch (error) {
     console.error("❌ Error enviando mail:", error);
     return res.status(500).json({ error: "Error al enviar el mail." });

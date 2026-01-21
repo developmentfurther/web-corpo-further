@@ -7,10 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { useContext } from "react";
-import ContextGeneral from "@/services/contextGeneral"; // arriba del archivo, en imports
-
-
-
+import ContextGeneral from "@/services/contextGeneral";
 
 /* ===== Estilo (tokens) ===== */
 const BG_ALT = "bg-[#112C3E]";
@@ -73,7 +70,6 @@ Further Academy (Self-Study Online)
 - De esta manera, aplicamos herramientas innovadoras de IA, sin perder el plus del valor humano, esencial en los contextos educativos.
 - Si querés conocer más información sobre Further Academy, contactate a incompany@furtherenglish.com
 
-
 Further Media / Further Studios
 - Podcast y recursos para practicar fuera del aula (audiovisual + worksheets).
 - Spotify @FurtherRecords: https://open.spotify.com/show/1S9j1XZF0DscjTgITQOqH6
@@ -116,9 +112,9 @@ Mapa de rutas (contenido de la web)
 
 /* ===== System Instruction ===== */
 const SYSTEM_INSTRUCTION = `
-Eres “Mr. Further”, un asistente que SOLO responde usando la información del KNOWLEDGE proporcionado. 
+Eres "Mr. Further", un asistente que SOLO responde usando la información del KNOWLEDGE proporcionado. 
 Si la consulta NO está relacionada con Further, debés responder EXACTAMENTE:
-“Solo puedo responder sobre Further y los servicios/recursos descritos en nuestro material institucional.”
+"Solo puedo responder sobre Further y los servicios/recursos descritos en nuestro material institucional."
 
 PRIORIDADES (en orden):
 1) Responder SOLO con información contenida en KNOWLEDGE.
@@ -126,27 +122,15 @@ PRIORIDADES (en orden):
 3) Responder en el idioma solicitado (es/en). Si no se indica, usar inglés.
 4) Mantener respuestas breves (1–4 frases o bullets).
 5) Si se mencionan redes sociales o WhatsApp, incluir los enlaces EXACTOS del KNOWLEDGE.
-6) Si falta información sobre CLASES PARTICULARES → derivar a WhatsApp Parque Patricios: +54 9 11 3582-1240 (https://wa.me/5491135821240)
-7) Si falta información sobre temas CORPORATIVOS, WORKSHOPS, ACADEMY, TEFL o MEDIA → derivar a incompany@furtherenglish.com.
-8) Indicar modalidad (presencial/online) y sedes cuando la información esté disponible.
-9) No inventar información. Si no existe en KNOWLEDGE → derivar siguiendo las reglas anteriores.
-10) No mencionar “KNOWLEDGE”, “PDF” ni “fuente de datos”.
-
-REGLAS DE FALTA DE INFORMACIÓN:
-— Consultas sobre servicios corporativos / workshops / academy / TEFL / media sin datos específicos:
-  → “Para más información, escribinos a incompany@furtherenglish.com 📧”
-— Consultas sobre SCHOOL / cursos / sedes / inscripciones sin datos específicos:
-  → “Ya están abiertas las inscripciones para el ciclo 2026 en nuestras sedes Saavedra y Parque Patricios 🎓. Para más info, comunicate a:
-     • Parque Patricios: +54 9 11 3582-1240 (https://wa.me/5491135821240)
-     • Saavedra: +54 9 11 3083-3275 (https://wa.me/5491130833275)”
+6) Indicar modalidad (presencial/online) y sedes cuando la información esté disponible.
+7) No inventar información. Si no existe en KNOWLEDGE → derivar según el contexto del usuario.
+8) No mencionar "KNOWLEDGE", "PDF" ni "fuente de datos".
 
 IMPORTANTE:
 — No generes contenido fuera de KNOWLEDGE.
 — No respondas como modelo de IA: respondé como un asistente corporativo humano.
 — Mantener estilo sobrio, profesional y directo.
-
 `.trim();
-
 
 /* ===== Portal ===== */
 function Portal({ children }) {
@@ -158,8 +142,6 @@ function Portal({ children }) {
 function sanitizeUrls(txt = "") {
   return txt.replace(/(https?:\/\/\S+?)([.,;:!?])(?=\s|$)/g, "$1");
 }
-
-
 
 const INTERNAL_HOSTS = new Set([
   "furthercorporate.com",
@@ -410,7 +392,7 @@ function renderBoldAndLinks(str = "", router) {
   );
 }
 
-/* ===== Formateo “bonito” de respuestas ===== */
+/* ===== Formateo "bonito" de respuestas ===== */
 function renderRichAnswer(text = "", router) {
   const trimmed = text.trim();
   const blocks = trimmed.split(/\n{2,}/);
@@ -523,24 +505,22 @@ function uiStrings(locale = "en") {
       apiMissing: "Falta API key",
       hello: "¡Hola! Soy Mr. Further. ¿En qué puedo ayudarte?",
       faqItems: [
-  "¿Qué idiomas enseñan?",
-  "¿En qué ciudades ofrecen clases corporativas presenciales?",
-  "¿Preparan para Cambridge, TOEFL o GMAT?",
-  "¿Cómo puede mi empresa solicitar una propuesta?",
-  "¿Cómo contacto a la School (niños, jóvenes y adultos)?",
-  "¿Qué es Further Academy?",
-  "¿En qué consiste el programa TEFL?",
-  "¿Dónde están las sedes y WhatsApp?",
-],
+        "Quiero aprender inglés (particular)",
+        "Mi empresa necesita capacitación",
+        "¿Preparan para Cambridge, TOEFL o GMAT?",
+        "¿Qué es Further Academy?",
+        "¿Dónde están las sedes?",
+        "Clases para niños y adolescentes",
+      ],
       suggestions: [
-  "Propuestas de Training Corporativo (B2B)",
-  "Sedes de School",
-  "Preparación para Exámenes Internacionales (FCE, IELTS, TOEFL, etc.)",
-  "Cursos Asincrónicos (Self-Study / Academy)",
-  "Propuestas para Redes y Medios (RRSS)",
-],
+        "Quiero aprender inglés (particular)",
+        "Mi empresa necesita capacitación",
+        "Preparación para exámenes internacionales",
+        "¿Qué es Further Academy?",
+        "Clases para niños",
+      ],
       localeHint:
-        "Responde en español, amable y corporativo, breve y preciso, usando solo el KNOWLEDGE. Si preguntan por redes o WhatsApp, incluye los enlaces directos. Si falta info de clases particulares, derivá a WhatsApp Parque Patricios (+54 9 11 3582-1240 — https://wa.me/5491135821240). Si falta info corporativa (capacitaciones, workshops), derivá a incompany@furtherenglish.com. Al mencionar servicios, recordá indicar modalidad (presenciales y online) y sedes/ciudades cuando correspondan.",
+        "Responde en español, amable y corporativo, breve y preciso, usando solo el KNOWLEDGE.",
     };
   }
   return {
@@ -553,82 +533,207 @@ function uiStrings(locale = "en") {
     inputPlaceholder: "Type your message…",
     poweredBy: "Powered by",
     apiMissing: "API key missing",
-    hello: "Hi! I’m Mr. Further. How can I help you today?",
+    hello: "Hi! I'm Mr. Further. How can I help you today?",
     faqItems: [
-      "What languages do you teach?",
-      "Which cities offer on-site corporate classes?",
+      "I want to learn English (individual)",
+      "My company needs training",
       "Do you prepare for Cambridge, TOEFL or GMAT?",
-      "How can my company request a proposal?",
-      "How to contact the School (kids/teens/adults)?",
       "What is Further Academy?",
-      "What is the TEFL program about?",
-      "Where are the locations and WhatsApp?",
+      "Where are the locations?",
+      "Classes for kids and teens",
     ],
     suggestions: [
-  "Corporate Training Proposals (B2B)",
-  "School Locations",
-  "International Exam Preparation (FCE, IELTS, TOEFL, etc.)",
-  "Asynchronous Courses (Self-Study / Academy)",
-  "Social Media and Media Proposals (RRSS)",
-],
+      "I want to learn English (individual)",
+      "My company needs training",
+      "International exam preparation",
+      "What is Further Academy?",
+      "Classes for children",
+    ],
     localeHint:
-      "Answer in English, friendly and corporate, concise and precise, using only the KNOWLEDGE. If private lessons info is missing, route to WhatsApp Parque Patricios (+54 9 11 3582-1240 — https://wa.me/5491135821240). If corporate info is missing, route to incompany@furtherenglish.com. Mention on-site/online and cities when relevant.",
+      "Answer in English, friendly and corporate, concise and precise, using only the KNOWLEDGE.",
   };
 }
 
 /* ===== Componente principal ===== */
 export default function MrFurther({ openDefault = false }) {
-  
-  // Dentro del componente MrFurther()
+  const router = useRouter();
+  const locale = router?.locale || "en";
+  const ui = uiStrings(locale);
 
-const router = useRouter();
-const locale = router?.locale || "en";
-const ui = uiStrings(locale);
+  // --- ADMIN CONTEXT ---
+  const { isAdmin } = useContext(ContextGeneral);
+  const isAdminRoute = router?.pathname?.startsWith("/admin");
+  const isAdminMode = isAdmin && isAdminRoute;
 
-// --- ADMIN CONTEXT ---
-const { isAdmin } = useContext(ContextGeneral);
-const isAdminRoute = router?.pathname?.startsWith("/admin");
-const isAdminMode = isAdmin && isAdminRoute;
-
-// --- UI DINÁMICA SEGÚN CONTEXTO ---
-const uiAdmin = {
+  // --- UI DINÁMICA SEGÚN CONTEXTO ---
+  const uiAdmin = {
+    ...ui,
+    hello: "👋 Hola Admin, soy tu asistente de blogs. Puedo ayudarte a crear y optimizar contenido para Further Corporate.",
+    faqItems: [
+      "¿Cómo funciona el módulo de blogs?",
+      "¿Cómo debería estructurar un nuevo blog?",
+      "¿Qué buenas prácticas recomiendas al redactar?",
+      "¿Cómo se generan y editan las traducciones?",
+      "¿Qué tener en cuenta antes de publicar?",
+    ],
+    suggestions: [
+      "¿Cómo funciona el módulo de blogs?",
+      "¿Cómo debería estructurar un nuevo blog?",
+      "¿Qué buenas prácticas recomiendas al redactar?",
+      "¿Cómo se generan y editan las traducciones?",
+      "¿Qué tener en cuenta antes de publicar?",
+    ],
+  };
+const uiIndividual = {
   ...ui,
-  hello: "👋 Hola Admin, soy tu asistente de blogs. Puedo ayudarte a crear y optimizar contenido para Further Corporate.",
-  faqItems: [
-    "¿Cómo funciona el módulo de blogs?",
-    "¿Cómo debería estructurar un nuevo blog?",
-    "¿Qué buenas prácticas recomiendas al redactar?",
-    "¿Cómo se generan y editan las traducciones?",
-    "¿Qué tener en cuenta antes de publicar?",
-  ],
-  suggestions: [
-    "¿Cómo funciona el módulo de blogs?",
-    "¿Cómo debería estructurar un nuevo blog?",
-    "¿Qué buenas prácticas recomiendas al redactar?",
-    "¿Cómo se generan y editan las traducciones?",
-    "¿Qué tener en cuenta antes de publicar?",
-  ],
+  faqItems: locale?.startsWith("es")
+    ? [
+        "Quiero aprender inglés",
+        "¿Dónde están las sedes?",
+        "Clases para niños y adolescentes",
+        "Preparación para exámenes internacionales",
+        "Horarios y modalidades",
+        "¿Qué idiomas enseñan además de inglés?",
+        "¿Tienen clases online?",
+        "¿Cuánto cuestan los cursos?",
+        "Private Tuitions (clases personalizadas)",
+        "Furthermore: juegos para aprender",
+        "¿Qué es el TEFL?",
+        "¿Preparan para Cambridge FCE, CAE, CPE?",
+        "¿Preparan para TOEFL, GMAT, GRE?",
+        "¿Desde qué edad pueden empezar los niños?",
+        "¿Cómo es el enfoque comunicacional?",
+        "¿Tienen material propio?",
+        "Further Media: podcast y recursos",
+        "¿Cómo me contacto por WhatsApp?",
+      ]
+    : [
+        "I want to learn English",
+        "Where are the locations?",
+        "Classes for kids and teens",
+        "International exam preparation",
+        "Schedules and formats",
+        "What other languages do you teach?",
+        "Do you have online classes?",
+        "How much do courses cost?",
+        "Private Tuitions (personalized classes)",
+        "Furthermore: learning games",
+        "What is TEFL?",
+        "Do you prepare for Cambridge FCE, CAE, CPE?",
+        "Do you prepare for TOEFL, GMAT, GRE?",
+        "What age can children start?",
+        "How is the communicational approach?",
+        "Do you have your own materials?",
+        "Further Media: podcast and resources",
+        "How do I contact via WhatsApp?",
+      ],
+  suggestions: locale?.startsWith("es")
+    ? [
+        "Quiero aprender inglés",
+        "¿Dónde están las sedes?",
+        "Clases para niños",
+        "Preparación para exámenes",
+        "¿Qué idiomas enseñan?",
+        "Clases online",
+      ]
+    : [
+        "I want to learn English",
+        "Where are the locations?",
+        "Classes for children",
+        "Exam preparation",
+        "What languages do you teach?",
+        "Online classes",
+      ],
+};
+
+const uiCorporate = {
+  ...ui,
+  faqItems: locale?.startsWith("es")
+    ? [
+        "Mi empresa necesita capacitación",
+        "Capacitaciones in-company",
+        "Workshops corporativos",
+        "¿Qué es Further Academy?",
+        "Programas a medida",
+        "Conversational Club para empresas",
+        "Team Building con enfoque idiomático",
+        "¿Cómo funciona la nivelación CEFR?",
+        "Workshops: Killer Presentation",
+        "Workshops: HR for Success",
+        "Workshops: Help Desk",
+        "Workshops: Finance Programme",
+        "¿Tienen clases presenciales en provincias?",
+        "¿Qué idiomas ofrecen para empresas?",
+        "¿Cómo solicito una propuesta B2B?",
+        "¿Qué empresas ya los eligieron?",
+        "Further Studios: producción de contenido",
+        "¿Cómo me contacto para servicios corporativos?",
+      ]
+    : [
+        "My company needs training",
+        "In-company training",
+        "Corporate workshops",
+        "What is Further Academy?",
+        "Custom programs",
+        "Conversational Club for companies",
+        "Team Building with language focus",
+        "How does CEFR leveling work?",
+        "Workshops: Killer Presentation",
+        "Workshops: HR for Success",
+        "Workshops: Help Desk",
+        "Workshops: Finance Programme",
+        "Do you have in-person classes in provinces?",
+        "What languages do you offer for companies?",
+        "How do I request a B2B proposal?",
+        "What companies have chosen you?",
+        "Further Studios: content production",
+        "How do I contact for corporate services?",
+      ],
+  suggestions: locale?.startsWith("es")
+    ? [
+        "Mi empresa necesita capacitación",
+        "Workshops corporativos",
+        "Programas a medida",
+        "Further Academy",
+        "Conversational Club",
+        "Nivelación CEFR",
+      ]
+    : [
+        "My company needs training",
+        "Corporate workshops",
+        "Custom programs",
+        "Further Academy",
+        "Conversational Club",
+        "CEFR leveling",
+      ],
 };
 
 
-// Usa uiAdmin solo si está en modo admin
-const uiFinal = isAdminMode ? uiAdmin : ui;
+  
 
-// --- STATE PRINCIPAL ---
-const [open, setOpen] = useState(openDefault);
-const [showFAQ, setShowFAQ] = useState(false);
-const [input, setInput] = useState("");
-const [loading, setLoading] = useState(false);
-const [messages, setMessages] = useState([
-  { role: "assistant", text: uiFinal.hello },
-]);
+  // --- STATE PRINCIPAL ---
+  const [open, setOpen] = useState(openDefault);
+  const [showFAQ, setShowFAQ] = useState(false);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [userType, setUserType] = useState(null); // null | 'individual' | 'corporate'
+  const [messages, setMessages] = useState([]);
+  // Usa uiAdmin solo si está en modo admin
+  const uiFinal = isAdminMode
+  ? uiAdmin
+  : userType === "individual"
+  ? uiIndividual
+  : userType === "corporate"
+  ? uiCorporate
+  : ui;
 
-const bottomRef = useRef(null);
-const textareaRef = useRef(null);
 
-// --- CONTEXTO GEMINI SEGÚN RUTA ---
-const BOT_CONTEXT = isAdminMode
-  ? `
+  const bottomRef = useRef(null);
+  const textareaRef = useRef(null);
+
+  // --- CONTEXTO GEMINI SEGÚN RUTA Y TIPO DE USUARIO ---
+  const BOT_CONTEXT = isAdminMode
+    ? `
 Eres el Asistente del Panel Admin de Further Corporate.
 Ayudas a los administradores a crear, revisar y optimizar blogs de forma prolija, eficiente y alineada al estilo de la empresa.
 
@@ -646,10 +751,27 @@ Tu tarea:
 - Ofrecer buenas prácticas de redacción, estructura y publicación.
 - Responde de forma breve, concreta y profesional.
 `
-  : SYSTEM_INSTRUCTION + "\n\nKNOWLEDGE:\n" + KNOWLEDGE;
+    : userType === 'individual'
+    ? SYSTEM_INSTRUCTION + "\n\nKNOWLEDGE:\n" + KNOWLEDGE + `
 
+CONTEXTO DEL USUARIO: Este usuario es un PARTICULAR/ESTUDIANTE.
+Cuando no tengas información específica, SIEMPRE derivá a:
+• **Parque Patricios**: +54 9 11 3582-1240 (https://wa.me/5491135821240)
+• **Saavedra**: +54 9 11 3083-3275 (https://wa.me/5491130833275)  
+• **Email**: info@furtherenglish.com
 
+NO menciones incompany@furtherenglish.com a menos que pregunten específicamente por servicios corporativos.
+`
+    : userType === 'corporate'
+    ? SYSTEM_INSTRUCTION + "\n\nKNOWLEDGE:\n" + KNOWLEDGE + `
 
+CONTEXTO DEL USUARIO: Este usuario representa una EMPRESA.
+Cuando no tengas información específica sobre servicios corporativos, workshops, Academy, TEFL o propuestas B2B, SIEMPRE derivá a:
+• **Email Corporativo**: incompany@furtherenglish.com
+
+NO menciones los WhatsApp de las sedes a menos que pregunten específicamente por cursos particulares.
+`
+    : SYSTEM_INSTRUCTION + "\n\nKNOWLEDGE:\n" + KNOWLEDGE;
 
   /* ==== Intro POP centrado (CSS fade+scale+y) → slide (Framer) ==== */
   const [introDone, setIntroDone] = useState(false);
@@ -674,7 +796,8 @@ Tu tarea:
   /* Reinicia saludo al cambiar idioma */
   useEffect(() => {
     setShowFAQ(false);
-    setMessages([{ role: "assistant", text: uiFinal.hello }]);
+    setUserType(null);
+    setMessages([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
 
@@ -695,60 +818,55 @@ Tu tarea:
   }, []);
   useEffect(() => autoResize(), [input, open, autoResize]);
 
- 
   const lastTimeRef = useRef(0);
   async function sendText(text) {
+    const now = Date.now();
+    if (now - lastTimeRef.current < 1200) return;
+    lastTimeRef.current = now;
 
-  const now = Date.now();
-  if (now - lastTimeRef.current < 1200) return; // Anti-spam 1.2s
-  lastTimeRef.current = now;
+    const q = text.trim();
+    if (!q) return;
+    setMessages((m) => [...m, { role: "user", text: q }]);
+    setShowFAQ(false);
+    setLoading(true);
 
-  const q = text.trim();
-  if (!q) return;
-  setMessages((m) => [...m, { role: "user", text: q }]);
-  setShowFAQ(false);
-  setLoading(true);
+    try {
+      const response = await fetch("/api/mrfurther", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system: BOT_CONTEXT,
+          messages: [
+            ...messages.slice(-12).map((m) => ({
+              role: m.role,
+              content: m.text,
+            })),
+            { role: "user", content: `${uiFinal.localeHint}\n\n${q}` },
+          ],
+          maxTokens: 250,
+        }),
+      });
 
-  try {
-    const response = await fetch("/api/mrfurther", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        system: BOT_CONTEXT,
-        messages: [
-          ...messages.slice(-12).map((m) => ({
-            role: m.role,
-            content: m.text,
-          })),
-          { role: "user", content: `${uiFinal.localeHint}\n\n${q}` },
-        ],
-        maxTokens: 250,
-      }),
-    });
+      const data = await response.json();
+      if (!data.output) throw new Error("No output from server");
 
-    const data = await response.json();
-    if (!data.output) throw new Error("No output from server");
-
-    const cleaned = sanitizeUrls(data.output);
-    setMessages((m) => [...m, { role: "assistant", text: cleaned }]);
-  } catch (err) {
-    console.error(err);
-
-    setMessages((m) => [
-      ...m,
-      {
-        role: "assistant",
-        text: locale.startsWith("es")
-          ? "Hubo un problema temporal. Por favor, volvé a intentar."
-          : "Temporary issue. Please try again.",
-      },
-    ]);
-  } finally {
-    setLoading(false);
+      const cleaned = sanitizeUrls(data.output);
+      setMessages((m) => [...m, { role: "assistant", text: cleaned }]);
+    } catch (err) {
+      console.error(err);
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          text: locale.startsWith("es")
+            ? "Hubo un problema temporal. Por favor, volvé a intentar."
+            : "Temporary issue. Please try again.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   }
-}
-
-
 
   async function sendMessage(e) {
     e?.preventDefault?.();
@@ -767,14 +885,14 @@ Tu tarea:
 
   /* ===== FAB & PANEL ===== */
   const isMobile =
-  typeof window !== "undefined" && window.innerWidth < 768;
+    typeof window !== "undefined" && window.innerWidth < 768;
 
   const fabPos = {
-  right: "calc(env(safe-area-inset-right, 0px) + 1rem)",
-  bottom: isMobile
-    ? "calc(env(safe-area-inset-bottom, 0px) + 7rem)" // 🔹 lo sube sobre el navbar mobile
-    : "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
-};
+    right: "calc(env(safe-area-inset-right, 0px) + 1rem)",
+    bottom: isMobile
+      ? "calc(env(safe-area-inset-bottom, 0px) + 7rem)"
+      : "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
+  };
 
   /* Panel resizable (arriba-izquierda) */
   const [panelSize, setPanelSize] = useState({ w: 448, h: 608 });
@@ -856,33 +974,30 @@ Tu tarea:
       window.removeEventListener("scroll", update, true);
     };
   }, [showFAQ]);
+
   /* Ajusta tamaño automáticamente según viewport */
-useEffect(() => {
-  if (typeof window === "undefined") return;
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-  const handleResize = () => {
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) {
-      // 🔹 Ocupa casi toda la pantalla en mobile
-      setPanelSize({
-        w: window.innerWidth - 24, // 12px margen lateral
-        h: window.innerHeight * 0.85, // 85% del alto visible
-      });
-    } else {
-      // 🔹 Vuelve al tamaño fijo original en desktop
-      setPanelSize({ w: 448, h: 608 });
-    }
-  };
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        setPanelSize({
+          w: window.innerWidth - 24,
+          h: window.innerHeight * 0.85,
+        });
+      } else {
+        setPanelSize({ w: 448, h: 608 });
+      }
+    };
 
-  handleResize();
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
-
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
-      {/* POP inicial con CSS: fade + translateY + scale (3 keyframes) */}
       <style jsx global>{`
         @keyframes mrPopIn {
           0% {
@@ -907,31 +1022,33 @@ useEffect(() => {
 
       <Portal>
         <LayoutGroup id="mr-fab-group">
-          {/* Overlay con blur cuando el panel está abierto */}
           <AnimatePresence>
             {open && (
               <motion.div
-  key="mr-overlay"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  exit={{ opacity: 0 }}
-  transition={{ duration: 0.12 }} // 👈 reducido de 0.18
-  style={{ position: "fixed", inset: 0, zIndex: 120 }}
-  className="bg-black/40" // 👈 sin backdrop-blur
-  aria-hidden
-  onClick={() => setOpen(false)} // 👈 cierra al tocar afuera
-/>
+                key="mr-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.12 }}
+                style={{ position: "fixed", inset: 0, zIndex: 120 }}
+                className="bg-black/40"
+                aria-hidden
+                onClick={() => {
+    setOpen(false);
+    setShowFAQ(false);  // ← AGREGA ESTA LÍNEA
+  }}
+                
+              />
             )}
           </AnimatePresence>
 
-          {/* FAB inicial — ahora nace cerca de la esquina inferior derecha */}
           <AnimatePresence initial>
             {!introDone && (
               <div
                 style={{
                   position: "fixed",
-                  right: "calc(env(safe-area-inset-right, 0px) + 7rem)", // antes: centrado
-                  bottom: "calc(env(safe-area-inset-bottom, 0px) + 7rem)", // antes: centrado
+                  right: "calc(env(safe-area-inset-right, 0px) + 7rem)",
+                  bottom: "calc(env(safe-area-inset-bottom, 0px) + 7rem)",
                   zIndex: 140,
                 }}
                 className="mr-pop"
@@ -974,115 +1091,110 @@ useEffect(() => {
             )}
           </AnimatePresence>
 
-          {/* FAB final (slide a la esquina) */}
           <AnimatePresence initial={false}>
             {introDone && (
               <motion.button
-  key="corner-fab"
-  layoutId="mr-fab"
-  layout
-  type="button"
-  onClick={() => setOpen((v) => !v)}
-  aria-label={open ? uiFinal.a11yClose : uiFinal.a11yOpen}
-  title={open ? uiFinal.a11yClose : uiFinal.a11yOpen}
-  style={{ position: "fixed", ...fabPos, zIndex: 130 }}
-  animate={{
-  y:
-    typeof window !== "undefined" && window.innerWidth < 768
-      ? (open ? 50 : 0) // 🔹 en mobile baja un poquito
-      : (open ? 20 : 0), // 🔹 en desktop apenas se mueve
-  scale: open ? 0.95 : 1,
-  opacity: open ? 0.95 : 1,
-}}
-
-  transition={{
-    type: "spring",
-    stiffness: 280,
-    damping: 25,
-  }}
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.94 }}
-  className="relative h-16 w-16 rounded-full shadow-xl shadow-black/30 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/30"
->
-  <span
-    className={`${GRAD} absolute inset-0 rounded-full`}
-    aria-hidden="true"
-  />
-  {!open && (
-    <span
-      className="absolute inset-[4px] rounded-full overflow-hidden bg-black/10"
-      aria-hidden="true"
-    >
-      <img
-        src={BOT_IMG}
-        alt="Mr. Further"
-        className="h-full w-full object-cover"
-        loading="lazy"
-        decoding="async"
-        referrerPolicy="no-referrer"
-      />
-    </span>
-  )}
-  {open && (
-    <span className="absolute inset-0 grid place-items-center">
-      <svg
-        className="w-7 h-7 text-white drop-shadow"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2.5}
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    </span>
-  )}
-</motion.button>
-
+                key="corner-fab"
+                layoutId="mr-fab"
+                layout
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                aria-label={open ? uiFinal.a11yClose : uiFinal.a11yOpen}
+                title={open ? uiFinal.a11yClose : uiFinal.a11yOpen}
+                style={{ position: "fixed", ...fabPos, zIndex: 130 }}
+                animate={{
+                  y:
+                    typeof window !== "undefined" && window.innerWidth < 768
+                      ? (open ? 50 : 0)
+                      : (open ? 20 : 0),
+                  scale: open ? 0.95 : 1,
+                  opacity: open ? 0.95 : 1,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 280,
+                  damping: 25,
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.94 }}
+                className="relative h-16 w-16 rounded-full shadow-xl shadow-black/30 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/30"
+              >
+                <span
+                  className={`${GRAD} absolute inset-0 rounded-full`}
+                  aria-hidden="true"
+                />
+                {!open && (
+                  <span
+                    className="absolute inset-[4px] rounded-full overflow-hidden bg-black/10"
+                    aria-hidden="true"
+                  >
+                    <img
+                      src={BOT_IMG}
+                      alt="Mr. Further"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                    />
+                  </span>
+                )}
+                {open && (
+                  <span className="absolute inset-0 grid place-items-center">
+                    <svg
+                      className="w-7 h-7 text-white drop-shadow"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </span>
+                )}
+              </motion.button>
             )}
           </AnimatePresence>
 
-          {/* Viñeta de bienvenida — cómic limpio, sin sombras pesadas */}
           <AnimatePresence>
-  {showWelcomeTip && (
-    <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 8, scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 320, damping: 24 }}
-      style={{
-        position: "fixed",
-        right: "calc(env(safe-area-inset-right, 0px) + 6.5rem)",
-        bottom:
-          typeof window !== "undefined" && window.innerWidth < 768
-            ? "calc(env(safe-area-inset-bottom, 0px) + 5.5rem)"
-            : "calc(env(safe-area-inset-bottom, 0px) + 2.4rem)",
-        zIndex: 131,
-        maxWidth: 280,
-      }}
-      className="relative px-4 py-2 text-sm text-[#0C212D] bg-white border border-[#CBD5E1] rounded-2xl
-        [filter:drop-shadow(0_2px_6px_rgba(0,0,0,.18))] pointer-events-none"
-      role="status"
-    >
-      {locale?.startsWith("es")
-        ? "¡Hola! Soy Mr. Further."
-        : "Hi! I’m Mr. Further."}
-      <span
-        aria-hidden
-        className="absolute -right-2 bottom-4 w-3.5 h-3.5 rotate-45 bg-[#CBD5E1] rounded-[2px]"
-      />
-      <span
-        aria-hidden
-        className="absolute -right-[7px] bottom=[18px] w-3 h-3 rotate-45 bg-white rounded-[2px] border border-white"
-      />
-    </motion.div>
-  )}
-</AnimatePresence>
-
+            {showWelcomeTip && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 320, damping: 24 }}
+                style={{
+                  position: "fixed",
+                  right: "calc(env(safe-area-inset-right, 0px) + 6.5rem)",
+                  bottom:
+                    typeof window !== "undefined" && window.innerWidth < 768
+                      ? "calc(env(safe-area-inset-bottom, 0px) + 5.5rem)"
+                      : "calc(env(safe-area-inset-bottom, 0px) + 2.4rem)",
+                  zIndex: 131,
+                  maxWidth: 280,
+                }}
+                className="relative px-4 py-2 text-sm text-[#0C212D] bg-white border border-[#CBD5E1] rounded-2xl
+                  [filter:drop-shadow(0_2px_6px_rgba(0,0,0,.18))] pointer-events-none"
+                role="status"
+              >
+                {locale?.startsWith("es")
+                  ? "¡Hola! Soy Mr. Further."
+                  : "Hi! I'm Mr. Further."}
+                <span
+                  aria-hidden
+                  className="absolute -right-2 bottom-4 w-3.5 h-3.5 rotate-45 bg-[#CBD5E1] rounded-[2px]"
+                />
+                <span
+                  aria-hidden
+                  className="absolute -right-[7px] bottom=[18px] w-3 h-3 rotate-45 bg-white rounded-[2px] border border-white"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Panel */}
           <AnimatePresence>
@@ -1091,7 +1203,7 @@ useEffect(() => {
                 key="mr-panel"
                 role="dialog"
                 aria-label="Mr. Further chat"
-                onClick={(e) => e.stopPropagation()} // 👈 AGREGAR ESTA LÍNEA
+                onClick={(e) => e.stopPropagation()}
                 style={{
                   position: "fixed",
                   right: fabPos.right,
@@ -1145,24 +1257,29 @@ useEffect(() => {
                   </div>
 
                   <div className="flex items-center gap-2">
+                    {userType && (
+                      <button
+                        ref={faqBtnRef}
+                        type="button"
+                        onClick={() => setShowFAQ((v) => !v)}
+                        className="px-3 py-1.5 text-xs rounded-xl bg-white/10 hover:bg_white/15 transition ring-1 ring-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                        aria-expanded={showFAQ}
+                      >
+                        {showFAQ
+                          ? locale?.startsWith("es")
+                            ? "Ocultar Preguntas"
+                            : "Hide FAQ"
+                          : locale?.startsWith("es")
+                          ? "Ver Preguntas"
+                          : "Show FAQ"}
+                      </button>
+                    )}
                     <button
-                      ref={faqBtnRef}
                       type="button"
-                      onClick={() => setShowFAQ((v) => !v)}
-                      className="px-3 py-1.5 text-xs rounded-xl bg-white/10 hover:bg_white/15 transition ring-1 ring-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                      aria-expanded={showFAQ}
-                    >
-                      {showFAQ
-                        ? locale?.startsWith("es")
-                          ? "Ocultar Preguntas"
-                          : "Hide FAQ"
-                        : locale?.startsWith("es")
-                        ? "Ver Preguntas"
-                        : "Show FAQ"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+    setOpen(false);
+    setShowFAQ(false);  // ← AGREGA ESTA LÍNEA
+  }}
                       aria-label={
                         locale?.startsWith("es") ? "Cerrar chat" : "Close chat"
                       }
@@ -1191,6 +1308,96 @@ useEffect(() => {
 
                 {/* Chat */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-4 text-sm scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                  
+                  {/* Selector de tipo de usuario */}
+                  {!userType && !isAdminMode && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-3"
+                    >
+                      <div className="text-center text-white/80 text-sm mb-4">
+                        {locale?.startsWith("es") 
+                          ? "Para ofrecerte la mejor atención, contanos:"
+                          : "To provide you with the best service, tell us:"}
+                      </div>
+                      
+                      <div className="grid grid-cols-1 gap-3">
+                        <motion.button
+                          whileHover={{ scale: 1.02, y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => {
+                            setUserType('individual');
+                            setMessages([
+                              { role: "assistant", text: uiFinal.hello },
+                              { 
+                                role: "assistant", 
+                                text: locale?.startsWith("es")
+                                  ? "Perfecto! Estoy aquí para ayudarte con tus consultas sobre cursos, sedes, horarios y más. ¿En qué puedo ayudarte?"
+                                  : "Perfect! I'm here to help you with questions about courses, locations, schedules and more. How can I help you?"
+                              }
+                            ]);
+                          }}
+                          className="group relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-white/10 to-white/5 hover:from-white/15 hover:to-white/10 ring-1 ring-white/20 transition-all shadow-lg"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 grid place-items-center shadow-lg">
+                              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                              </svg>
+                            </div>
+                            <div className="flex-1 text-left">
+                              <div className="font-semibold text-white text-base mb-1">
+                                {locale?.startsWith("es") ? "🎓 Soy particular / estudiante" : "🎓 I'm an individual / student"}
+                              </div>
+                              <div className="text-xs text-white/70">
+                                {locale?.startsWith("es") 
+                                  ? "Quiero aprender un idioma o informarme sobre cursos"
+                                  : "I want to learn a language or get info about courses"}
+                              </div>
+                            </div>
+                          </div>
+                        </motion.button>
+
+                        <motion.button
+                          whileHover={{ scale: 1.02, y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => {
+                            setUserType('corporate');
+                            setMessages([
+                              { role: "assistant", text: uiFinal.hello },
+                              { 
+                                role: "assistant", 
+                                text: locale?.startsWith("es")
+                                  ? "Excelente! Estoy aquí para ayudarte con propuestas corporativas, capacitaciones, workshops y más. ¿Qué necesitás?"
+                                  : "Excellent! I'm here to help you with corporate proposals, training programs, workshops and more. What do you need?"
+                              }
+                            ]);
+                          }}
+                          className="group relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-white/10 to-white/5 hover:from-white/15 hover:to-white/10 ring-1 ring-white/20 transition-all shadow-lg"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 grid place-items-center shadow-lg">
+                              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                            <div className="flex-1 text-left">
+                              <div className="font-semibold text-white text-base mb-1">
+                                {locale?.startsWith("es") ? "💼 Represento una empresa" : "💼 I represent a company"}
+                              </div>
+                              <div className="text-xs text-white/70">
+                                {locale?.startsWith("es") 
+                                  ? "Necesito capacitación para mi equipo o propuestas B2B"
+                                  : "I need training for my team or B2B proposals"}
+                              </div>
+                            </div>
+                          </div>
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  )}
+
                   <AnimatePresence mode="popLayout">
                     {messages.map((m, i) => {
                       const isUser = m.role === "user";
@@ -1253,8 +1460,8 @@ useEffect(() => {
                     </motion.div>
                   )}
 
-                  {/* Sugerencias iniciales */}
-                  {!messages.some((m) => m.role === "user") && !loading && (
+                  {/* Sugerencias iniciales (solo si ya eligió tipo) */}
+                  {!messages.some((m) => m.role === "user") && !loading && userType && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -1284,132 +1491,89 @@ useEffect(() => {
                   <div ref={bottomRef} />
                 </div>
 
-                {/* Input */}
-                <form
-                  onSubmit={sendMessage}
-                  className="p-4 border-t border-white/10 flex items-end gap-3"
-                >
-                  <div className="flex-1 relative">
-                    <textarea
-                      ref={textareaRef}
-                      rows={1}
-                      placeholder={uiFinal.inputPlaceholder}
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onInput={autoResize}
-                      onKeyDown={onKeyDown}
-                      disabled={loading}
-                      className="w-full resize-none rounded-2xl px-4 py-3 pr-12 text-sm bg-white/[0.06] text-white placeholder:text-white/50 ring-1 ring-white/10 outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-60 transition-all"
-                    />
-                    {input.trim() && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute right-3 top-1/2 -translate-y-1/2"
-                      >
-                        <div className="text-xs text-white/60 bg-white/[0.08] px-2 py-1 rounded-lg">
-                          {input.length}
-                        </div>
-                      </motion.div>
-                    )}
-                  </div>
-                  <motion.button
-                    type="submit"
-                    disabled={loading || !input.trim()}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.96 }}
-                    className={[
-                      "shrink-0 h-12 w-12 rounded-2xl text-sm font-semibold text-white",
-                      GRAD,
-                      "shadow-lg ring-1 ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all grid place-items-center",
-                    ].join(" ")}
-                    aria-label="Send"
-                    title="Send"
-                  >
-                    {loading ? (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 1,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <circle
-                            className="opacity-30"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          />
-                          <path
-                            className="opacity-90"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                          />
-                        </svg>
-                      </motion.div>
-                    ) : (
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                        />
-                      </svg>
-                    )}
-                  </motion.button>
-                </form>
+                {/* Input - solo visible si ya eligió tipo */}
+                {(
+  <form
+  onSubmit={sendMessage}
+  className="p-4 border-t border-white/10 flex items-end gap-3"
+>
 
-                {/* Footer */}
-                <footer className="flex items-center justify-between px-5 py-3 text-[10px] text-white/60 border-t border-white/10">
-  <div className="flex items-center gap-2">
-    <div className="h-1.5 w-1.5 rounded-full bg-[#EE7203] animate-pulse" />
-    <span className="font-medium">
-      {uiFinal.poweredBy} OpenAI GPT-5o mini
-    </span>
+  <div className="flex-1 relative">
+    <textarea
+      ref={textareaRef}
+      rows={1}
+      placeholder={uiFinal.inputPlaceholder}
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      onInput={autoResize}
+      onKeyDown={onKeyDown}
+      disabled={loading}
+      className="w-full resize-none rounded-2xl px-4 py-3 pr-12 text-sm bg-white/[0.06] text-white placeholder:text-white/50 ring-1 ring-white/10 outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-60 transition-all"
+    />
   </div>
-</footer>
 
-
-                {/* Resize handlers */}
-                <div
-                  onMouseDown={(e) => startResize("left", e)}
-                  className="absolute left-0 top-0 h-full w-2 cursor-ew-resize opacity-0"
-                  aria-hidden
-                />
-                <div
-                  onMouseDown={(e) => startResize("top", e)}
-                  className="absolute left-0 top-0 w-full h-2 cursor-ns-resize opacity-0"
-                  aria-hidden
-                />
-                <div
-                  onMouseDown={(e) => startResize("left top", e)}
-                  className="absolute left-0 top-0 w-4 h-4 cursor-nwse-resize"
-                  aria-label={
-                    locale?.startsWith("es") ? "Redimensionar" : "Resize"
-                  }
-                  title={locale?.startsWith("es") ? "Redimensionar" : "Resize"}
-                  style={{
-                    background:
-                      "conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.15), rgba(255,255,255,0.05), transparent)",
-                    borderBottomRightRadius: "0.5rem",
-                  }}
-                />
+  <motion.button
+    type="submit"
+    disabled={loading || !input.trim()}
+    whileHover={{ scale: 1.04 }}
+    whileTap={{ scale: 0.96 }}
+    className={[
+      "shrink-0 h-12 w-12 rounded-2xl text-sm font-semibold text-white",
+      GRAD,
+      "shadow-lg ring-1 ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all grid place-items-center",
+    ].join(" ")}
+    aria-label="Send"
+    title="Send"
+  >
+    {loading ? (
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{
+          duration: 1,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle
+            className="opacity-30"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          />
+          <path
+            className="opacity-90"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+          />
+        </svg>
+      </motion.div>
+    ) : (
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+        />
+      </svg>
+    )}
+  </motion.button>
+</form>
+)}
               </motion.aside>
             )}
           </AnimatePresence>
