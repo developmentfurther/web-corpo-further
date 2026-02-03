@@ -2,8 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 
-@import "@fontsource/inter-tight/400.css";
-@import "@fontsource/inter-tight/600.css";
+@import "@fontsource/poppins/400.css"; /* Peso normal */
+@import "@fontsource/poppins/600.css"; /* Peso negrita */
 
 
 /* Tokens de tema (sin "inline" para evitar error) */

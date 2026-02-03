@@ -1,7 +1,7 @@
 // /pages/faq.jsx
 // FAQ — Multiidioma con i18n
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -34,6 +34,56 @@ function toFaqJsonLd(sections) {
   };
 }
 
+
+/* === Componente Individual para Animación === */
+const FAQItem = ({ item }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <article
+      id={item.id}
+      className="scroll-mt-32 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full cursor-pointer items-start justify-between p-6 text-left bg-white relative z-10 group"
+        aria-expanded={isOpen}
+      >
+        <h3 className={`text-base sm:text-lg font-semibold pr-8 transition-colors duration-300 ${isOpen ? 'text-[#EE7203]' : 'text-[#112C3E] group-hover:text-[#EE7203]'}`}>
+          {item.q}
+        </h3>
+        <span className={`shrink-0 flex items-center justify-center h-8 w-8 rounded-full transition-all duration-300 ${isOpen ? 'bg-[#EE7203] text-white' : 'bg-[#112C3E]/5 text-[#112C3E]'}`}>
+          <svg
+            className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </button>
+
+      {/* Animación usando CSS Grid */}
+      <div
+        className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="px-6 pb-6 pt-2 bg-white">
+            <div className="h-px w-full bg-gray-100 mb-4" aria-hidden="true" />
+            <div
+              dangerouslySetInnerHTML={{ __html: item.a }}
+              className="prose prose-sm sm:prose-base max-w-none faq-override prose-headings:text-[#112C3E] prose-a:text-[#EE7203] prose-a:font-semibold prose-a:no-underline hover:prose-a:underline"
+            />
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
 /* === Slugify === */
 function slugify(text) {
   return text
@@ -140,201 +190,221 @@ export default function FAQPage({ messages }) {
         {hero.skipLink}
       </a>
 
-      <main className={`${BG_DARK} min-h-screen`} id="top">
-        {/* === HERO === */}
-        <section className="relative z-10" aria-labelledby="faq-hero-title">
-          <div className="pointer-events-none" aria-hidden>
-            
-          </div>
+      <main className="bg-[#0C212D] min-h-screen font-sans selection:bg-[#EE7203] selection:text-white" id="top">
+  
+  {/* === HERO SECTION === */}
+  <section className="relative relative overflow-hidden" aria-labelledby="faq-hero-title">
+    {/* Fondo decorativo con gradiente corporativo difuminado */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20">
+       <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#EE7203] to-[#FF3816] blur-[120px]" />
+    </div>
 
-          <div className={`${SHELL} pt-28 pb-16 lg:pt-36 lg:pb-24`}>
-            <div className={`${CARD_GLASS} p-6 lg:p-8`}>
-              <nav aria-label="Breadcrumb" className="text-sm text-white/70">
-                <ol className="flex items-center gap-2">
-                  <li>
-                    <Link
-                      href="/"
-                      className="hover:text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded"
-                    >
-                      {breadcrumb.home}
-                    </Link>
-                  </li>
-                  <li aria-hidden="true">/</li>
-                  <li className="text-white">{breadcrumb.current}</li>
-                </ol>
-              </nav>
+    <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-28">
+      {/* Breadcrumb */}
+      <nav aria-label="Breadcrumb" className="mb-8">
+        <ol className="flex items-center gap-2 text-sm font-medium text-[#112C3E] bg-white/5 w-fit px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
+          <li>
+            <Link
+              href="/"
+              className="text-gray-300 hover:text-[#EE7203] transition-colors focus-visible:outline-none"
+            >
+              {breadcrumb.home}
+            </Link>
+          </li>
+          <li aria-hidden="true" className="text-gray-500">/</li>
+          <li className="text-white">{breadcrumb.current}</li>
+        </ol>
+      </nav>
 
-              <header className="mt-4">
-                <h1
-                  id="faq-hero-title"
-                  className={`${TITLE_DARK} text-4xl sm:text-5xl lg:text-6xl leading-[1.08]`}
-                >
-                  <span className="block mb-2">{hero.title}</span>
-                  <span className={`${GRAD_TEXT}`}>{hero.subtitle}</span>
-                </h1>
-                <p className="mt-4 text-white/80 max-w-2xl">
-                  {hero.description}
-                </p>
-              </header>
-            </div>
-          </div>
-
-          <WaveToLight />
-        </section>
-
-        {/* === CONTENIDO === */}
-        <section
-          id="faq-main"
-          className="bg-white text-gray-900"
-          aria-labelledby="faq-content-title"
+      <header>
+        <h1
+          id="faq-hero-title"
+          className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]"
         >
-          <div className={`${SHELL} py-12 lg:py-16`}>
-            <div className="grid gap-10 lg:grid-cols-12">
-              {/* TOC - Índice de navegación */}
-              <aside className="lg:col-span-4">
-                <div className={`${CARD_LIGHT} p-6 sticky top-24`}>
-                  <h2 className="text-base font-bold mb-4 text-gray-900">
-                    {toc.title}
-                  </h2>
-                  <nav aria-label="Navegación de secciones">
-                    <ul className="space-y-3">
-                      {sectionsWithIds.map((section) => (
-                        <li key={section.id}>
+          <span className="block">{hero.title}</span>
+          <span className="bg-gradient-to-r from-[#EE7203] to-[#FF3816] bg-clip-text text-transparent">
+            {hero.subtitle}
+          </span>
+        </h1>
+        <p className="mt-6 text-lg sm:text-xl text-gray-300 max-w-2xl leading-relaxed border-l-4 border-[#EE7203] pl-6">
+          {hero.description}
+        </p>
+      </header>
+    </div>
+    
+    {/* Wave Divider (Opcional: Si tus componentes Wave tienen relleno hardcoded, asegúrate que coincidan con #f9fafb) */}
+    <div className="text-gray-50">
+       <WaveToLight />
+    </div>
+  </section>
+
+  {/* === CONTENIDO PRINCIPAL === */}
+  <section
+    id="faq-main"
+    className="bg-gray-50 text-[#0C212D]"
+    aria-labelledby="faq-content-title"
+  >
+    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-24">
+      <div className="grid gap-12 lg:grid-cols-12 items-start">
+        
+        {/* === SIDEBAR / TOC === */}
+        <aside className="lg:col-span-4 lg:sticky lg:top-24">
+          <div className="bg-white rounded-2xl shadow-xl shadow-[#0C212D]/5 border border-gray-100 p-6 sm:p-8">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-[#EE7203] mb-6">
+              {toc.title}
+            </h2>
+            <nav aria-label="Navegación de secciones">
+              <ul className="space-y-1 relative border-l-2 border-gray-100 ml-2">
+                {sectionsWithIds.map((section) => (
+                  <li key={section.id} className="relative pl-6">
+                    {/* Indicador visual en la linea de tiempo */}
+                    <span className="absolute -left-[5px] top-3 h-2.5 w-2.5 rounded-full bg-white border-2 border-gray-300 group-hover:border-[#EE7203]" aria-hidden="true"></span>
+                    
+                    <a
+                      href={`#${section.id}`}
+                      className="block text-lg font-bold text-[#0C212D] hover:text-[#EE7203] transition-colors py-1 group"
+                    >
+                      {section.title}
+                    </a>
+                    
+                    {/* Sub-items (preguntas) */}
+                    <ul className="mt-2 space-y-2 mb-4">
+                      {section.items.map((item) => (
+                        <li key={item.id}>
                           <a
-                            href={`#${section.id}`}
-                            className="block text-sm font-semibold text-gray-900 hover:text-[#EE7203] transition rounded-md px-3 py-2 hover:bg-gray-50 outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
+                            href={`#${item.id}`}
+                            className="block text-sm text-gray-500 hover:text-[#112C3E] hover:translate-x-1 transition-all duration-200 line-clamp-1"
                           >
-                            {section.title}
+                            {item.q}
                           </a>
-                          <ul className="mt-2 ml-3 space-y-1.5">
-                            {section.items.map((item) => (
-                              <li key={item.id}>
-                                <a
-                                  href={`#${item.id}`}
-                                  className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs text-gray-600 hover:text-gray-900 hover:bg-gray-50 outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition"
-                                >
-                                  <span
-                                    className={`h-1 w-1 rounded-full ${GRAD} shrink-0`}
-                                    aria-hidden
-                                  />
-                                  <span className="line-clamp-2">{item.q}</span>
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
                         </li>
                       ))}
                     </ul>
-                  </nav>
-                </div>
-              </aside>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </aside>
 
-              {/* Contenido principal - Secciones de FAQ */}
-              <div className="lg:col-span-8 space-y-8">
-                {sectionsWithIds.map((section) => (
-                  <section
-                    key={section.id}
-                    id={section.id}
-                    className={`${CARD_LIGHT} overflow-hidden scroll-mt-24`}
-                    aria-labelledby={`section-${section.id}`}
-                  >
-                    <div className={`${GRAD} px-6 py-4`}>
-                      <h2
-                        id={`section-${section.id}`}
-                        className="text-xl sm:text-2xl font-bold text-white"
-                      >
-                        {section.title}
-                      </h2>
-                    </div>
+        {/* === LISTA DE FAQs === */}
+        <div className="lg:col-span-8 space-y-12">
+          {/* ✅ PARCHE DE COLOR: Lo sacamos del loop para que se renderice una sola vez */}
+          {/* ✅ PARCHE DE COLOR mejorado */}
+<style dangerouslySetInnerHTML={{__html: `
+  .faq-override,
+  .faq-override * {
+    color: #1f2937 !important; /* gray-800 - más oscuro y legible */
+  }
+  
+  .faq-override p, 
+  .faq-override li, 
+  .faq-override ul, 
+  .faq-override ol,
+  .faq-override span, 
+  .faq-override div {
+    color: #374151 !important; /* gray-700 */
+    text-shadow: none !important;
+  }
+  
+  .faq-override strong, 
+  .faq-override b {
+    color: #0C212D !important; /* Azul oscuro */
+    font-weight: 700 !important;
+  }
+  
+  .faq-override a {
+    color: #EE7203 !important; /* Naranja */
+    text-decoration: underline;
+  }
+  
+  .faq-override a:hover {
+    color: #FF5A2B !important;
+  }
 
-                    <div className="divide-y divide-gray-200">
-                      {section.items.map((item) => (
-                        <article
-                          key={item.id}
-                          id={item.id}
-                          className="scroll-mt-24"
-                        >
-                          <details className="group">
-                            <summary className="flex cursor-pointer items-center justify-between px-6 py-5 list-none hover:bg-gray-50 transition">
-                              <h3 className="text-base sm:text-lg font-semibold pr-6 text-gray-900">
-                                {item.q}
-                              </h3>
-                              <span
-                                className={`shrink-0 h-9 w-9 grid place-items-center rounded-full text-white ${GRAD} transition-transform duration-300 group-open:rotate-45`}
-                                aria-hidden="true"
-                              >
-                                <svg
-                                  width="18"
-                                  height="18"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <line x1="12" y1="5" x2="12" y2="19" />
-                                  <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                              </span>
-                            </summary>
-                            <div className="px-6 pb-6 pt-0 leading-relaxed">
-                              <div
-                                dangerouslySetInnerHTML={{ __html: item.a }}
-                                className="prose prose-sm max-w-none prose-p:text-gray-900 prose-strong:text-gray-900 prose-a:text-[#EE7203]"
-                                style={{ color: '#111827' }}
-                              />
-                            </div>
-                          </details>
-                        </article>
-                      ))}
-                    </div>
-                  </section>
+  /* Forzar que prose no interfiera */
+  .faq-override.prose,
+  .faq-override.prose p,
+  .faq-override.prose li {
+    color: #374151 !important;
+  }
+`}} />
+
+          {sectionsWithIds.map((section) => (
+            <section
+              key={section.id}
+              id={section.id}
+              className="scroll-mt-32"
+              aria-labelledby={`section-${section.id}`}
+            >
+              <div className="flex items-center gap-4 mb-6 pb-2 border-b border-gray-200">
+                <div className="h-8 w-1 bg-gradient-to-b from-[#EE7203] to-[#FF3816] rounded-full"></div>
+                <h2
+                  id={`section-${section.id}`}
+                  className="text-2xl sm:text-3xl font-bold text-[#0C212D]"
+                >
+                  {section.title}
+                </h2>
+              </div>
+
+              <div className="space-y-4">
+                {section.items.map((item) => (
+                  <FAQItem key={item.id} item={item} />
                 ))}
               </div>
-            </div>
-          </div>
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+    
+    <div className="text-[#112C3E]">
+        <WaveToDark />
+    </div>
+  </section>
 
-          <WaveToDark />
-        </section>
+  {/* === CTA SECTION === */}
+  <section className="bg-[#112C3E] py-20 lg:py-28 relative overflow-hidden" aria-labelledby="faq-cta-title">
+    {/* Elementos decorativos de fondo */}
+    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#EE7203] rounded-full blur-[150px] opacity-10 translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+    
+    <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="bg-[#0C212D] rounded-3xl p-8 md:p-12 lg:p-16 border border-white/5 shadow-2xl relative overflow-hidden">
+        {/* Glow interior */}
+        <div className="absolute left-0 bottom-0 w-full h-2 bg-gradient-to-r from-[#EE7203] to-[#FF3816]" />
 
-        {/* === CTA final === */}
-        <section className={`${BG_ALT}`} aria-labelledby="faq-cta-title">
-          <div className={`${SHELL} py-16`}>
-            <div className={`${CARD_DARK} p-8 md:p-10 relative overflow-hidden`}>
-              <div
-                aria-hidden
-                className={`absolute -right-10 -top-10 h-60 w-60 rounded-full blur-3xl opacity-30 ${GRAD}`}
-              />
-              <div className="relative">
-                <h2
-                  id="faq-cta-title"
-                  className={`${TITLE_DARK} text-3xl sm:text-4xl`}
-                >
-                  <span className={GRAD_TEXT}>{cta.title}</span>
-                </h2>
-                <p className="mt-2 text-white/80 max-w-2xl">
-                  {cta.description}
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href="/contacto"
-                    className="inline-flex items-center rounded-xl px-5 py-3 font-semibold text-[#0C212D] bg-white hover:bg-white/90 transition outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                  >
-                    {cta.contactButton}
-                  </Link>
-                  <Link
-                    href="/further-media#podcast"
-                    className="inline-flex items-center rounded-xl px-5 py-3 font-semibold text-white border border-white/15 hover:bg-white/5 transition outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                  >
-                    {cta.mediaButton}
-                  </Link>
-                </div>
-              </div>
-            </div>
+        <div className="relative z-10 max-w-3xl">
+          <h2
+            id="faq-cta-title"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6"
+          >
+             <span className="bg-gradient-to-r from-[#EE7203] to-[#FF3816] bg-clip-text text-transparent">
+              {cta.title}
+             </span>
+          </h2>
+          <p className="text-lg text-gray-400 mb-10 leading-relaxed">
+            {cta.description}
+          </p>
+          
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="/contacto"
+              className="inline-flex items-center justify-center rounded-lg px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-[#EE7203] to-[#FF3816] hover:brightness-110 transition-all shadow-lg shadow-orange-900/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EE7203]"
+            >
+              {cta.contactButton}
+            </Link>
+            <Link
+              href="/further-media#podcast"
+              className="inline-flex items-center justify-center rounded-lg px-8 py-4 text-base font-bold text-white border border-white/20 hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              {cta.mediaButton}
+            </Link>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
     </>
   );
 }
