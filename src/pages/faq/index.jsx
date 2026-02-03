@@ -1,7 +1,7 @@
 // /pages/faq.jsx
 // FAQ — Multiidioma con i18n
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -38,6 +38,26 @@ function toFaqJsonLd(sections) {
 /* === Componente Individual para Animación === */
 const FAQItem = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // 👇 AGREGA ESTO: Escucha la URL para abrirse automáticamente
+  useEffect(() => {
+    const checkHash = () => {
+      // Si el hash de la URL coincide con el ID de este item...
+      if (typeof window !== 'undefined' && window.location.hash === `#${item.id}`) {
+        setIsOpen(true); // ...¡Ábrete sésamo!
+      }
+    };
+
+    // Revisar al cargar la página (por si vienes de un link externo)
+    checkHash();
+
+    // Revisar cuando el usuario navega (click en el sidebar)
+    window.addEventListener('hashchange', checkHash); // Evento nativo del navegador
+    
+    // Limpieza al desmontar
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, [item.id]);
+  // 👆 HASTA AQUÍ EL CÓDIGO NUEVO
 
   return (
     <article
