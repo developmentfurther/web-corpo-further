@@ -124,6 +124,21 @@ export default function FAQPage({ messages }) {
   const t = messages?.faq ?? {};
   const router = useRouter();
   const { locale } = router;
+  // 👇 1. NUEVO ESTADO: Para saber qué link marcar en el sidebar
+  const [activeId, setActiveId] = React.useState("");
+
+  // 👇 2. EFECTO: Escuchar cambios en la URL para actualizar el sidebar
+  React.useEffect(() => {
+    const onHashChange = () => {
+      // Guardamos el hash sin el símbolo '#' (ej: 'precios')
+      setActiveId(window.location.hash.replace('#', ''));
+    };
+
+    // Revisar al cargar y al navegar
+    onHashChange();
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   // i18n fallbacks para meta
   const meta = {

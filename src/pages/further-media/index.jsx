@@ -295,7 +295,7 @@ export default function FurtherMediaPage({ messages }) {
         <title>{metaTitle}</title>
         <meta name="description" content={metaDesc} />
         <meta name="robots" content="index,follow" />
-        <link rel="canonical" href="https://your-domain.com/further-media" />
+        <link rel="canonical" href="https://www.furthercorporate.com/further-media" />
 
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Further Corporate" />
@@ -303,20 +303,20 @@ export default function FurtherMediaPage({ messages }) {
         <meta property="og:description" content={metaDesc} />
         <meta
           property="og:url"
-          content="https://your-domain.com/further-media"
+          content="https://www.furthercorporate.com/further-media"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={metaTitle} />
         <meta name="twitter:description" content={metaDesc} />
 
-        <link rel="preconnect" href="https://open.spotify.com" crossOrigin="" />
-        <link rel="preconnect" href="https://www.youtube.com" crossOrigin="" />
+        <link rel="preconnect" href="https://open.spotify.com/show/1S9j1XZF0DscjTgITQOqH6" crossOrigin="" />
+        <link rel="preconnect" href="https://www.youtube.com/@furthercorporate" crossOrigin="" />
         <link
           rel="preconnect"
-          href="https://player.blubrry.com"
+          href="https://podcast.show/furtherrecords/"
           crossOrigin=""
         />
-        <link rel="preconnect" href="https://www.tiktok.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.tiktok.com/@further_corporate" crossOrigin="" />
       </Head>
 
       {/* Skip link a11y */}
@@ -703,7 +703,7 @@ export default function FurtherMediaPage({ messages }) {
 
             <div className="text-center mt-6">
               <a
-                href={t?.youtube?.channelUrl || "https://www.youtube.com/"}
+                href="https://www.youtube.com/@furthercorporate"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl px-4 py-2 border border-white/15 hover:bg-white/5 transition outline-none focus-visible:ring-2 focus-visible:ring-white/40"
