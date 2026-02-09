@@ -19,14 +19,13 @@ export default function BlogDetail() {
   const t = (k, d) =>
     k.split(".").reduce((o, i) => (o ? o[i] : undefined), messages) ?? d;
 
-  // Carga de mensajes de traducción
-  useEffect(() => {
-    if (!locale) return;
-    // Asegúrate de que "blog" esté en la lista de namespaces si usaste mi JSON anterior
-    loadMessages(locale, ["common", "nav", "news", "blog"]) 
-      .then(setMessages)
-      .catch(() => ({}));
-  }, [locale]);
+ useEffect(() => {
+  if (!locale) return;
+  // ✅ Agregamos "footer" aquí también
+  loadMessages(locale, ["common", "nav", "news", "blog", "footer"]) 
+    .then(setMessages)
+    .catch(() => ({}));
+}, [locale]);
 
   useEffect(() => {
     if (!slug) return;

@@ -7,6 +7,23 @@ import { useRouter } from "next/router";
 import { loadMessages } from "@/lib/i18n";
 import { FiClock, FiCalendar, FiArrowRight, FiStar } from "react-icons/fi";
 
+
+// src/pages/news/[slug].js
+export async function getServerSideProps({ locale }) {
+  const messages = await loadMessages(locale, [
+    "common", 
+    "nav", 
+    "news", 
+    "blog",
+    "footer"  // ← AGREGAR ESTE
+  ]);
+  
+  return {
+    props: {
+      messages,
+    },
+  };
+}
 export default function NewsPage() {
   const router = useRouter();
   const locale = router.locale || "es";
@@ -16,12 +33,13 @@ export default function NewsPage() {
   const t = (k, d) =>
     k.split(".").reduce((o, i) => (o ? o[i] : undefined), messages) ?? d;
 
-  useEffect(() => {
-    if (!locale) return;
-    loadMessages(locale, ["common", "nav", "news"])
-      .then(setMessages)
-      .catch(() => ({}));
-  }, [locale]);
+useEffect(() => {
+  if (!locale) return;
+  // ✅ Agregamos "footer" para que no se borren sus traducciones al navegar
+  loadMessages(locale, ["common", "nav", "news", "footer"]) 
+    .then(setMessages)
+    .catch(() => ({}));
+}, [locale]);
 
   const title = t("news.title", "Noticias");
   const subtitle = t("news.subtitle", "Descubre nuestras últimas publicaciones e insights");
