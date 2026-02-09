@@ -46,7 +46,7 @@ const orderedBlogs = [...blogs].sort((a, b) => {
 
   // 1️⃣ Ambos son podcasts
   if (aPodcast !== null && bPodcast !== null) {
-    return aPodcast - bPodcast;
+    return bPodcast - aPodcast;
   }
 
   // 2️⃣ Solo A es podcast
@@ -56,13 +56,13 @@ const orderedBlogs = [...blogs].sort((a, b) => {
   const aShort = getShortNumber(a.slug);
   const bShort = getShortNumber(b.slug);
 
-  // 3️⃣ Ambos son shorts
+// 3️⃣ Ambos son shorts
 if (aShort !== null && bShort !== null) {
-  // Si tienen el mismo número, ordenar por slug
   if (aShort === bShort) {
-    return a.slug.localeCompare(b.slug);
+    // 🔥 DESEMPATE CLARO
+    return b.slug.localeCompare(a.slug);
   }
-  return aShort - bShort;
+  return bShort - aShort;
 }
 
 
