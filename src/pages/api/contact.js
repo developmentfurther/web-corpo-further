@@ -14,13 +14,16 @@ export default async function handler(req, res) {
   }
 
   // Determinar destinatario según el tipo de formulario
-  // const destinatario = formType === "empresas" 
-  //   ? "nataliaandrea.garcia@gmail.com"
-  //   : "furtherinstitute@gmail.com";
-    
+  // PRODUCCION
   const destinatario = formType === "empresas" 
-    ? "developmentfurther@gmail.com"
-    : "abbruzzesetadeo6@gmail.com";
+    ? "nataliaandrea.garcia@gmail.com"
+    : "furtherinstitute@gmail.com";
+    
+
+  // DESCOMENTAR EL SIGUIENTE FRAGMENTO PARA TESTINGS.
+  // const destinatario = formType === "empresas" 
+  //   ? "developmentfurther@gmail.com"
+  //   : "abbruzzesetadeo6@gmail.com";
   try {
     const { data, error } = await resend.emails.send({
       from: "Further Contact <contacto@furthercorporate.com>",
