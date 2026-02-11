@@ -1223,7 +1223,7 @@
     "fields": {
       "name": { "label": "Nombre completo", "placeholder": "Nombre completo" },
       "email": { "label": "Correo electrónico", "placeholder": "tu@email.com" },
-      "company": { "label": "Empresa (opcional)", "placeholder": "ACME S.A." },
+      "company": { "label": "Empresa", "placeholder": "Empresa" },
       "message": {
         "label": "Mensaje",
         "placeholder": "Contanos tus objetivos, el tamaño del equipo y los plazos estimados..."

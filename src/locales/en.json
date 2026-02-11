@@ -1216,7 +1216,7 @@
     "fields": {
       "name": { "label": "Full name", "placeholder": "Full Name" },
       "email": { "label": "Email", "placeholder": "you@company.com" },
-      "company": { "label": "Company (optional)", "placeholder": "ACME Inc." },
+      "company": { "label": "Company", "placeholder": "Company" },
       "message": {
         "label": "Message",
         "placeholder": "Tell us about your objectives, team size, and expected timeframe..."

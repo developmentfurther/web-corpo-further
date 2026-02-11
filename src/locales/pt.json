@@ -1224,7 +1224,7 @@
     "fields": {
       "name": { "label": "Nome completo", "placeholder": "Nome completo" },
       "email": { "label": "E-mail", "placeholder": "voce@empresa.com" },
-      "company": { "label": "Empresa (opcional)", "placeholder": "ACME Ltda." },
+      "company": { "label": "Empresa", "placeholder": "Empresa" },
       "message": {
         "label": "Mensagem",
         "placeholder": "Conte-nos seus objetivos, o tamanho da equipe e os prazos estimados..."
