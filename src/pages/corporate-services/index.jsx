@@ -19,6 +19,7 @@ import HeroCorporate from "@/componentes/hero/HeroCorporate";
 import LanguageFlags from "@/componentes/ui/LanguageFlags";
 import { FlagUS, FlagUK, FlagBR, FlagFR, FlagDE, FlagIT, FlagAR } from "@/componentes/ui/LanguageFlags";
 import { ArrowUpRight } from "lucide-react";
+import FormCompanyContact from "@/componentes/FormCompanyContact";
 
 /* ==============================
    Design Tokens (dark + light)
@@ -368,7 +369,7 @@ export default function CorporateIndex({ messages }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          origin: "Further Corporate",
+          origin: "Further Corporate Page",
         }),
       });
 
@@ -515,158 +516,54 @@ export default function CorporateIndex({ messages }) {
             </section>
           )}
 
-          {/* CONTACT */}
-          <section
-            id="contacto"
-            className={`${BG_ALT} backdrop-blur-xl border-t border-white/10 py-24`}
+   {/* === CTA BAR (Company Contact - B2B In-Company) === */}
+<section
+  id="contacto"
+  className="bg-[#112C3E] text-white relative overflow-hidden"
+  aria-labelledby="cta-title"
+>
+  <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+    
+    {/* Tarjeta con fondo sólido #0C212D */}
+    <div className="relative overflow-hidden rounded-3xl p-8 md:p-10 border border-white/10 bg-[#0C212D]">
+
+      {/* Decoración de fondo usando tus colores exactos */}
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-[#EE7203]/10 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-[#FF3816]/10 blur-3xl pointer-events-none" />
+
+      <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start relative z-10">
+        
+        {/* Columna Izquierda: Texto Corporativo */}
+        <div className="space-y-6">
+          {/* Badge - usando corporate.form.title como fallback si no existe cta.badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EE7203]/20 border border-[#EE7203]/30 text-[#EE7203] text-sm font-semibold mb-2">
+            <span className="w-2 h-2 rounded-full bg-[#EE7203] animate-pulse" />
+            {messages?.corporate?.hero?.badge || "In-Company Training"}
+          </div>
+          
+          {/* Título y Subtítulo usando keys de corporate.form */}
+          <h2
+            id="cta-title"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
           >
-            <div className={SHELL}>
-              <motion.div
-                variants={itemFade}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.3 }}
-                className="max-w-3xl mx-auto"
-              >
-                <h2 className={`${TITLE} text-4xl sm:text-5xl text-center mb-4`}>
-                  {tCorp.form.title}
-                </h2>
-                <p className={`${SUB} text-center mb-12`}>{tCorp.form.subtitle}</p>
+            {messages?.corporate?.form?.title}
+          </h2>
+          
+          <p className="text-white/80 text-lg leading-relaxed">
+            {messages?.corporate?.form?.subtitle}
+          </p>
+          
+          
 
-                <motion.form
-                  onSubmit={onSubmit}
-                  noValidate
-                  className={`${CARD} ${CARD_HOVER} p-8 space-y-6`}
-                  variants={itemScale}
-                >
-                  <div className="grid gap-6 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium text-white/80">
-                        {tCorp.form.fields.name.label}
-                      </label>
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        value={form.name}
-                        onChange={onChange}
-                        className="w-full rounded-xl bg-white/10 border border-white/10 text-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FF3816]/60 focus:border-white/30 transition-all"
-                        placeholder={tCorp.form.fields.name.placeholder}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium text-white/80">
-                        {tCorp.form.fields.email.label}
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={form.email}
-                        onChange={onChange}
-                        className="w-full rounded-xl bg-white/10 border border-white/10 text-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FF3816]/60 focus:border-white/30 transition-all"
-                        placeholder={tCorp.form.fields.email.placeholder}
-                        required
-                      />
-                    </div>
-                  </div>
+          
+        </div>
 
-                  <div className="space-y-2">
-                    <label htmlFor="phone" className="text-sm font-medium text-white/80">
-                      {tCorp.form.fields.phone.label}
-                    </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={form.phone}
-                      onChange={onChange}
-                      className="w-full rounded-xl bg-white/10 border border-white/10 text-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FF3816]/60 focus:border-white/30 transition-all"
-                      placeholder={tCorp.form.fields.phone.placeholder}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="message" className="text-sm font-medium text-white/80">
-                        {tCorp.form.fields.message.label}
-                      </label>
-                      <span className="text-xs text-white/50" aria-live="polite">
-                        {form.message.length} / 500
-                      </span>
-                    </div>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={6}
-                      maxLength={500}
-                      value={form.message}
-                      onChange={onChange}
-                      className="w-full rounded-xl bg-white/10 border border-white/10 text-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FF3816]/60 focus:border-white/30 transition-all resize-none"
-                      placeholder={tCorp.form.fields.message.placeholder}
-                      required
-                    />
-                  </div>
-
-                  {status.state === "error" && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      role="alert"
-                      className="text-sm text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2"
-                    >
-                      {status.error}
-                    </motion.p>
-                  )}
-                  {status.state === "ok" && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      role="status"
-                      className="text-sm text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-4 py-2"
-                    >
-                      {forms.thanks}
-                    </motion.p>
-                  )}
-
-                  <motion.button
-                    type="submit"
-                    className={`${LINK} ${GRAD} text-white font-semibold shadow-2xl shadow-orange-500/30 w-full justify-center text-lg`}
-                    disabled={status.state === "sending"}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {status.state === "sending" ? (
-                      <>
-                        <motion.span
-                          animate={{ rotate: 360 }}
-                          transition={{
-                            duration: 1,
-                            repeat: Infinity,
-                            ease: "linear",
-                          }}
-                        >
-                          ◌
-                        </motion.span>
-                        {forms.sending}
-                      </>
-                    ) : (
-                      <>
-                        {forms.ctaSend}
-                        <motion.span
-                          animate={{ x: [0, 4, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          →
-                        </motion.span>
-                      </>
-                    )}
-                  </motion.button>
-                </motion.form>
-              </motion.div>
-            </div>
-          </section>
+        {/* Columna Derecha: Formulario para Empresas - AHORA MÁS ANCHA */}
+        <FormCompanyContact messages={messages} />
+      </div>
+    </div>
+  </div>
+</section>
 
           {/* FOOTER CTA */}
           <section className="relative py-20">

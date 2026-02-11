@@ -6,7 +6,23 @@
       "description": "Over 25 years leading B2B training. In-Company Classes (onsite or online) and Workshops for professional success. 50,000 students have already trained with Further."
     }
   },
-  
+
+
+ "sidebarContact": {
+    "title": "Contact Information",
+    "directEmails": "Direct Emails",
+    "companyLabel": "Company:",
+    "individualLabel": "Individual:",
+    "ourLocations": "Our Locations",
+    "viewOnMap": "View on Google Maps"
+  },
+
+"formPlaceholders": {
+  "phone": "Phone / WhatsApp",
+  "message": "Tell us if the class is for you or for a child, and whether the person interested has any previous knowledge of English"
+}
+
+  ,
   "blog": {
     "loading": "Loading post...",
     "backToNews": "Back to News",
@@ -36,11 +52,18 @@
       "scheduleCall": "Schedule Call"
     },
     "forms": {
-      "emailPlaceholder": "you@company.com",
+      "contactTitles": {
+    "empresas": "Business Contact",
+    "particulares": "Individual Contact"
+  },
+
+  
+      "emailPlaceholder": "you@gmail.com",
       "invalidEmail": "Please enter a valid email address.",
       "thanks": "Thanks! Please check your inbox to confirm.",
       "error": "Something went wrong. Please try again.",
-      "sending": "Sending..."
+      "sending": "Sending...",
+      "phone": "Phone"
     },
    "flags": {
   "title": "Languages We Offer"
@@ -225,7 +248,7 @@
     ]
   },
   "cta": {
-    "title": "Open the doors to the FURTHER Universe",
+    "title": "Contact us today and start your classes with us!",
     "subtitle": "Connect with the world and join the #FurtherExperience."
   },
   "missionVission": {
@@ -453,12 +476,15 @@
     "title": "Bring Our Language Training to Your Team or Company",
     "subtitle": "We offer customized workshops, in-company classes, and special programs to bring the best of the Further experience to your organization",
     "fields": {
-      "name": { "label": "Full Name *", "placeholder": "John Doe" },
+      "name": { "label": "Full Name *", "placeholder": "Full Name" },
       "email": { "label": "Email *", "placeholder": "you@company.com" },
       "phone": { "label": "Phone", "placeholder": "+1 202 555 0147" },
       "message": {
         "label": "Message *",
         "placeholder": "Tell us about your team's language training goals..."
+      },
+      "whatsapp": {
+        "label": "Phone / Whatsapp"
       },
       "consent": "I accept the privacy policy. Your information will only be used to respond to this inquiry."
     },
@@ -1188,7 +1214,7 @@
     "cta": "Send",
     "secondary": "Back to Home",
     "fields": {
-      "name": { "label": "Full name", "placeholder": "John Smith" },
+      "name": { "label": "Full name", "placeholder": "Full Name" },
       "email": { "label": "Email", "placeholder": "you@company.com" },
       "company": { "label": "Company (optional)", "placeholder": "ACME Inc." },
       "message": {

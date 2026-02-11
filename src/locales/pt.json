@@ -6,6 +6,23 @@
       "description": "Mais de 25 anos liderando a capacitação B2B. Aulas In-Company (presenciais ou online) e workshops voltados para o sucesso profissional. Mais de 50.000 alunos já se capacitaram com a Further."
     }
   },
+
+
+  "sidebarContact": {
+    "title": "Informações de Contato",
+    "directEmails": "E-mails Diretos",
+    "companyLabel": "Empresa:",
+    "individualLabel": "Particular:",
+    "ourLocations": "Nossas Sedes",
+    "viewOnMap": "Ver no Google Maps"
+  },
+
+
+  "formPlaceholders": {
+  "phone": "Telefone / WhatsApp",
+  "message": "Conte pra gente se a aula é para você ou para uma criança e se a pessoa interessada já tem algum conhecimento de inglês"
+},
+
   "blog": {
     "loading": "Carregando publicação...",
     "backToNews": "Voltar para Notícias",
@@ -36,11 +53,16 @@
 },
 
     "forms": {
+      "contactTitles": {
+    "empresas": "Contato Empresarial",
+    "particulares": "Contato Particular"
+  },
       "emailPlaceholder": "you@company.com",
       "invalidEmail": "Please enter a valid email address.",
       "thanks": "Thanks! Please check your inbox to confirm.",
       "error": "Something went wrong. Please try again.",
-      "sending": "Sending..."
+      "sending": "Sending...",
+      "phone": "Telefone"
     },
     "flags": {
   "title": "Idiomas que oferecemos"
@@ -253,7 +275,7 @@
     }
   },
   "cta": {
-    "title": "Abra as portas do Universo FURTHER",
+    "title": "Entre em contato hoje mesmo e comece suas aulas com a gente!",
     "subtitle": "Comunique-se com o mundo e viva a #ExperiênciaFurther."
   }
 
@@ -480,8 +502,8 @@
     "title": "Leve nossa capacitação em idiomas para sua equipe ou empresa",
     "subtitle": "Oferecemos workshops personalizados, aulas in-company e propostas sob medida para levar o melhor da #ExperiênciaFurther à sua organização",
     "fields": {
-      "name": { "label": "Nome completo *", "placeholder": "João Silva" },
-      "email": { "label": "E-mail *", "placeholder": "voce@empresa.com" },
+      "name": { "label": "Nome completo *", "placeholder": "Nome completo" },
+      "email": { "label": "E-mail *", "placeholder": "voce@gmail.com" },
       "phone": { "label": "Telefone", "placeholder": "+55 11 5555 5555" },
       "message": {
         "label": "Mensagem *",
@@ -1200,7 +1222,7 @@
     "cta": "Enviar",
     "secondary": "Voltar ao início",
     "fields": {
-      "name": { "label": "Nome completo", "placeholder": "João Silva" },
+      "name": { "label": "Nome completo", "placeholder": "Nome completo" },
       "email": { "label": "E-mail", "placeholder": "voce@empresa.com" },
       "company": { "label": "Empresa (opcional)", "placeholder": "ACME Ltda." },
       "message": {

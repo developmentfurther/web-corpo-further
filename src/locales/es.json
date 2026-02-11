@@ -6,6 +6,19 @@
       "description": "Más de 25 años liderando la capacitación B2B. Clases In-Company (presencial u online) y Talleres para el éxito profesional. 50.000 alumnos ya se capacitaron con Further."
     }
   },
+"sidebarContact": {
+    "title": "Información de contacto",
+    "directEmails": "Emails Directos",
+    "companyLabel": "Empresa:",
+    "individualLabel": "Particular:",
+    "ourLocations": "Nuestras Sedes",
+    "viewOnMap": "Ver en Google Maps"
+  },
+"formPlaceholders": {
+  "phone": "Teléfono / WhatsApp",
+  "message": "Contanos si la clase es para vos o para un/a niño/a y si quien está interesado cuenta con conocimientos previos en inglés"
+},
+
   "blog": {
     "loading": "Cargando publicación...",
     "backToNews": "Volver a Noticias",
@@ -34,11 +47,16 @@
       "scheduleCall": "Agendar videollamada"
     },
     "forms": {
-      "emailPlaceholder": "tu@empresa.com",
+      "contactTitles": {
+    "empresas": "Contacto Empresas",
+    "particulares": "Contacto Particulares"
+  },
+      "emailPlaceholder": "tu@gmail.com",
       "invalidEmail": "Por favor, ingresá un correo electrónico válido.",
       "thanks": "¡Gracias! Revisá tu bandeja de entrada para confirmar.",
       "error": "Ocurrió un error. Intentalo nuevamente.",
-      "sending": "Enviando..."
+      "sending": "Enviando...",
+      "phone": "Teléfono"
     },
     "flags": {
       "title": "Idiomas que ofrecemos"
@@ -246,7 +264,7 @@
   ]
   },
   "cta": {
-    "title": "Abrí las puertas del Universo FURTHER",
+    "title": "¡Contactanos hoy y comenzá tus clases con nosotros!",
     "subtitle": "Comunicá con el mundo y sumate a la #ExperienciaFurther."
   }
 
@@ -458,7 +476,7 @@
     "title": "Llevá nuestra capacitación de idiomas a tu equipo o empresa",
     "subtitle": "Tenemos workshops customizados, clases incompany y propuestas especiales para llevar lo mejor de la experiencia Further a tu organización.",
     "fields": {
-      "name": { "label": "Nombre completo *", "placeholder": "Juan Pérez" },
+      "name": { "label": "Nombre completo *", "placeholder": "Nombre completo" },
       "email": { "label": "Correo electrónico *", "placeholder": "nombre@empresa.com" },
       "phone": { "label": "Teléfono", "placeholder": "+54 11 5555 5555" },
       "message": {
@@ -1203,7 +1221,7 @@
     "cta": "Enviar",
     "secondary": "Volver al inicio",
     "fields": {
-      "name": { "label": "Nombre completo", "placeholder": "Juan Pérez" },
+      "name": { "label": "Nombre completo", "placeholder": "Nombre completo" },
       "email": { "label": "Correo electrónico", "placeholder": "tu@email.com" },
       "company": { "label": "Empresa (opcional)", "placeholder": "ACME S.A." },
       "message": {
