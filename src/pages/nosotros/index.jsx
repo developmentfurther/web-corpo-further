@@ -487,8 +487,8 @@ export default function AboutIndex({ messages }) {
                   <div className="flex flex-wrap gap-4 lg:justify-end">
                     <a
                       href={
-                        cta?.href ||
-                        "https://www.linkedin.com/company/further"
+                        
+                        "https://www.linkedin.com/company/furthercorporate/posts/?feedView=all"
                       }
                       target={
                         cta?.href?.startsWith("http") ? "_blank" : undefined
