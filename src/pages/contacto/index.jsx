@@ -202,7 +202,7 @@ export default function ContactPage({ messages }) {
         {/* === HERO === */}
         <section className="relative z-10" aria-labelledby="contact-hero-title">
           <div className="pointer-events-none" aria-hidden>
-            <div className="absolute -top-28 -right-24 h-72 w-72 rounded-full bg-[#EE7203]/25 blur-3xl" />
+            
             
           </div>
 
