@@ -217,11 +217,12 @@ export default function Footer({
             </p>
 
             <a
-              href="https://wa.me/5491125673306?text=Hola%21%20Quiero%20informaci%C3%B3n%20sobre%20inscripciones%20y%20cursos%20disponibles."
+              href="https://wa.me/5491135821240?text=Hola%21%20Quiero%20informaci%C3%B3n%20sobre%20cursos%20de%20ingl%C3%A9s"
               target="_blank"
               rel="noopener noreferrer"
               className={`mt-5 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white ${ACCENT_GRAD} hover:brightness-110 hover:scale-[1.02] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-200 shadow-md shadow-orange-500/20`}
             >
+              
               <svg 
                 className="h-4 w-4" 
                 fill="currentColor" 
