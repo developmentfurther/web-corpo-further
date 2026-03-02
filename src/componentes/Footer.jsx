@@ -236,7 +236,7 @@ export default function Footer({
           </motion.div>
         </div>
 
-        {/* -- Linea legal inferior */}
+        {/* -- linea legal inferior */}
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-xs text-white/60">
             © {new Date().getFullYear()} {brand}. {t("footer.copyright")}
